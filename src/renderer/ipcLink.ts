@@ -25,11 +25,9 @@ export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
       promise
         .then((envelope: any) => {
           const response = transformRPCResponse({ envelope, runtime })
-          console.log('Got IPC response', response)
           prevOnce(response)
         })
         .catch((cause: any) => {
-          console.error('Got IPC error', cause)
           prevOnce(TRPCClientError.from(cause))
         })
     }
