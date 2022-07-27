@@ -1,7 +1,7 @@
-import type { ProcedureType } from '@trpc/server'
+import type { ProcedureType } from '@trpc/server';
 
 export interface TRPCHandlerArgs {
-  path: string
-  type: ProcedureType
-  input?: unknown
+  path: string;
+  type: ProcedureType;
+  input?: unknown;
 }

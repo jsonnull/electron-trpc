@@ -1,1 +1,1 @@
-export * from "./ipcLink";
+export * from './ipcLink';
