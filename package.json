@@ -22,7 +22,7 @@
     "test:coverage": "vitest run --coverage",
     "prepublish": "yarn build",
     "changeset": "changeset",
-    "publish": "changeset publish"
+    "release": "changeset publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.6",

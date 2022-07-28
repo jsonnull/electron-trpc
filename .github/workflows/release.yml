@@ -19,10 +19,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: yarn
-      - run: yarn publish
-      - uses: codecov/codecov-action@v3
+      - uses: changesets/action@v1
         with:
-          publish: yarn publish
+          publish: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
