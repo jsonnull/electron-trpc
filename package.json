@@ -17,9 +17,9 @@
     "src"
   ],
   "scripts": {
-    "clean": "rimraf dist",
     "build": "tsc && vite build && dts-bundle-generator --config ./dts-bundle-generator.config.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@trpc/client": "^9.26.2",
@@ -27,13 +27,13 @@
     "@trpc/server": "^9.26.2",
     "@types/node": "^17.0.10",
     "builtin-modules": "^3.3.0",
+    "c8": "^7.12.0",
     "dts-bundle-generator": "^6.12.0",
     "electron": "^19.0.9",
     "prettier": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.2",
-    "rimraf": "^3.0.2",
     "typescript": "^4.5.5",
     "vite": "^3.0.3",
     "vite-plugin-commonjs-externals": "^0.1.1",
