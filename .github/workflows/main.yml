@@ -1,0 +1,19 @@
+name: Build & Test
+on: [push]
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['16.x']
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      - run: yarn
+      - run: yarn build
+      - run: yarn test:coverage
+      - uses: codecov/codecov-action@v3
