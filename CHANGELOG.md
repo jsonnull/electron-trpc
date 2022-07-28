@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.0.2
+
+### Patch Changes
+
+- [#8](https://github.com/jsonnull/electron-trpc/pull/8) [`50e4718`](https://github.com/jsonnull/electron-trpc/commit/50e4718d75803a5f2ed4675cfc42f713d3dff62b) Thanks [@jsonnull](https://github.com/jsonnull)! - Update docs and package description.
+
 ## 0.0.1
 
 ### Patch Changes
