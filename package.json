@@ -1,5 +1,6 @@
 {
   "name": "electron-trpc",
+  "description": "Electron support for tRPC",
   "version": "0.0.1",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
