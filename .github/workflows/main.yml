@@ -15,5 +15,5 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: yarn
       - run: yarn build
-      - run: yarn test
+      - run: yarn test:coverage
       - uses: codecov/codecov-action@v3
