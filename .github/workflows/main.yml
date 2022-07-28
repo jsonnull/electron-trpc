@@ -16,7 +16,4 @@ jobs:
       - run: yarn
       - run: yarn build
       - run: yarn test
-      - run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -t ${CODECOV_TOKEN}
+      - uses: codecov/codecov-action@v3
