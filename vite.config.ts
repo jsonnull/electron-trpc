@@ -21,6 +21,8 @@ module.exports = defineConfig({
   ],
   test: {
     coverage: {
+      all: true,
+      include: ['src/**'],
       reporter: ['text', 'cobertura', 'html'],
     },
   },
