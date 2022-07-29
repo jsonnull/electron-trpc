@@ -66,7 +66,7 @@ npm install --save electron-trpc
    import * as trpc from '@trpc/client';
    import { ipcLink } from 'electron-trpc';
 
-   export const trpcClient = trpc.createClient({
+   export const trpcClient = trpc.createTRPCClient({
      links: [ipcLink()],
    });
    ```
