@@ -58,7 +58,7 @@ npm install --save electron-trpc
    });
    ```
 
-   > Note: using `exposeInMainWorld` depends on `contextIsolation` to be enabled, which is the default.
+   > Note: `electron-trpc` depends on `contextIsolation` being enabled, which is the default.
 
 3. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
 
