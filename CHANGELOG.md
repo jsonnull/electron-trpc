@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.0.3
+
+### Patch Changes
+
+- [#10](https://github.com/jsonnull/electron-trpc/pull/10) [`357842e`](https://github.com/jsonnull/electron-trpc/commit/357842e81a8db0d089095a0cb91aa5b647c230d0) Thanks [@jsonnull](https://github.com/jsonnull)! - Update API for `exposeElectronTRPC`.
+
 ## 0.0.2
 
 ### Patch Changes
