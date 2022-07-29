@@ -35,38 +35,40 @@ npm install --save electron-trpc
 
 1. Add your tRPC router to the Electron main process using `createIPCHandler`:
 
-    ```ts
-    import { app, ipcMain } from 'electron';
-    import { createIPCHandler } from 'electron-trpc';
-    import { router, createContext } from './api';
+   ```ts
+   import { app, ipcMain } from 'electron';
+   import { createIPCHandler } from 'electron-trpc';
+   import { router, createContext } from './api';
 
-    app.on('ready', () => {
-      createIPCHandler({ ipcMain, router, createContext }));
+   app.on('ready', () => {
+     createIPCHandler({ ipcMain, router, createContext }));
 
-      // ...
-    });
-    ```
+     // ...
+   });
+   ```
 
 2. Expose the IPC to the render process from the [preload file](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts):
 
-    ```ts
-    import { contextBridge, ipcRenderer } from 'electron';
-    import { exposeElectronTRPC } from 'electron-trpc';
+   ```ts
+   import { contextBridge, ipcRenderer } from 'electron';
+   import { exposeElectronTRPC } from 'electron-trpc';
 
-    contextBridge.exposeInMainWorld('electron-trpc', exposeElectronTRPC(ipcRenderer));
-    ```
+   process.once('loaded', async () => {
+     exposeElectronTRPC({ contextBridge, ipcRenderer });
+   });
+   ```
 
-    > Note: using `exposeInMainWorld` depends on `contextIsolation` to be enabled, which is the default.
+   > Note: using `exposeInMainWorld` depends on `contextIsolation` to be enabled, which is the default.
 
 3. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
 
-    ```ts
-    import * as trpc from '@trpc/client';
-    import { ipcLink } from 'electron-trpc';
+   ```ts
+   import * as trpc from '@trpc/client';
+   import { ipcLink } from 'electron-trpc';
 
-    export const trpcClient = trpc.createClient({
-      links: [ipcLink()],
-    });
-    ```
+   export const trpcClient = trpc.createClient({
+     links: [ipcLink()],
+   });
+   ```
 
 4. Now you can use the client in your render process as you normally would (e.g. using `@trpc/react`).
