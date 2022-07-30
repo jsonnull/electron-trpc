@@ -12,7 +12,7 @@ export async function resolveIPCResponse<TRouter extends AnyRouter>({
   path,
   router,
 }: {
-  createContext: () => Promise<inferRouterContext<TRouter>>;
+  createContext?: () => inferRouterContext<TRouter> | Promise<inferRouterContext<TRouter>>;
   input?: unknown;
   type: ProcedureType;
   path: string;
@@ -31,7 +31,7 @@ export async function resolveIPCResponse<TRouter extends AnyRouter>({
       });
     }
 
-    ctx = await createContext();
+    ctx = await createContext?.();
 
     const deserializedInput =
       typeof input !== 'undefined' ? router._def.transformer.input.deserialize(input) : input;

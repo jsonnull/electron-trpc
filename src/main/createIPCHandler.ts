@@ -8,7 +8,7 @@ export function createIPCHandler<TRouter extends AnyRouter>({
   router,
   ipcMain,
 }: {
-  createContext: () => Promise<inferRouterContext<TRouter>>;
+  createContext?: () => Promise<inferRouterContext<TRouter>>;
   router: TRouter;
   ipcMain: IpcMain;
 }) {
