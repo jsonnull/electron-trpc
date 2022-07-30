@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.0.4
+
+### Patch Changes
+
+- [#14](https://github.com/jsonnull/electron-trpc/pull/14) [`e314c71`](https://github.com/jsonnull/electron-trpc/commit/e314c715f5b2734c357a564d23b5717089adb7ef) Thanks [@jsonnull](https://github.com/jsonnull)! - Make createContext param optional.
+
 ## 0.0.3
 
 ### Patch Changes
