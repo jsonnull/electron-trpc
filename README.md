@@ -24,6 +24,9 @@
 ## Installation
 
 ```sh
+# Using pnpm
+pnpm add electron-trpc
+
 # Using yarn
 yarn add electron-trpc
 
