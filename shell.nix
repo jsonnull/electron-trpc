@@ -6,6 +6,6 @@ mkShell {
   buildInputs = [
     git
     nodejs-18_x
-    nodePackages.yarn
+    nodePackages.pnpm
   ];
 }
