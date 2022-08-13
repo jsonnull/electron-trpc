@@ -1,15 +1,5 @@
-import type {
-  AnyRouter,
-  inferRouterContext,
-  inferRouterError,
-  ProcedureType,
-} from '@trpc/server';
-import {
-  callProcedure,
-  getErrorFromUnknown,
-  transformTRPCResponse,
-  TRPCError,
-} from '@trpc/server';
+import type { AnyRouter, inferRouterContext, inferRouterError, ProcedureType } from '@trpc/server';
+import { callProcedure, getErrorFromUnknown, transformTRPCResponse, TRPCError } from '@trpc/server';
 import { TRPCResponse, TRPCErrorResponse, TRPCResultResponse } from '@trpc/server/rpc';
 
 export async function resolveIPCResponse<TRouter extends AnyRouter>({
@@ -73,5 +63,5 @@ export async function resolveIPCResponse<TRouter extends AnyRouter>({
     };
   }
 
-  return transformTRPCResponse(router as any, json) as any;
+  return transformTRPCResponse(router, json) as TRPCResponse;
 }
