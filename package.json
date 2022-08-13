@@ -28,9 +28,9 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.6",
     "@changesets/cli": "^2.24.1",
-    "@trpc/client": "^9.26.2",
-    "@trpc/react": "^9.26.2",
-    "@trpc/server": "^9.26.2",
+    "@trpc/client": "^9.27.0",
+    "@trpc/react": "^9.27.0",
+    "@trpc/server": "^9.27.0",
     "@types/node": "^17.0.10",
     "builtin-modules": "^3.3.0",
     "c8": "^7.12.0",
@@ -47,8 +47,8 @@
     "zod": "^3.17.10"
   },
   "peerDependencies": {
-    "@trpc/client": "^9.26.0",
-    "@trpc/server": "^9.26.0",
+    "@trpc/client": "^9.27.0",
+    "@trpc/server": "^9.27.0",
     "electron": "^19.0.0"
   }
 }
