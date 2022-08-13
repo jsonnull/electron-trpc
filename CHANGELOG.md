@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.1.0
+
+### Minor Changes
+
+- [#17](https://github.com/jsonnull/electron-trpc/pull/17) [`1dc8ac3`](https://github.com/jsonnull/electron-trpc/commit/1dc8ac3e3f54b471beb8bef6dea4fce4efafe5b4) Thanks [@jsonnull](https://github.com/jsonnull)! - Upgrade tRPC.
+
 ## 0.0.4
 
 ### Patch Changes
