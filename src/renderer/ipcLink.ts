@@ -1,8 +1,6 @@
 import type { AnyRouter } from '@trpc/server';
 import type { TRPCLink, LinkRuntimeOptions } from '@trpc/client';
-import { TRPCClientError } from '@trpc/client';
-import { TRPCAbortError } from '@trpc/client/src/internals/TRPCAbortError';
-import { transformRPCResponse } from '@trpc/client/src/internals/transformRPCResponse';
+import { transformRPCResponse, TRPCAbortError, TRPCClientError } from '@trpc/client';
 
 export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
   return (runtime: LinkRuntimeOptions) => {
