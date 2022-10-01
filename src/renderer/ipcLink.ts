@@ -1,33 +1,33 @@
-import type { AnyRouter } from '@trpc/server';
-import type { TRPCLink, LinkRuntimeOptions } from '@trpc/client';
-import { transformRPCResponse, TRPCAbortError, TRPCClientError } from '@trpc/client';
+import { TRPCClientError, TRPCLink } from "@trpc/client";
+import { AnyRouter } from "@trpc/server";
+import { observable } from "@trpc/server/observable";
+import { IPCResponse } from "../main";
+import { transformResult } from './utils'
 
 export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
-  return (runtime: LinkRuntimeOptions) => {
-    return ({ op, prev, onDestroy }) => {
-      const promise = (window as any).electronTRPC.rpc(op);
-      let isDone = false;
+  return (runtime) =>
+    ({ op }) => {
+      return observable((observer) => {
+        const promise = (window as any).electronTRPC.rpc(op) as Promise<IPCResponse>;
 
-      const prevOnce: typeof prev = (result) => {
-        if (isDone) {
-          return;
-        }
-        isDone = true;
-        prev(result);
-      };
+        promise
+          .then((res) => {
+            const transformed = transformResult(res.response, runtime);
 
-      onDestroy(() => {
-        prevOnce(TRPCClientError.from(new TRPCAbortError(), { isDone: true }));
+            if (!transformed.ok) {
+              observer.error(TRPCClientError.from(transformed.error));
+              return;
+            }
+            observer.next({
+              result: transformed.result,
+            });
+            observer.complete();
+          })
+          .catch((cause: Error) => observer.error(TRPCClientError.from(cause)));
+
+        return () => {
+          // cancel promise here
+        };
       });
-
-      promise
-        .then((envelope: any) => {
-          const response = transformRPCResponse({ envelope, runtime });
-          prevOnce(response);
-        })
-        .catch((cause: any) => {
-          prevOnce(TRPCClientError.from(cause));
-        });
     };
-  };
 }
