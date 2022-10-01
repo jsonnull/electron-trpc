@@ -1,67 +1,109 @@
-import type { AnyRouter, inferRouterContext, inferRouterError, ProcedureType } from '@trpc/server';
-import { callProcedure, getErrorFromUnknown, transformTRPCResponse, TRPCError } from '@trpc/server';
-import { TRPCResponse, TRPCErrorResponse, TRPCResultResponse } from '@trpc/server/rpc';
+import { callProcedure, TRPCError } from '@trpc/server';
+import type { AnyRouter, inferRouterContext, inferRouterError } from '@trpc/server';
+import type { TRPCResponse } from '@trpc/server/rpc';
+import type { IPCResponse } from './types';
+import { Operation } from '@trpc/client';
+import { getTRPCErrorFromUnknown, transformTRPCResponseItem } from './utils'
 
 export async function resolveIPCResponse<TRouter extends AnyRouter>({
-  createContext,
-  type,
-  input,
-  path,
   router,
+  createContext,
+  operation,
 }: {
-  createContext?: () => inferRouterContext<TRouter> | Promise<inferRouterContext<TRouter>>;
-  input?: unknown;
-  type: ProcedureType;
-  path: string;
   router: TRouter;
-}): Promise<TRPCResponse> {
-  type TRouterResponse = TRPCErrorResponse<inferRouterError<TRouter>> | TRPCResultResponse<unknown>;
+  createContext?: () => Promise<inferRouterContext<TRouter>>;
+  operation: Operation;
+}): Promise<IPCResponse> {
+  const { type, input: serializedInput } = operation;
+  const { transformer } = router._def;
+  const deserializedInput = transformer.input.deserialize(serializedInput) as unknown;
 
-  let ctx: inferRouterContext<TRouter> | undefined = undefined;
+  type TRouterError = inferRouterError<TRouter>;
+  type TRouterResponse = TRPCResponse<unknown, TRouterError>;
 
-  let json: TRouterResponse;
-  try {
-    if (type === 'subscription') {
-      throw new TRPCError({
-        message: `Unexpected operation ${type}`,
-        code: 'METHOD_NOT_SUPPORTED',
-      });
-    }
+  const ctx = await createContext?.() ?? {};
 
-    ctx = await createContext?.();
-
-    const deserializedInput =
-      typeof input !== 'undefined' ? router._def.transformer.input.deserialize(input) : input;
-
-    const output = await callProcedure({
-      ctx,
-      router: router as any,
-      path,
-      input: deserializedInput,
-      type,
+  if (type === 'subscription') {
+    throw new TRPCError({
+      message: 'Subscriptions should use wsLink',
+      code: 'METHOD_NOT_SUPPORTED',
     });
+  }
 
-    json = {
-      id: null,
-      result: {
-        type: 'data',
-        data: output,
-      },
-    };
-  } catch (cause) {
-    const error = getErrorFromUnknown(cause);
+  type RawResult =
+    | { input: unknown; path: string; data: unknown }
+    | { input: unknown; path: string; error: TRPCError };
 
-    json = {
-      id: null,
-      error: router.getErrorShape({
-        error,
-        type,
-        path,
-        input,
+  async function getRawResult(ctx: inferRouterContext<TRouter>): Promise<RawResult> {
+    const { path, type } = operation;
+    const { procedures } = router._def;
+
+    try {
+      const output = await callProcedure({
         ctx,
-      }),
+        path,
+        procedures,
+        rawInput: deserializedInput,
+        type,
+      });
+      return {
+        input: deserializedInput,
+        path,
+        data: output,
+      };
+    } catch (cause) {
+      const error = getTRPCErrorFromUnknown(cause);
+      return {
+        input: deserializedInput,
+        path,
+        error,
+      };
+    }
+  }
+
+  function getResultEnvelope(rawResult: RawResult): TRouterResponse {
+    const { path, input } = rawResult;
+
+    if ('error' in rawResult) {
+      return {
+        error: router.getErrorShape({
+          error: rawResult.error,
+          type,
+          path,
+          input,
+          ctx,
+        }),
+      };
+    } else {
+      return {
+        result: {
+          data: rawResult.data,
+        },
+      };
+    }
+  }
+
+  function getEndResponse(envelope: TRouterResponse): IPCResponse {
+    const transformed = transformTRPCResponseItem(router, envelope);
+
+    return {
+      response: transformed,
     };
   }
 
-  return transformTRPCResponse(router, json) as TRPCResponse;
+  try {
+    const rawResult = await getRawResult(ctx);
+    const resultEnvelope = getResultEnvelope(rawResult);
+
+    return getEndResponse(resultEnvelope);
+  } catch (cause) {
+    const { input, path } = operation;
+    // we get here if
+    // - `createContext()` throws
+    // - input deserialization fails
+    const error = getTRPCErrorFromUnknown(cause);
+    const resultEnvelope = getResultEnvelope({ input, path, error });
+
+    return getEndResponse(resultEnvelope);
+  }
 }
