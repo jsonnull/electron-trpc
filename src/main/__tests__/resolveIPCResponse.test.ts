@@ -1,49 +1,56 @@
 import { describe, expect, test } from 'vitest';
-import { router } from '@trpc/server';
 import { z } from 'zod';
 import { resolveIPCResponse } from '../resolveIPCResponse';
+import * as trpc from '@trpc/server';
 
-const testRouter = router().query('test', {
-  input: z.object({
-    id: z.string(),
-  }),
-  async resolve(req) {
-    return { id: req.input.id, isTest: true };
-  },
+const t = trpc.initTRPC.create();
+const testRouter = t.router({
+  test: t.procedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ input }) => {
+      return { id: input.id, isTest: true };
+    }),
 });
 
 describe('api', () => {
   test('can manually call into API', async () => {
-    const response = await resolveIPCResponse({
+    const resolved = await resolveIPCResponse({
       createContext: async () => ({}),
-      type: 'query',
-      path: 'test',
-      input: { id: 'test-id' },
+      operation: { context: {}, id: 1, input: { id: 'test-id' }, path: 'test', type: 'query' },
       router: testRouter,
     });
 
-    expect(response).toMatchObject({
-      id: null,
-      result: {
-        data: {
-          id: 'test-id',
-          isTest: true,
+    expect(resolved).toMatchObject({
+      response: {
+        result: {
+          data: {
+            id: 'test-id',
+            isTest: true,
+          },
         },
-        type: 'data',
       },
     });
   });
 
   test('does not handle subscriptions', async () => {
-    const response = await resolveIPCResponse({
+    resolveIPCResponse({
       createContext: async () => ({}),
-      type: 'subscription',
-      path: 'test',
-      input: { id: 'test-id' },
+      operation: {
+        context: {},
+        id: 1,
+        input: { id: 'test-id' },
+        path: 'test',
+        type: 'subscription',
+      },
       router: testRouter,
+    }).catch((cause) => {
+      expect(cause.name).toBe('TRPCError');
+      expect(cause.message).toBe('Subscriptions should use wsLink');
+      expect(cause.code).toBe('METHOD_NOT_SUPPORTED');
     });
-
-    expect((response as any).error.message).toBe('Unexpected operation subscription');
-    expect((response as any).error.data.code).toBe('METHOD_NOT_SUPPORTED');
   });
 });
