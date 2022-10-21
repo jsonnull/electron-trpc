@@ -49,6 +49,6 @@
   "peerDependencies": {
     "@trpc/client": "10.0.0-proxy-beta.11",
     "@trpc/server": "10.0.0-proxy-beta.11",
-    "electron": "^19.0.0 | ^20.0.0 | ^21.0.0"
+    "electron": ">19.0.0"
   }
 }
