@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.2.0-next.2
+
+### Patch Changes
+
+- [#26](https://github.com/jsonnull/electron-trpc/pull/26) [`073eecb`](https://github.com/jsonnull/electron-trpc/commit/073eecb504917ad7e8865a8f904827ca0a4ca2ba) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix server import from ipcLink.
+
 ## 0.2.0-next.1
 
 ### Patch Changes
