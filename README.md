@@ -44,7 +44,7 @@ npm install --save electron-trpc
    import { router, createContext } from './api';
 
    app.on('ready', () => {
-     createIPCHandler({ ipcMain, router, createContext }));
+     createIPCHandler({ ipcMain, router, createContext });
 
      // ...
    });
