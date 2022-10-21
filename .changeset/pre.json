@@ -5,6 +5,7 @@
     "electron-trpc": "0.1.0"
   },
   "changesets": [
+    "green-badgers-move",
     "ten-bobcats-ring"
   ]
 }
