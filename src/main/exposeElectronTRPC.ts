@@ -1,5 +1,5 @@
+import type { Operation } from '@trpc/client';
 import type { IpcRenderer, ContextBridge } from 'electron';
-import { TRPCHandlerArgs } from './types';
 
 export const exposeElectronTRPC = ({
   contextBridge,
@@ -9,6 +9,6 @@ export const exposeElectronTRPC = ({
   ipcRenderer: IpcRenderer;
 }) => {
   return contextBridge.exposeInMainWorld('electronTRPC', {
-    rpc: (args: TRPCHandlerArgs) => ipcRenderer.invoke('electron-trpc', args),
+    rpc: (args: Operation) => ipcRenderer.invoke('electron-trpc', args),
   });
 };
