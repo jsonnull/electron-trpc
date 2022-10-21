@@ -4,5 +4,7 @@
   "initialVersions": {
     "electron-trpc": "0.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "ten-bobcats-ring"
+  ]
 }

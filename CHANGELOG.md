@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.2.0-next.0
+
+### Minor Changes
+
+- [`d392431`](https://github.com/jsonnull/electron-trpc/commit/d39243176897dd7cd209d768db68dc90cab92c58) Thanks [@jsonnull](https://github.com/jsonnull)! - Move to tRPC v10.
+
 ## 0.1.0
 
 ### Minor Changes
