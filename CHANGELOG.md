@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.2.0-next.1
+
+### Patch Changes
+
+- [#24](https://github.com/jsonnull/electron-trpc/pull/24) [`eba2b98`](https://github.com/jsonnull/electron-trpc/commit/eba2b98506bcf4590a3689397f445a0443fa9188) Thanks [@jsonnull](https://github.com/jsonnull)! - Set minimum version for electron peer dependency.
+
 ## 0.2.0-next.0
 
 ### Minor Changes
