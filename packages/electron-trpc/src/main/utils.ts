@@ -51,7 +51,7 @@ export function transformTRPCResponseItem<
   if ("error" in item) {
     return {
       ...item,
-      error: router._def.transformer.output.serialize(item.error) as unknown,
+      error: router._def._config.transformer.output.serialize(item.error) as unknown,
     };
   }
 
@@ -60,7 +60,7 @@ export function transformTRPCResponseItem<
       ...item,
       result: {
         ...item.result,
-        data: router._def.transformer.output.serialize(
+        data: router._def._config.transformer.output.serialize(
           item.result.data
         ) as unknown,
       },

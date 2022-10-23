@@ -15,7 +15,7 @@ export async function resolveIPCResponse<TRouter extends AnyRouter>({
   operation: Operation;
 }): Promise<IPCResponse> {
   const { type, input: serializedInput } = operation;
-  const { transformer } = router._def;
+  const { transformer } = router._def._config;
   const deserializedInput = transformer.input.deserialize(serializedInput) as unknown;
 
   type TRouterError = inferRouterError<TRouter>;
