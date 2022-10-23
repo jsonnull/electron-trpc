@@ -1,0 +1,50 @@
+{
+  "name": "electron-trpc",
+  "description": "Electron support for tRPC",
+  "version": "0.2.0-next.2",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "author": "Jason Nall <jsonnull@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc && vite build && dts-bundle-generator --config ./dts-bundle-generator.config.ts",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublish": "yarn build",
+    "changeset": "changeset",
+    "release": "changeset publish"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^4.8.0",
+    "@trpc/client": "10.0.0-proxy-beta.25",
+    "@trpc/react": "10.0.0-proxy-beta.20",
+    "@trpc/server": "10.0.0-proxy-beta.25",
+    "@types/node": "^17.0.10",
+    "builtin-modules": "^3.3.0",
+    "c8": "^7.12.0",
+    "dts-bundle-generator": "^6.12.0",
+    "electron": "^19.0.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^3.0.3",
+    "vite-plugin-commonjs-externals": "^0.1.1",
+    "vitest": "^0.19.1",
+    "zod": "^3.19.1"
+  },
+  "peerDependencies": {
+    "@trpc/client": "10.0.0-proxy-beta.11",
+    "@trpc/server": "10.0.0-proxy-beta.11",
+    "electron": ">19.0.0"
+  }
+}
