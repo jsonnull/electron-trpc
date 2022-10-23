@@ -1,7 +1,6 @@
 {
   "name": "examples/basic",
   "description": "Electron support for tRPC",
-  "version": "0.0.0",
   "private": true,
   "main": "main/dist/main.js",
   "license": "MIT",
