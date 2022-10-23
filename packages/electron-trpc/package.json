@@ -43,8 +43,8 @@
     "zod": "^3.19.1"
   },
   "peerDependencies": {
-    "@trpc/client": "10.0.0-proxy-beta.11",
-    "@trpc/server": "10.0.0-proxy-beta.11",
+    "@trpc/client": "10.0.0-proxy-beta.25",
+    "@trpc/server": "10.0.0-proxy-beta.25",
     "electron": ">19.0.0"
   }
 }
