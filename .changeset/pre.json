@@ -2,10 +2,12 @@
   "mode": "pre",
   "tag": "next",
   "initialVersions": {
-    "electron-trpc": "0.1.0"
+    "electron-trpc": "0.1.0",
+    "examples/basic": "0.0.0"
   },
   "changesets": [
     "green-badgers-move",
+    "sharp-crews-melt",
     "ten-bobcats-ring",
     "unlucky-seas-divide"
   ]
