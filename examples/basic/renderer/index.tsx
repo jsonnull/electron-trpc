@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import ReactDom from 'react-dom';
 import { ipcLink } from 'electron-trpc';
 import { createTRPCReact } from '@trpc/react-query';

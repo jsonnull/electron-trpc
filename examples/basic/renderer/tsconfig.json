@@ -1,10 +1,10 @@
 {
-  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "alwaysStrict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
+    "jsx": "react",
     "lib": ["dom", "es2017"],
     "module": "commonjs",
     "moduleResolution": "node",
@@ -13,9 +13,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "esnext"
   },
-  "include": ["./*.ts(x)?"],
+  "include": ["./*.ts", "./*.tsx"],
   "exclude": ["node_modules"]
 }
