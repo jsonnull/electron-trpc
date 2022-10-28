@@ -11,10 +11,9 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^4.8.0",
-    "@trpc/client": "10.0.0-proxy-beta.25",
-    "@trpc/react": "10.0.0-proxy-beta.20",
-    "@trpc/react-query": "10.0.0-proxy-beta.25",
-    "@trpc/server": "10.0.0-proxy-beta.25",
+    "@trpc/client": "10.0.0-rc.1",
+    "@trpc/react-query": "10.0.0-rc.1",
+    "@trpc/server": "10.0.0-rc.1",
     "electron": "^19.0.9",
     "electron-trpc": "0.2.0-next.3",
     "react": "^18.2.0",
