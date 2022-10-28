@@ -7,8 +7,10 @@
   },
   "changesets": [
     "green-badgers-move",
+    "rotten-forks-design",
     "sharp-crews-melt",
     "ten-bobcats-ring",
-    "unlucky-seas-divide"
+    "unlucky-seas-divide",
+    "wild-dots-change"
   ]
 }
