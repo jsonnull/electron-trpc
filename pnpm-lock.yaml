@@ -53,8 +53,8 @@ importers:
       '@trpc/client': 10.0.0-rc.2
       '@trpc/server': 10.0.0-rc.2
       '@types/node': ^18.0.0
+      '@vitest/coverage-c8': ^0.24.3
       builtin-modules: ^3.3.0
-      c8: ^7.12.0
       dts-bundle-generator: ^6.12.0
       electron: ^19.0.9
       react: ^18.2.0
@@ -68,8 +68,8 @@ importers:
       '@trpc/client': 10.0.0-rc.2_@trpc+server@10.0.0-rc.2
       '@trpc/server': 10.0.0-rc.2
       '@types/node': 18.11.7
+      '@vitest/coverage-c8': 0.24.3
       builtin-modules: 3.3.0
-      c8: 7.12.0
       dts-bundle-generator: 6.13.0
       electron: 19.1.1
       react: 18.2.0
@@ -826,6 +826,24 @@ packages:
       vite: 3.1.4
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@vitest/coverage-c8/0.24.3:
+    resolution: {integrity: sha512-tAmMyHxWYnAwGeJb7QgTuEX8aLasTg4X1/6INobXa/7wYGEJ28CACFO5iLn1HzFVPoLvhsS3luQjiflGjjSMRQ==}
+    dependencies:
+      c8: 7.12.0
+      vitest: 0.24.3
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - sass
+      - stylus
+      - supports-color
+      - terser
     dev: true
 
   /acorn/8.8.0:
