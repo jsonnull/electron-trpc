@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@tanstack/react-query": "^4.8.0",
-    "@trpc/client": "10.0.0-rc.1",
-    "@trpc/server": "10.0.0-rc.1",
+    "@trpc/client": "10.0.0-rc.2",
+    "@trpc/server": "10.0.0-rc.2",
     "@types/node": "^17.0.10",
     "builtin-modules": "^3.3.0",
     "c8": "^7.12.0",
