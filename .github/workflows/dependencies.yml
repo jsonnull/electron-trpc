@@ -2,9 +2,9 @@ name: dependencies
 on: [pull_request]
 jobs:
   changeset:
-    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'renovate/')
 
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/renovate')
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
