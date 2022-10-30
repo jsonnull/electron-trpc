@@ -1,7 +1,3 @@
 node_modules
-examples/*/dist
-examples/*/coverage
-examples/*/*/dist
-examples/*/*/coverage
-packages/*/dist
-packages/*/coverage
+dist/
+coverage/
