@@ -37,7 +37,7 @@ importers:
       '@trpc/react-query': 10.0.0-rc.4_s6edhlbyyt2qq23lkme2x3jsoe
       '@trpc/server': 10.0.0-rc.4
       electron: 21.2.2
-      electron-trpc: link:../../packages/electron-trpc
+      electron-trpc: 0.2.0-next.5_wchbe7uuowdlnmrokh7h75kjqu
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       zod: 3.19.1
@@ -72,7 +72,7 @@ importers:
       '@trpc/react-query': 10.0.0-rc.4_s6edhlbyyt2qq23lkme2x3jsoe
       '@trpc/server': 10.0.0-rc.4
       electron: 21.2.2
-      electron-trpc: link:../../packages/electron-trpc
+      electron-trpc: 0.2.0-next.5_wchbe7uuowdlnmrokh7h75kjqu
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       zod: 3.19.1
@@ -1311,6 +1311,18 @@ packages:
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
     dev: true
+
+  /electron-trpc/0.2.0-next.5_wchbe7uuowdlnmrokh7h75kjqu:
+    resolution: {integrity: sha512-sgvptmpyfTSDSQbkiGoIG26VfJ19inuTAkV/fQcTf7W6q7Ndj6ci3Y/15+b5lMzLjQWrek7Q5hXXkzFn5ICsoQ==}
+    peerDependencies:
+      '@trpc/client': ^10.0.0-rc.1
+      '@trpc/server': ^10.0.0-rc.1
+      electron: '>19.0.0'
+    dependencies:
+      '@trpc/client': 10.0.0-rc.4_@trpc+server@10.0.0-rc.4
+      '@trpc/server': 10.0.0-rc.4
+      electron: 21.2.2
+    dev: false
 
   /electron/21.2.2:
     resolution: {integrity: sha512-Q0j1tzLTM5JRjSJVAfDSONZgdtuyruHR1pc1y2IbMYQz62pVJWVWAvcJXzpty5iRh2HKzW9+B9WVlmfWNFA8ag==}
