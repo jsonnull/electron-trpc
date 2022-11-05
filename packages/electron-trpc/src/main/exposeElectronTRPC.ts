@@ -1,14 +1,9 @@
 import type { Operation } from '@trpc/client';
-import type { IpcRenderer, ContextBridge } from 'electron';
+import { ipcRenderer, contextBridge } from 'electron';
+import { ELECTRON_TRPC_CHANNEL } from '../constants';
 
-export const exposeElectronTRPC = ({
-  contextBridge,
-  ipcRenderer,
-}: {
-  contextBridge: ContextBridge;
-  ipcRenderer: IpcRenderer;
-}) => {
-  return contextBridge.exposeInMainWorld('electronTRPC', {
-    rpc: (args: Operation) => ipcRenderer.invoke('electron-trpc', args),
+export const exposeElectronTRPC = () => {
+  contextBridge.exposeInMainWorld('electronTRPC', {
+    rpc: (args: Operation) => ipcRenderer.invoke(ELECTRON_TRPC_CHANNEL, args),
   });
 };

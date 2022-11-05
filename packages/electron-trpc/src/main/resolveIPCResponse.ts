@@ -1,7 +1,7 @@
 import { callProcedure, TRPCError } from '@trpc/server';
 import type { AnyRouter, inferRouterContext, inferRouterError } from '@trpc/server';
 import type { TRPCResponse } from '@trpc/server/rpc';
-import type { IPCResponse } from './types';
+import type { IPCResponse } from '../types';
 import { Operation } from '@trpc/client';
 import { getTRPCErrorFromUnknown, transformTRPCResponseItem } from './utils'
 

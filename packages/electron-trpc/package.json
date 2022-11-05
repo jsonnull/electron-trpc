@@ -2,14 +2,16 @@
   "name": "electron-trpc",
   "description": "Electron support for tRPC",
   "version": "0.2.0-next.5",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
   "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+    "./main": {
+      "require": "./dist/main.cjs",
+      "import": "./dist/main.mjs",
+      "types": "./main.d.ts"
+    },
+    "./renderer": {
+      "require": "./dist/renderer.cjs",
+      "import": "./dist/renderer.mjs",
+      "types": "./renderer.d.ts"
     }
   },
   "author": "Jason Nall <jsonnull@gmail.com>",
@@ -19,9 +21,10 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc && vite build && dts-bundle-generator --config ./dts-bundle-generator.config.ts",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "build": "tsc && vite build -c src/main/vite.config.ts && vite build -c src/renderer/vite.config.ts && pnpm build:types",
+    "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts",
+    "test": "vitest -c vitest.config.ts",
+    "test:coverage": "vitest run -c vitest.config.ts --coverage",
     "prepublish": "yarn build",
     "changeset": "changeset",
     "release": "changeset publish"
@@ -34,7 +37,7 @@
     "@vitest/coverage-c8": "^0.24.3",
     "builtin-modules": "^3.3.0",
     "dts-bundle-generator": "^7.0.0",
-    "electron": "^19.0.9",
+    "electron": "^21.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vite": "^3.0.3",

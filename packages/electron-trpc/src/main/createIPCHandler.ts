@@ -1,18 +1,18 @@
 import type { Operation } from '@trpc/client';
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
-import type { IpcMain, IpcMainInvokeEvent } from 'electron';
+import { ipcMain } from 'electron';
+import type { IpcMainInvokeEvent } from 'electron';
 import { resolveIPCResponse } from './resolveIPCResponse';
+import { ELECTRON_TRPC_CHANNEL } from '../constants';
 
 export function createIPCHandler<TRouter extends AnyRouter>({
-  ipcMain,
   createContext,
   router,
 }: {
-  ipcMain: IpcMain;
   createContext?: () => Promise<inferRouterContext<TRouter>>;
   router: TRouter;
 }) {
-  ipcMain.handle('electron-trpc', (_event: IpcMainInvokeEvent, args: Operation) => {
+  ipcMain.handle(ELECTRON_TRPC_CHANNEL, (_event: IpcMainInvokeEvent, args: Operation) => {
     return resolveIPCResponse({ router, createContext, operation: args });
   });
 }
