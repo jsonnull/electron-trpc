@@ -1,6 +1,6 @@
-
-import { TRPCResponse } from "@trpc/server/rpc";
+import type { TRPCResponse } from '@trpc/server/rpc';
 
 export interface IPCResponse {
   response: TRPCResponse;
 }
+

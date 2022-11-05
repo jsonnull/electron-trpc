@@ -1,5 +1,5 @@
 {
-  "name": "examples/basic",
+  "name": "examples/custom-preload",
   "description": "Electron support for tRPC",
   "version": "0.0.1-next.0",
   "private": true,
