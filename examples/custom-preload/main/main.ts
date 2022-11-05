@@ -1,6 +1,6 @@
 import path from 'path';
 import { app, BrowserWindow } from 'electron';
-import { createIPCHandler, getPreloadFile } from 'electron-trpc/main';
+import { createIPCHandler } from 'electron-trpc/main';
 import { router } from './api';
 
 app.on('ready', () => {
@@ -8,7 +8,7 @@ app.on('ready', () => {
 
   const win = new BrowserWindow({
     webPreferences: {
-      preload: getPreloadFile(),
+      preload: path.resolve(__dirname, 'preload.js'),
     },
   });
 

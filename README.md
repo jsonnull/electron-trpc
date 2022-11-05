@@ -34,44 +34,37 @@ yarn add electron-trpc
 npm install --save electron-trpc
 ```
 
-## Setup
+## Basic Setup
 
-1. Add your tRPC router to the Electron main process using `createIPCHandler`:
+1. Add your tRPC router to the Electron main process using `createIPCHandler` and `getPreloadFile`:
 
    ```ts
-   import { app, ipcMain } from 'electron';
-   import { createIPCHandler } from 'electron-trpc';
-   import { router, createContext } from './api';
+   import { app } from 'electron';
+   import { createIPCHandler, getPreloadFile } from 'electron-trpc/main';
+   import { router } from './api';
 
    app.on('ready', () => {
-     createIPCHandler({ ipcMain, router, createContext });
+     createIPCHandler({ router });
 
-     // ...
-   });
-   ```
-
-2. Expose the IPC to the render process from the [preload file](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts):
-
-   ```ts
-   import { contextBridge, ipcRenderer } from 'electron';
-   import { exposeElectronTRPC } from 'electron-trpc';
-
-   process.once('loaded', async () => {
-     exposeElectronTRPC({ contextBridge, ipcRenderer });
+     const win = new BrowserWindow({
+       webPreferences: {
+         preload: getPreloadFile(),
+       },
+     });
    });
    ```
 
    > Note: `electron-trpc` depends on `contextIsolation` being enabled, which is the default.
 
-3. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
+2. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
 
    ```ts
    import * as trpc from '@trpc/client';
-   import { ipcLink } from 'electron-trpc';
+   import { ipcLink } from 'electron-trpc/renderer';
 
    export const trpcClient = trpc.createTRPCClient({
      links: [ipcLink()],
    });
    ```
 
-4. Now you can use the client in your render process as you normally would (e.g. using `@trpc/react`).
+3. Now you can use the client in your render process as you normally would (e.g. using `@trpc/react`).

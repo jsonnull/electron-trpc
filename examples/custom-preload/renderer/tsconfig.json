@@ -4,6 +4,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
+    "jsx": "react",
     "lib": ["dom", "es2017"],
     "module": "commonjs",
     "moduleResolution": "node",
@@ -12,9 +13,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "esnext"
   },
-  "include": ["src/main/*.ts", "src/renderer/*.ts"],
+  "include": ["./*.ts", "./*.tsx"],
   "exclude": ["node_modules"]
 }
