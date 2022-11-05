@@ -34,7 +34,7 @@
     "@vitest/coverage-c8": "^0.24.3",
     "builtin-modules": "^3.3.0",
     "dts-bundle-generator": "^7.0.0",
-    "electron": "^19.0.9",
+    "electron": "^21.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vite": "^3.0.3",
