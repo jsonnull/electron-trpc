@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.2.0-next.6
+
+### Patch Changes
+
+- [#58](https://github.com/jsonnull/electron-trpc/pull/58) [`a2103c4`](https://github.com/jsonnull/electron-trpc/commit/a2103c4e9789741aa98aa057fcebf78e4f339d9b) Thanks [@jsonnull](https://github.com/jsonnull)! - Updated API to be simpler and require fewer steps.
+
 ## 0.2.0-next.5
 
 ### Patch Changes
