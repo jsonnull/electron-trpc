@@ -1,7 +1,7 @@
 {
   "name": "examples/basic",
   "description": "Electron support for tRPC",
-  "version": "0.0.1-next.1",
+  "version": "0.0.1-next.2",
   "private": true,
   "main": "main/dist/main.js",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "@trpc/react-query": "10.0.0-rc.7",
     "@trpc/server": "10.0.0-rc.7",
     "electron": "^21.2.2",
-    "electron-trpc": "0.2.0-next.6",
+    "electron-trpc": "0.2.0-next.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.19.1"

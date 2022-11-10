@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.2.0-next.7
+
+### Patch Changes
+
+- [#62](https://github.com/jsonnull/electron-trpc/pull/62) [`169c47f`](https://github.com/jsonnull/electron-trpc/commit/169c47f325de8899784187af06140c29758b0c0a) Thanks [@renovate](https://github.com/apps/renovate)! - Update tRPC to rc.7.
+
 ## 0.2.0-next.6
 
 ### Patch Changes
