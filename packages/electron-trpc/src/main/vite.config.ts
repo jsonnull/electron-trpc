@@ -13,7 +13,7 @@ module.exports = defineConfig({
     },
     outDir: path.resolve(__dirname, '../../dist'),
     rollupOptions: {
-      external: ['electron', 'path'],
+      external: ['electron'],
     },
   }
 });
