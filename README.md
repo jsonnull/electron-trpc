@@ -36,11 +36,11 @@ npm install --save electron-trpc
 
 ## Basic Setup
 
-1. Add your tRPC router to the Electron main process using `createIPCHandler` and `getPreloadFile`:
+1. Add your tRPC router to the Electron main process using `createIPCHandler`:
 
    ```ts
    import { app } from 'electron';
-   import { createIPCHandler, getPreloadFile } from 'electron-trpc/main';
+   import { createIPCHandler } from 'electron-trpc/main';
    import { router } from './api';
 
    app.on('ready', () => {
@@ -48,15 +48,26 @@ npm install --save electron-trpc
 
      const win = new BrowserWindow({
        webPreferences: {
-         preload: getPreloadFile(),
+         // Replace this path with the path to your preload file (see next step)
+         preload: 'path/to/preload.js',
        },
      });
    });
    ```
 
+2. Expose the IPC to the render process from the [preload file](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts):
+
+   ```ts
+   import { exposeElectronTRPC } from 'electron-trpc';
+
+   process.once('loaded', async () => {
+     exposeElectronTRPC();
+   });
+   ```
+
    > Note: `electron-trpc` depends on `contextIsolation` being enabled, which is the default.
 
-2. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
+3. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
 
    ```ts
    import * as trpc from '@trpc/client';
@@ -67,4 +78,4 @@ npm install --save electron-trpc
    });
    ```
 
-3. Now you can use the client in your render process as you normally would (e.g. using `@trpc/react`).
+4. Now you can use the client in your render process as you normally would (e.g. using `@trpc/react`).
