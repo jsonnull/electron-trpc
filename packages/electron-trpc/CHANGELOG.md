@@ -1,5 +1,31 @@
 # electron-trpc
 
+## 0.2.0
+
+### Minor Changes
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`006d01e`](https://github.com/jsonnull/electron-trpc/commit/006d01e73a995f756be622769192444bba3b4a87) Thanks [@jsonnull](https://github.com/jsonnull)! - Update electron-trpc to v10 release.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`c46f700`](https://github.com/jsonnull/electron-trpc/commit/c46f700b6171835a5b00d6d2c44061acdcd49874) Thanks [@jsonnull](https://github.com/jsonnull)! - Move to tRPC v10.
+
+### Patch Changes
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`231afea`](https://github.com/jsonnull/electron-trpc/commit/231afea9f21f0d4ba7f12c37fd781f22ca5d4141) Thanks [@jsonnull](https://github.com/jsonnull)! - Set minimum version for electron peer dependency.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`960999f`](https://github.com/jsonnull/electron-trpc/commit/960999f5c2fec8b70152cfdf6cadc737c60edd48) Thanks [@jsonnull](https://github.com/jsonnull)! - Updated API to be simpler and require fewer steps.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`3c76498`](https://github.com/jsonnull/electron-trpc/commit/3c76498c152e92fe1b084d3e7a5170d8f2c1dee3) Thanks [@jsonnull](https://github.com/jsonnull)! - Update tRPC to rc.7.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`7c7ee89`](https://github.com/jsonnull/electron-trpc/commit/7c7ee89b45c6c27527e26b0a6100fc0cb41d8ba6) Thanks [@jsonnull](https://github.com/jsonnull)! - Upgrade to tRPC v10 rc.1.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`ddc11cb`](https://github.com/jsonnull/electron-trpc/commit/ddc11cb1f1502568a028476acdefdb8d95d9562c) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix transformer path.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`4615cf6`](https://github.com/jsonnull/electron-trpc/commit/4615cf63c382a0ea21781efb5093a531cc6378e6) Thanks [@jsonnull](https://github.com/jsonnull)! - Update tRPC to rc.2.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`42f2b09`](https://github.com/jsonnull/electron-trpc/commit/42f2b09efbaf322af42df176b74f72b972724f99) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix server import from ipcLink.
+
+- [#71](https://github.com/jsonnull/electron-trpc/pull/71) [`d2870a4`](https://github.com/jsonnull/electron-trpc/commit/d2870a4ef4429053c6a0d3e44bb204d0177adda9) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix TypeScript type resolution. (Authored by @skyrpex, thanks!)
+
 ## 0.2.0-next.7
 
 ### Patch Changes
