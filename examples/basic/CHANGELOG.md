@@ -1,5 +1,12 @@
 # examples/basic
 
+## 0.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`231afea`](https://github.com/jsonnull/electron-trpc/commit/231afea9f21f0d4ba7f12c37fd781f22ca5d4141), [`960999f`](https://github.com/jsonnull/electron-trpc/commit/960999f5c2fec8b70152cfdf6cadc737c60edd48), [`3c76498`](https://github.com/jsonnull/electron-trpc/commit/3c76498c152e92fe1b084d3e7a5170d8f2c1dee3), [`7c7ee89`](https://github.com/jsonnull/electron-trpc/commit/7c7ee89b45c6c27527e26b0a6100fc0cb41d8ba6), [`ddc11cb`](https://github.com/jsonnull/electron-trpc/commit/ddc11cb1f1502568a028476acdefdb8d95d9562c), [`4615cf6`](https://github.com/jsonnull/electron-trpc/commit/4615cf63c382a0ea21781efb5093a531cc6378e6), [`006d01e`](https://github.com/jsonnull/electron-trpc/commit/006d01e73a995f756be622769192444bba3b4a87), [`c46f700`](https://github.com/jsonnull/electron-trpc/commit/c46f700b6171835a5b00d6d2c44061acdcd49874), [`42f2b09`](https://github.com/jsonnull/electron-trpc/commit/42f2b09efbaf322af42df176b74f72b972724f99), [`d2870a4`](https://github.com/jsonnull/electron-trpc/commit/d2870a4ef4429053c6a0d3e44bb204d0177adda9)]:
+  - electron-trpc@0.2.0
+
 ## 0.0.1-next.2
 
 ### Patch Changes
