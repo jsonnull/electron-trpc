@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.2.0-next.8
+
+### Minor Changes
+
+- [#67](https://github.com/jsonnull/electron-trpc/pull/67) [`3e19fca`](https://github.com/jsonnull/electron-trpc/commit/3e19fcafbb4fa429e92788e96c389cd523f31b14) Thanks [@renovate](https://github.com/apps/renovate)! - Update electron-trpc to v10 release.
+
 ## 0.2.0-next.7
 
 ### Patch Changes
