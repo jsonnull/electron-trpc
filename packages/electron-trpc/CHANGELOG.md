@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.2.1
+
+### Patch Changes
+
+- [#78](https://github.com/jsonnull/electron-trpc/pull/78) [`c9031f5`](https://github.com/jsonnull/electron-trpc/commit/c9031f5b521095d3c648fc905b642471e875d86f) Thanks [@jsonnull](https://github.com/jsonnull)! - Include type declarations in publish package.
+
 ## 0.2.0
 
 ### Minor Changes
