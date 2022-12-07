@@ -6,6 +6,7 @@
     "test:coverage": "pnpm --filter=electron-trpc test:coverage",
     "prepublish": "yarn build",
     "changeset": "changeset",
+    "changeset:version": "changeset version && pnpm install",
     "release": "changeset publish"
   },
   "devDependencies": {
