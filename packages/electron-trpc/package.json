@@ -6,12 +6,12 @@
     "./main": {
       "require": "./dist/main.cjs",
       "import": "./dist/main.mjs",
-      "types": "./main.d.ts"
+      "types": "./dist/main.d.ts"
     },
     "./renderer": {
       "require": "./dist/renderer.cjs",
       "import": "./dist/renderer.mjs",
-      "types": "./renderer.d.ts"
+      "types": "./dist/renderer.d.ts"
     }
   },
   "author": "Jason Nall <jsonnull@gmail.com>",

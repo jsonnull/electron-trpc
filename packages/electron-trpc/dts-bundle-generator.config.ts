@@ -5,12 +5,12 @@ const config = {
   entries: [
     {
       filePath: './src/renderer/index.ts',
-      outFile: `./renderer.d.ts`,
+      outFile: `./dist/renderer.d.ts`,
       noCheck: true,
     },
     {
       filePath: './src/main/index.ts',
-      outFile: `./main.d.ts`,
+      outFile: `./dist/main.d.ts`,
       noCheck: true
     },
   ],
