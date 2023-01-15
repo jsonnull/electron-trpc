@@ -19,7 +19,7 @@
 - Expose APIs from Electron's main process to one or more render processes.
 - Build fully type-safe IPC.
 - Secure alternative to opening servers on localhost.
-- _Subscription support coming soon_.
+- Full support for queries, mutations, and subscriptions.
 
 ## Installation
 
@@ -44,14 +44,14 @@ npm install --save electron-trpc
    import { router } from './api';
 
    app.on('ready', () => {
-     createIPCHandler({ router });
-
      const win = new BrowserWindow({
        webPreferences: {
          // Replace this path with the path to your preload file (see next step)
          preload: 'path/to/preload.js',
        },
      });
+
+     createIPCHandler({ router, windows: [win] });
    });
    ```
 
