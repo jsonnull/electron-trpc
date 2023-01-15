@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.3.0
+
+### Minor Changes
+
+- [#88](https://github.com/jsonnull/electron-trpc/pull/88) [`b67f2a7`](https://github.com/jsonnull/electron-trpc/commit/b67f2a7a87cd77b88d337e6996d78c6507a9c187) Thanks [@jsonnull](https://github.com/jsonnull)! - Added support for subscriptions.
+
 ## 0.2.1
 
 ### Patch Changes
