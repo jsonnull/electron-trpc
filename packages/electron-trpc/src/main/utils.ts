@@ -44,25 +44,24 @@ function getMessageFromUnkownError(err: unknown, fallback: string): string {
 }
 
 // from @trpc/server/src/internals/transformTRPCResonse
-export function transformTRPCResponseItem<
-  TResponseItem extends TRPCResponse | TRPCResponseMessage
->(router: AnyRouter, item: TResponseItem): TResponseItem {
+export function transformTRPCResponseItem<TResponseItem extends TRPCResponse | TRPCResponseMessage>(
+  router: AnyRouter,
+  item: TResponseItem
+): TResponseItem {
   // explicitly use appRouter instead of router argument: https://github.com/trpc/trpc/issues/2804
-  if ("error" in item) {
+  if ('error' in item) {
     return {
       ...item,
       error: router._def._config.transformer.output.serialize(item.error) as unknown,
     };
   }
 
-  if ("data" in item.result) {
+  if ('data' in item.result) {
     return {
       ...item,
       result: {
         ...item.result,
-        data: router._def._config.transformer.output.serialize(
-          item.result.data
-        ) as unknown,
+        data: router._def._config.transformer.output.serialize(item.result.data) as unknown,
       },
     };
   }

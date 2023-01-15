@@ -10,13 +10,13 @@ const preload = path.join(__dirname, './preload.js');
 const url = process.env['VITE_DEV_SERVER_URL'];
 
 app.on('ready', () => {
-  createIPCHandler({ router });
-
   const win = new BrowserWindow({
     webPreferences: {
       preload,
     },
   });
+
+  createIPCHandler({ router, windows: [win] });
 
   if (url) {
     win.loadURL(url);
