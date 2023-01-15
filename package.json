@@ -6,7 +6,7 @@
     "test:coverage": "pnpm --filter=electron-trpc test:coverage",
     "prepublish": "yarn build",
     "changeset": "changeset",
-    "changeset:version": "changeset version && pnpm install",
+    "changeset:version": "changeset version && pnpm install --no-frozen-lockfile",
     "release": "changeset publish"
   },
   "devDependencies": {
