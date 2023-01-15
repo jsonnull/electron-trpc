@@ -29,7 +29,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       vite: ^3.0.3
-      vite-plugin-electron: ^0.10.4
+      vite-plugin-electron: ^0.11.0
       zod: ^3.19.1
     dependencies:
       '@tanstack/react-query': 4.14.5_biqbaboplfbrettd7655fr4n2y
@@ -47,7 +47,7 @@ importers:
       '@types/react-dom': 18.0.8
       '@vitejs/plugin-react': 2.2.0_vite@3.2.3
       vite: 3.2.3_@types+node@18.11.9
-      vite-plugin-electron: 0.10.4
+      vite-plugin-electron: 0.11.1
 
   packages/electron-trpc:
     specifiers:
@@ -3216,8 +3216,8 @@ packages:
       magic-string: 0.25.9
     dev: true
 
-  /vite-plugin-electron/0.10.4:
-    resolution: {integrity: sha512-GrTFfkdavF4BTuqujSL5JvMTHVh4HsnBbnHjnsRB+mPBtS1jnmWxXgWsct7Ys4eOJ86/1tgJAPuCh6+GC40E4Q==}
+  /vite-plugin-electron/0.11.1:
+    resolution: {integrity: sha512-pi9Wy4KCGjKIRvp7/5VUOT8BYEAJdZrpy3gI+GhGc5vYs2V9yPxLOtfCqNfSTYqH3uM6hYY6MyifFVku3Wg+2A==}
     dev: true
 
   /vite/3.2.3_@types+node@18.11.9:
