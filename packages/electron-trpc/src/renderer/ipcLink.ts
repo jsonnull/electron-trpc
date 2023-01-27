@@ -74,6 +74,8 @@ export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
 
     return ({ op }) => {
       return observable((observer) => {
+        op.input = runtime.transformer.serialize(op.input);
+
         let isDone = false;
         const unsubscribe = client.request(op, {
           error(err) {
