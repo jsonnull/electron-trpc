@@ -18,7 +18,9 @@
   "license": "MIT",
   "files": [
     "dist",
-    "src"
+    "src",
+    "main.d.ts",
+    "renderer.d.ts"
   ],
   "scripts": {
     "build": "tsc && vite build -c src/main/vite.config.ts && vite build -c src/renderer/vite.config.ts && pnpm build:types",
