@@ -6,6 +6,8 @@ import type { BrowserWindow, IpcMainInvokeEvent } from 'electron';
 import { handleIPCOperation } from './handleIPCOperation';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
 
+type Awaitable<T> = T | Promise<T>;
+
 class IPCHandler<TRouter extends AnyRouter> {
   #windows: BrowserWindow[];
 
@@ -14,7 +16,7 @@ class IPCHandler<TRouter extends AnyRouter> {
     router,
     windows = [],
   }: {
-    createContext?: () => Promise<inferRouterContext<TRouter>>;
+    createContext?: () => Awaitable<inferRouterContext<TRouter>>;
     router: TRouter;
     windows?: BrowserWindow[];
   }) {
