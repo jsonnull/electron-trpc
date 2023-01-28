@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.3.2
+
+### Patch Changes
+
+- [#103](https://github.com/jsonnull/electron-trpc/pull/103) [`46d79ef`](https://github.com/jsonnull/electron-trpc/commit/46d79efde7ccc12cd1e99eb086413aa83bda29f8) Thanks [@jsonnull](https://github.com/jsonnull)! - Publish types for node TS resolution workaround.
+
 ## 0.3.1
 
 ### Patch Changes
