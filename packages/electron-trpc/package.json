@@ -40,6 +40,7 @@
     "electron": "^21.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "superjson": "^1.12.2",
     "vite": "^3.0.3",
     "vite-plugin-commonjs-externals": "^0.1.1",
     "vitest": "^0.27.0",
