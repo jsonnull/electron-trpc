@@ -2,4 +2,6 @@
 'electron-trpc': patch
 ---
 
-Use input serializer in ipcLink (pr: 93)
+Use input serializer in ipcLink.
+
+pr: 93
