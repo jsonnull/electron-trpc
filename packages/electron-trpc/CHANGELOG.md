@@ -1,5 +1,15 @@
 # electron-trpc
 
+## 0.3.1
+
+### Patch Changes
+
+- [#96](https://github.com/jsonnull/electron-trpc/pull/96) [`797e5ba`](https://github.com/jsonnull/electron-trpc/commit/797e5baa47f867a2f128ace3f8186dd21b57820d) Thanks [@jsonnull](https://github.com/jsonnull)! - Do not force projects to use node16 TS resolution.
+
+- [#98](https://github.com/jsonnull/electron-trpc/pull/98) [`f92772a`](https://github.com/jsonnull/electron-trpc/commit/f92772a191a632f40c7a3cad46893d40a6715b48) Thanks [@jsonnull](https://github.com/jsonnull)! - Allow sync createContext to be passed.
+
+- [#93](https://github.com/jsonnull/electron-trpc/pull/93) [`3cb91a7`](https://github.com/jsonnull/electron-trpc/commit/3cb91a71da9b7da84149ff2c586e5f7ce2032030) Thanks [@BeeeQueue](https://github.com/BeeeQueue)! - Use input serializer in ipcLink.
+
 ## 0.3.0
 
 ### Minor Changes
