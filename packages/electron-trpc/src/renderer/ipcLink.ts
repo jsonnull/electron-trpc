@@ -1,6 +1,7 @@
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
 import type { AnyRouter, inferRouterContext, ProcedureType } from '@trpc/server';
-import type { TRPCResponse, TRPCResponseMessage } from '@trpc/server/rpc';
+import type { TRPCResponseMessage } from '@trpc/server/rpc';
+import type { RendererGlobalElectronTRPC } from '../types';
 import { observable, Observer } from '@trpc/server/observable';
 import { transformResult } from './utils';
 
@@ -20,11 +21,24 @@ type IPCRequest = {
   op: Operation;
 };
 
+const getElectronTRPC = () => {
+    const electronTRPC: RendererGlobalElectronTRPC = (globalThis as any).electronTRPC;
+
+    if (!electronTRPC) {
+      throw new Error(
+        'Could not find `electronTRPC` global. Check that `exposeElectronTPRC` has been called in your preload file.'
+      );
+    }
+
+    return electronTRPC;
+}
+
 class IPCClient {
   #pendingRequests = new Map<string | number, IPCRequest>();
+  #electronTRPC = getElectronTRPC();
 
   constructor() {
-    (window as any).electronTRPC.onMessage((response: TRPCResponseMessage) => {
+    this.#electronTRPC.onMessage((response: TRPCResponseMessage) => {
       this.#handleResponse(response);
     });
   }
@@ -51,7 +65,7 @@ class IPCClient {
       op,
     });
 
-    (window as any).electronTRPC.sendMessage(op) as Promise<TRPCResponse>;
+    this.#electronTRPC.sendMessage(op);
 
     return () => {
       const callbacks = this.#pendingRequests.get(op.id)?.callbacks;
@@ -60,10 +74,10 @@ class IPCClient {
 
       callbacks?.complete();
 
-      (window as any).electronTRPC.sendMessage({
+      this.#electronTRPC.sendMessage({
         id,
         method: 'subscription.stop',
-      });
+      } as any);
     };
   }
 }

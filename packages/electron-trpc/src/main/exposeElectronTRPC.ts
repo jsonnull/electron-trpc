@@ -1,11 +1,12 @@
-import type { Operation } from '@trpc/client';
-import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import { ipcRenderer, contextBridge } from 'electron';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
+import type { RendererGlobalElectronTRPC } from '../types';
 
 export const exposeElectronTRPC = () => {
-  contextBridge.exposeInMainWorld('electronTRPC', {
-    sendMessage: (args: Operation) => ipcRenderer.send(ELECTRON_TRPC_CHANNEL, args),
-    onMessage: (callback: (args: TRPCResponseMessage) => void) => ipcRenderer.on(ELECTRON_TRPC_CHANNEL, (_event, args) => callback(args)),
-  });
+  const electronTRPC: RendererGlobalElectronTRPC = {
+    sendMessage: (operation) => ipcRenderer.send(ELECTRON_TRPC_CHANNEL, operation),
+    onMessage: (callback) =>
+      ipcRenderer.on(ELECTRON_TRPC_CHANNEL, (_event, args) => callback(args)),
+  };
+  contextBridge.exposeInMainWorld('electronTRPC', electronTRPC);
 };
