@@ -4,6 +4,7 @@ import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import { isObservable } from '@trpc/server/observable';
 import { Operation } from '@trpc/client';
 import { getTRPCErrorFromUnknown, transformTRPCResponseItem } from './utils';
+import type { IpcMainInvokeEvent } from 'electron';
 
 export async function handleIPCOperation<TRouter extends AnyRouter>({
   router,
@@ -12,9 +13,10 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
   respond,
 }: {
   router: TRouter;
-  createContext?: () => Promise<inferRouterContext<TRouter>>;
+  createContext?: (event: IpcMainInvokeEvent) => Promise<inferRouterContext<TRouter>>;
   operation: Operation;
   respond: (response: TRPCResponseMessage) => void;
+  event: IpcMainInvokeEvent;
 }) {
   const { type, input: serializedInput, id, path } = operation;
   const input = router._def._config.transformer.input.deserialize(serializedInput);
@@ -22,7 +24,7 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
   // type TSuccessResponse = TRPCSuccessResponse<inferRouterContext<TRouter>>;
   // type TErrorResponse = TRPCErrorResponse<inferRouterError<TRouter>>;
 
-  const ctx = (await createContext?.()) ?? {};
+  const ctx = (await createContext?.(event)) ?? {};
 
   try {
     const result = await callProcedure({

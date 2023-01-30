@@ -22,12 +22,13 @@ class IPCHandler<TRouter extends AnyRouter> {
   }) {
     this.#windows = windows;
 
-    ipcMain.on(ELECTRON_TRPC_CHANNEL, (_event: IpcMainInvokeEvent, args: Operation) => {
+    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainInvokeEvent, args: Operation) => {
       handleIPCOperation({
         router,
         createContext,
         operation: args,
         respond: (response) => this.#sendToAllWindows(response),
+        event,
       });
     });
   }
