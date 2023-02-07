@@ -29,7 +29,7 @@ class IPCHandler<TRouter extends AnyRouter> {
         event,
         operation: args,
         respond: (response) => {
-          if(!event.sender.isDestroyed) return;
+          if(!event.sender.isDestroyed()) return;
           event.sender.send(ELECTRON_TRPC_CHANNEL, response);
         },
       });
