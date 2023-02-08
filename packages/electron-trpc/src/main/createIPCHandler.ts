@@ -16,18 +16,22 @@ class IPCHandler<TRouter extends AnyRouter> {
     router,
     windows = [],
   }: {
-    createContext?: () => Awaitable<inferRouterContext<TRouter>>;
+    createContext?: (event: IpcMainInvokeEvent) => Awaitable<inferRouterContext<TRouter>>;
     router: TRouter;
     windows?: BrowserWindow[];
   }) {
     this.#windows = windows;
 
-    ipcMain.on(ELECTRON_TRPC_CHANNEL, (_event: IpcMainInvokeEvent, args: Operation) => {
+    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainInvokeEvent, args: Operation) => {
       handleIPCOperation({
         router,
         createContext,
+        event,
         operation: args,
-        respond: (response) => this.#sendToAllWindows(response),
+        respond: (response) => {
+          if(!event.sender.isDestroyed()) return;
+          event.sender.send(ELECTRON_TRPC_CHANNEL, response);
+        },
       });
     });
   }

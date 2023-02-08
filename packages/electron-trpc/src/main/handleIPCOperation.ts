@@ -1,6 +1,7 @@
 import { callProcedure, TRPCError } from '@trpc/server';
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
 import type { TRPCResponseMessage } from '@trpc/server/rpc';
+import type { IpcMainInvokeEvent } from 'electron';
 import { isObservable } from '@trpc/server/observable';
 import { Operation } from '@trpc/client';
 import { getTRPCErrorFromUnknown, transformTRPCResponseItem } from './utils';
@@ -10,11 +11,13 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
   createContext,
   operation,
   respond,
+  event
 }: {
   router: TRouter;
-  createContext?: () => Promise<inferRouterContext<TRouter>>;
+  createContext?: (event: IpcMainInvokeEvent) => Promise<inferRouterContext<TRouter>>;
   operation: Operation;
   respond: (response: TRPCResponseMessage) => void;
+  event: IpcMainInvokeEvent;
 }) {
   const { type, input: serializedInput, id, path } = operation;
   const input = router._def._config.transformer.input.deserialize(serializedInput);
@@ -22,7 +25,7 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
   // type TSuccessResponse = TRPCSuccessResponse<inferRouterContext<TRouter>>;
   // type TErrorResponse = TRPCErrorResponse<inferRouterError<TRouter>>;
 
-  const ctx = (await createContext?.()) ?? {};
+  const ctx = (await createContext?.(event)) ?? {};
 
   try {
     const result = await callProcedure({
@@ -88,7 +91,7 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
       },
     });
 
-    void subscription;
+    event.sender.on("destroyed", () => subscription.unsubscribe());
   } catch (cause) {
     const error: TRPCError = getTRPCErrorFromUnknown(cause);
 
@@ -102,6 +105,6 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
       }),
     });
 
-    return { response };
+    return respond({id, ...response});
   }
 }
