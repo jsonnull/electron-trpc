@@ -46,7 +46,7 @@ export const createIPCHandler = <TRouter extends AnyRouter>({
   router,
   windows = [],
 }: {
-  createContext?: () => Promise<inferRouterContext<TRouter>>;
+  createContext?: (opts: CreateContextOptions) => Promise<inferRouterContext<TRouter>>;
   router: TRouter;
   windows?: Electron.BrowserWindow[];
 }) => {
