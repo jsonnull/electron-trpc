@@ -4,28 +4,30 @@ import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import type { IpcMainInvokeEvent } from 'electron';
 import { isObservable } from '@trpc/server/observable';
 import { Operation } from '@trpc/client';
+import { CreateContextOptions } from './types';
 import { getTRPCErrorFromUnknown, transformTRPCResponseItem } from './utils';
+import { ELECTRON_TRPC_CHANNEL } from '../constants';
 
 export async function handleIPCOperation<TRouter extends AnyRouter>({
   router,
   createContext,
   operation,
-  respond,
-  event
+  event,
 }: {
   router: TRouter;
-  createContext?: (event: IpcMainInvokeEvent) => Promise<inferRouterContext<TRouter>>;
+  createContext?: (opts: CreateContextOptions) => Promise<inferRouterContext<TRouter>>;
   operation: Operation;
-  respond: (response: TRPCResponseMessage) => void;
   event: IpcMainInvokeEvent;
 }) {
   const { type, input: serializedInput, id, path } = operation;
   const input = router._def._config.transformer.input.deserialize(serializedInput);
 
-  // type TSuccessResponse = TRPCSuccessResponse<inferRouterContext<TRouter>>;
-  // type TErrorResponse = TRPCErrorResponse<inferRouterError<TRouter>>;
+  const ctx = (await createContext?.({ event })) ?? {};
 
-  const ctx = (await createContext?.(event)) ?? {};
+  const respond = (response: TRPCResponseMessage) => {
+    if (event.sender.isDestroyed()) return;
+    event.sender.send(ELECTRON_TRPC_CHANNEL, response);
+  };
 
   try {
     const result = await callProcedure({
@@ -48,7 +50,6 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
       respond(response);
       return;
     } else {
-      // result is an observable
       if (!isObservable(result)) {
         throw new TRPCError({
           message: `Subscription ${path} did not return an observable`,
@@ -69,7 +70,6 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
       },
       error(err) {
         const error = getTRPCErrorFromUnknown(err);
-        // opts.onError?.({ error, path, type, ctx, req, input });
         respond({
           id,
           error: router.getErrorShape({
@@ -91,7 +91,7 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
       },
     });
 
-    event.sender.on("destroyed", () => subscription.unsubscribe());
+    event.sender.on('destroyed', () => subscription.unsubscribe());
   } catch (cause) {
     const error: TRPCError = getTRPCErrorFromUnknown(cause);
 
@@ -105,6 +105,6 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
       }),
     });
 
-    return respond({id, ...response});
+    return respond({ id, ...response });
   }
 }

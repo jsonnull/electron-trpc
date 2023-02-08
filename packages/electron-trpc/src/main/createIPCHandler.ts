@@ -1,9 +1,9 @@
 import type { Operation } from '@trpc/client';
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
-import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import { ipcMain } from 'electron';
 import type { BrowserWindow, IpcMainInvokeEvent } from 'electron';
 import { handleIPCOperation } from './handleIPCOperation';
+import { CreateContextOptions } from './types';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
 
 type Awaitable<T> = T | Promise<T>;
@@ -16,7 +16,7 @@ class IPCHandler<TRouter extends AnyRouter> {
     router,
     windows = [],
   }: {
-    createContext?: (event: IpcMainInvokeEvent) => Awaitable<inferRouterContext<TRouter>>;
+    createContext?: (opts: CreateContextOptions) => Awaitable<inferRouterContext<TRouter>>;
     router: TRouter;
     windows?: BrowserWindow[];
   }) {
@@ -28,17 +28,7 @@ class IPCHandler<TRouter extends AnyRouter> {
         createContext,
         event,
         operation: args,
-        respond: (response) => {
-          if(!event.sender.isDestroyed()) return;
-          event.sender.send(ELECTRON_TRPC_CHANNEL, response);
-        },
       });
-    });
-  }
-
-  #sendToAllWindows(response: TRPCResponseMessage) {
-    this.#windows.forEach((win) => {
-      win.webContents.send(ELECTRON_TRPC_CHANNEL, response);
     });
   }
 
