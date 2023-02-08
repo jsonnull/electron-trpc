@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.4.1
+
+### Patch Changes
+
+- [#111](https://github.com/jsonnull/electron-trpc/pull/111) [`b73c1a8`](https://github.com/jsonnull/electron-trpc/commit/b73c1a89c77258bf4372991fda563d6fa0ba299f) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix type of `createContext` in `createIPCHandler`
+
 ## 0.4.0
 
 ### Minor Changes
