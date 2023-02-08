@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.4.0
+
+### Minor Changes
+
+- [#108](https://github.com/jsonnull/electron-trpc/pull/108) [`3cd3649`](https://github.com/jsonnull/electron-trpc/commit/3cd3649a498a8cdb50f295ee2f032ca75eccc8b3) Thanks [@eslym](https://github.com/eslym)! - Send responses back to process which made the request.
+
 ## 0.3.2
 
 ### Patch Changes
