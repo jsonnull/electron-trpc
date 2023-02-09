@@ -70,10 +70,10 @@ npm install --save electron-trpc
 3. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
 
    ```ts
-   import * as trpc from '@trpc/client';
+   import { createTRPCProxyClient } from '@trpc/client';
    import { ipcLink } from 'electron-trpc/renderer';
 
-   export const trpcClient = trpc.createTRPCClient({
+   export const client = createTRPCProxyClient({
      links: [ipcLink()],
    });
    ```
