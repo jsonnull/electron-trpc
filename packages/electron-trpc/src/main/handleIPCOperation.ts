@@ -20,7 +20,7 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
   event: IpcMainInvokeEvent;
 }) {
   const { type, input: serializedInput, id, path } = operation;
-  const input = router._def._config.transformer.input.deserialize(serializedInput);
+  const input = serializedInput ? router._def._config.transformer.input.deserialize(serializedInput) : undefined;
 
   const ctx = (await createContext?.({ event })) ?? {};
 
