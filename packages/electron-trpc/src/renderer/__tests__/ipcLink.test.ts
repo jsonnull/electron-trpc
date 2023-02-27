@@ -215,7 +215,7 @@ describe('ipcLink', () => {
     });
   });
 
-  test('serializes inputs', async () => {
+  test('serializes inputs/outputs', async () => {
     const client = createTRPCProxyClient<Router>({
       transformer: superjson,
       links: [ipcLink()],
@@ -255,5 +255,49 @@ describe('ipcLink', () => {
 
     expect(queryResponse).toHaveBeenCalledTimes(1);
     expect(queryResponse).toHaveBeenCalledWith(input);
+  });
+
+  test('serializes inputs with custom transformer', async () => {
+    const client = createTRPCProxyClient<Router>({
+      transformer: {
+        serialize: (input) => JSON.stringify(input),
+        deserialize: (input) => JSON.parse(input),
+      },
+      links: [ipcLink()],
+    });
+
+    const mock = vi.mocked(electronTRPC);
+    const queryResponse = vi.fn();
+
+    const input = {
+      str: 'my string',
+      date: new Date('January 1, 2000 01:23:45'),
+    };
+
+    const query = client.testInputs.query(input).then(queryResponse);
+
+    expect(mock.sendMessage).toHaveBeenCalledTimes(1);
+    expect(mock.sendMessage).toHaveBeenCalledWith({
+      context: {},
+      id: 1,
+      input: JSON.stringify(input),
+      path: 'testInputs',
+      type: 'query',
+    });
+
+    expect(queryResponse).not.toHaveBeenCalled();
+
+    handlers[0]({
+      id: 1,
+      result: {
+        type: 'data',
+        data: JSON.stringify(input),
+      },
+    });
+
+    await query;
+
+    expect(queryResponse).toHaveBeenCalledTimes(1);
+    expect(queryResponse).toHaveBeenCalledWith({ ...input, date: input.date.toISOString() });
   });
 });

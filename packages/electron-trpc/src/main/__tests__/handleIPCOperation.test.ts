@@ -158,4 +158,64 @@ describe('api', () => {
 
     expect(event.sender.send).not.toHaveBeenCalled();
   });
+
+    test("doesn't crash when canceling subscriptions when custom deserializer doesn't allow undefined", async () => {
+    const t = trpc.initTRPC.create({
+      transformer: {
+        deserialize: (input: unknown) => {
+          if (!input) throw new Error("Can't parse empty input");
+          return JSON.parse(input as string);
+        },
+        serialize: (input) => {
+          return JSON.stringify(input);
+        },
+      },
+    });
+
+    const testRouter = t.router({
+      testSubscription: t.procedure.subscription(() => {
+        return observable((emit) => {
+          function testResponse() {
+            emit.next('test response');
+          }
+
+          ee.on('test', testResponse);
+          return () => ee.off('test', testResponse);
+        });
+      }),
+    });
+
+      let isDestroyed = false;
+      let onDestroyed: () => void;
+      const event = makeEvent({
+        sender: {
+          isDestroyed: () => isDestroyed,
+          send: vi.fn(),
+          on: (_event: string, cb: () => void) => {
+            onDestroyed = cb;
+          },
+        },
+      });
+
+      await handleIPCOperation({
+        createContext: async () => ({}),
+        operation: {
+          context: {},
+          id: 1,
+          input: undefined,
+          path: 'testSubscription',
+          type: 'subscription',
+        },
+        router: testRouter,
+        event,
+      });
+
+      expect(event.sender.send).not.toHaveBeenCalled();
+
+      onDestroyed();
+
+      ee.emit('test');
+
+      expect(event.sender.send).not.toHaveBeenCalled();
+    });
 });
