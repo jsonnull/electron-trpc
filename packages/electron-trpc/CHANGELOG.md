@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.4.2
+
+### Patch Changes
+
+- [#118](https://github.com/jsonnull/electron-trpc/pull/118) [`cbae157`](https://github.com/jsonnull/electron-trpc/commit/cbae1570ddeab2405950806656c0d4fc19d72855) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix crash when using subscriptions with some custom transformers.
+
 ## 0.4.1
 
 ### Patch Changes
