@@ -20,7 +20,7 @@ importers:
       vitepress: 1.0.0-alpha.45
       vue: 3.2.45
 
-  examples/basic:
+  examples/basic-react:
     specifiers:
       '@tanstack/react-query': ^4.8.0
       '@trpc/client': 10.4.3
@@ -46,6 +46,43 @@ importers:
       electron-trpc: link:../../packages/electron-trpc
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      zod: 3.19.1
+    devDependencies:
+      '@types/node': 18.11.9
+      '@types/react': 18.0.25
+      '@types/react-dom': 18.0.8
+      '@vitejs/plugin-react': 3.0.1_vite@3.2.3
+      vite: 3.2.3_@types+node@18.11.9
+      vite-plugin-electron: 0.11.1
+
+  examples/basic-react-superjson:
+    specifiers:
+      '@tanstack/react-query': ^4.8.0
+      '@trpc/client': 10.4.3
+      '@trpc/react-query': 10.4.3
+      '@trpc/server': 10.4.3
+      '@types/node': ^18.0.0
+      '@types/react': ^18.0.21
+      '@types/react-dom': ^18.0.6
+      '@vitejs/plugin-react': ^3.0.0
+      electron: ^21.2.2
+      electron-trpc: 0.4.2
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      superjson: ^1.12.2
+      vite: ^3.0.3
+      vite-plugin-electron: ^0.11.0
+      zod: ^3.19.1
+    dependencies:
+      '@tanstack/react-query': 4.14.5_biqbaboplfbrettd7655fr4n2y
+      '@trpc/client': 10.4.3_@trpc+server@10.4.3
+      '@trpc/react-query': 10.4.3_4tjrxizjrzoh7m4zzvertzcuwu
+      '@trpc/server': 10.4.3
+      electron: 21.2.3
+      electron-trpc: link:../../packages/electron-trpc
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      superjson: 1.12.2
       zod: 3.19.1
     devDependencies:
       '@types/node': 18.11.9
@@ -1881,7 +1918,6 @@ packages:
     engines: {node: '>=12.13'}
     dependencies:
       is-what: 4.1.8
-    dev: true
 
   /cross-spawn/5.1.0:
     resolution: {integrity: sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A==}
@@ -2936,7 +2972,6 @@ packages:
   /is-what/4.1.8:
     resolution: {integrity: sha512-yq8gMao5upkPoGEU9LsB2P+K3Kt8Q3fQFCGyNCWOAnJAMzEXVV9drYb0TXr42TTliLLhKIBvulgAXgtLLnwzGA==}
     engines: {node: '>=12.13'}
-    dev: true
 
   /is-windows/1.0.2:
     resolution: {integrity: sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==}
@@ -3973,7 +4008,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       copy-anything: 3.0.3
-    dev: true
 
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -4269,7 +4303,7 @@ packages:
     dependencies:
       '@types/node': 18.11.9
       esbuild: 0.15.13
-      postcss: 8.4.19
+      postcss: 8.4.21
       resolve: 1.22.1
       rollup: 2.79.1
     optionalDependencies:

@@ -1,6 +1,5 @@
 {
-  "name": "examples/basic",
-  "description": "Electron support for tRPC",
+  "name": "examples/basic-react-superjson",
   "version": "0.0.8",
   "private": true,
   "main": "dist-electron/index.js",
@@ -18,6 +17,7 @@
     "electron-trpc": "0.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "superjson": "^1.12.2",
     "zod": "^3.19.1"
   },
   "devDependencies": {
