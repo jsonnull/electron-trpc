@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "@tanstack/react-query": "^4.8.0",
-    "@trpc/client": "10.4.3",
-    "@trpc/server": "10.4.3",
+    "@trpc/client": "10.20.0",
+    "@trpc/server": "10.20.0",
     "@types/node": "^18.0.0",
     "@vitest/coverage-c8": "^0.27.0",
     "builtin-modules": "^3.3.0",
