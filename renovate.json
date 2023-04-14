@@ -3,5 +3,25 @@
   "extends": ["config:base"],
   "ignorePaths": [],
   "ignoreDeps": ["electron-trpc"],
-  "semanticCommits": "disabled"
+  "semanticCommits": "disabled",
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^@trpc/"],
+      "groupName": "trpc monorepo"
+    },
+    {
+      "matchPackageNames": ["electron"],
+      "groupName": "electron"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "dev dependencies",
+      "extends": ["schedule:weekly"]
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "groupName": "dependencies",
+      "extends": ["schedule:weekly"]
+    }
+  ]
 }
