@@ -37,7 +37,7 @@
     "@trpc/client": "10.4.3",
     "@trpc/server": "10.4.3",
     "@types/node": "^18.0.0",
-    "@vitest/coverage-c8": "^0.27.0",
+    "@vitest/coverage-c8": "^0.30.0",
     "builtin-modules": "^3.3.0",
     "dts-bundle-generator": "^7.0.0",
     "electron": "^21.2.2",
@@ -46,7 +46,7 @@
     "superjson": "^1.12.2",
     "vite": "^3.0.3",
     "vite-plugin-commonjs-externals": "^0.1.1",
-    "vitest": "^0.27.0",
+    "vitest": "^0.30.0",
     "zod": "^3.19.1"
   },
   "peerDependencies": {
