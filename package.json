@@ -16,7 +16,7 @@
     "@changesets/changelog-github": "^0.4.6",
     "@changesets/cli": "^2.24.1",
     "prettier": "^2.5.1",
-    "typescript": "^4.5.5",
+    "typescript": "^5.0.0",
     "unocss": "^0.49.4",
     "vitepress": "1.0.0-alpha.45",
     "vue": "^3.2.45"
