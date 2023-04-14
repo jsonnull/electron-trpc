@@ -15,11 +15,15 @@
     },
     {
       "matchDepTypes": ["devDependencies"],
+      "excludePackagePatterns": ["^@trpc/"],
+      "excludeDepNames": ["electron"],
       "groupName": "dev dependencies",
       "extends": ["schedule:weekly"]
     },
     {
       "matchDepTypes": ["dependencies"],
+      "excludePackagePatterns": ["^@trpc/"],
+      "excludeDepNames": ["electron"],
       "groupName": "dependencies",
       "extends": ["schedule:weekly"]
     }
