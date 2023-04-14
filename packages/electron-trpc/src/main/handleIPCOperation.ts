@@ -20,13 +20,15 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
   event: IpcMainInvokeEvent;
 }) {
   const { type, input: serializedInput, id, path } = operation;
-  const input = serializedInput ? router._def._config.transformer.input.deserialize(serializedInput) : undefined;
+  const input = serializedInput
+    ? router._def._config.transformer.input.deserialize(serializedInput)
+    : undefined;
 
   const ctx = (await createContext?.({ event })) ?? {};
 
   const respond = (response: TRPCResponseMessage) => {
     if (event.sender.isDestroyed()) return;
-    event.sender.send(ELECTRON_TRPC_CHANNEL, response);
+    event.sender.send(ELECTRON_TRPC_CHANNEL, transformTRPCResponseItem(router, response));
   };
 
   try {
@@ -39,15 +41,13 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
     });
 
     if (type !== 'subscription') {
-      const response = transformTRPCResponseItem(router, {
+      respond({
         id,
         result: {
           type: 'data',
           data: result,
         },
       });
-
-      respond(response);
       return;
     } else {
       if (!isObservable(result)) {
@@ -95,7 +95,8 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
   } catch (cause) {
     const error: TRPCError = getTRPCErrorFromUnknown(cause);
 
-    const response = transformTRPCResponseItem(router, {
+    return respond({
+      id,
       error: router.getErrorShape({
         error,
         type,
@@ -104,7 +105,5 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
         ctx,
       }),
     });
-
-    return respond({ id, ...response });
   }
 }

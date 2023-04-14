@@ -159,7 +159,68 @@ describe('api', () => {
     expect(event.sender.send).not.toHaveBeenCalled();
   });
 
-    test("doesn't crash when canceling subscriptions when custom deserializer doesn't allow undefined", async () => {
+  test('subscription responds using custom serializer', async () => {
+    const event = makeEvent({
+      sender: {
+        isDestroyed: () => false,
+        on: () => {},
+        send: vi.fn(),
+      },
+    });
+
+    const t = trpc.initTRPC.create({
+      transformer: {
+        deserialize: (input: unknown) => {
+          const serialized = (input as string).replace(/^serialized:/, '');
+          return JSON.parse(serialized);
+        },
+        serialize: (input) => {
+          return `serialized:${JSON.stringify(input)}`;
+        },
+      },
+    });
+
+    const testRouter = t.router({
+      testSubscription: t.procedure.subscription(() => {
+        return observable((emit) => {
+          function testResponse() {
+            emit.next('test response');
+          }
+
+          ee.on('test', testResponse);
+          return () => ee.off('test', testResponse);
+        });
+      }),
+    });
+
+    await handleIPCOperation({
+      createContext: async () => ({}),
+      operation: {
+        context: {},
+        id: 1,
+        input: undefined,
+        path: 'testSubscription',
+        type: 'subscription',
+      },
+      router: testRouter,
+      event,
+    });
+
+    expect(event.sender.send).not.toHaveBeenCalled();
+
+    ee.emit('test');
+
+    expect(event.sender.send).toHaveBeenCalledOnce();
+    expect(event.sender.send.mock.lastCall[1]).toMatchObject({
+      id: 1,
+      result: {
+        type: 'data',
+        data: 'serialized:"test response"',
+      },
+    });
+  });
+
+  test("doesn't crash when canceling subscriptions when custom deserializer doesn't allow undefined", async () => {
     const t = trpc.initTRPC.create({
       transformer: {
         deserialize: (input: unknown) => {
@@ -185,37 +246,37 @@ describe('api', () => {
       }),
     });
 
-      let isDestroyed = false;
-      let onDestroyed: () => void;
-      const event = makeEvent({
-        sender: {
-          isDestroyed: () => isDestroyed,
-          send: vi.fn(),
-          on: (_event: string, cb: () => void) => {
-            onDestroyed = cb;
-          },
+    let isDestroyed = false;
+    let onDestroyed: () => void;
+    const event = makeEvent({
+      sender: {
+        isDestroyed: () => isDestroyed,
+        send: vi.fn(),
+        on: (_event: string, cb: () => void) => {
+          onDestroyed = cb;
         },
-      });
-
-      await handleIPCOperation({
-        createContext: async () => ({}),
-        operation: {
-          context: {},
-          id: 1,
-          input: undefined,
-          path: 'testSubscription',
-          type: 'subscription',
-        },
-        router: testRouter,
-        event,
-      });
-
-      expect(event.sender.send).not.toHaveBeenCalled();
-
-      onDestroyed();
-
-      ee.emit('test');
-
-      expect(event.sender.send).not.toHaveBeenCalled();
+      },
     });
+
+    await handleIPCOperation({
+      createContext: async () => ({}),
+      operation: {
+        context: {},
+        id: 1,
+        input: undefined,
+        path: 'testSubscription',
+        type: 'subscription',
+      },
+      router: testRouter,
+      event,
+    });
+
+    expect(event.sender.send).not.toHaveBeenCalled();
+
+    onDestroyed();
+
+    ee.emit('test');
+
+    expect(event.sender.send).not.toHaveBeenCalled();
+  });
 });
