@@ -1,5 +1,12 @@
 # examples/basic
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [[`42abc41`](https://github.com/jsonnull/electron-trpc/commit/42abc4182c260580e320e8ec61926ed3ad372940)]:
+  - electron-trpc@0.4.3
+
 ## 0.0.8
 
 ### Patch Changes

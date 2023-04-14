@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.4.3
+
+### Patch Changes
+
+- [#125](https://github.com/jsonnull/electron-trpc/pull/125) [`1f601ee`](https://github.com/jsonnull/electron-trpc/commit/1f601ee985e1a969fa2cdacaf2ff20962a2edbd9) Thanks [@biw](https://github.com/biw)! - Fix transforms not running for subscriptions.
+
 ## 0.4.2
 
 ### Patch Changes
