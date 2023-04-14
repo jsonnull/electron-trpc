@@ -60,13 +60,14 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
 
     const subscription = result.subscribe({
       next(data) {
-        respond({
-          id,
-          result: {
-            type: 'data',
-            data,
-          },
-        });
+        const response = transformTRPCResponseItem(router, {
+        id,
+        result: {
+          type: 'data',
+          data,
+        },
+      });
+        respond(response);
       },
       error(err) {
         const error = getTRPCErrorFromUnknown(err);
