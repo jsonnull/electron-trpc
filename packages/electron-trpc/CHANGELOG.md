@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.4.4
+
+### Patch Changes
+
+- [#134](https://github.com/jsonnull/electron-trpc/pull/134) [`84d1139`](https://github.com/jsonnull/electron-trpc/commit/84d1139d6b6970b8863fdb1ba22a0aaa709045ec) Thanks [@jsonnull](https://github.com/jsonnull)! - Update dependencies to latest.
+
 ## 0.4.3
 
 ### Patch Changes

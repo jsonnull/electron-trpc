@@ -1,6 +1,6 @@
 {
   "name": "examples/basic-react-superjson",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": true,
   "main": "dist-electron/index.js",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "@trpc/react-query": "10.4.3",
     "@trpc/server": "10.4.3",
     "electron": "^21.4.4",
-    "electron-trpc": "0.4.3",
+    "electron-trpc": "0.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "^1.12.2",
