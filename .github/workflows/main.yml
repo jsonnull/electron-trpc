@@ -46,7 +46,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm --filter="examples/*" build
-      - run: pnpm test:e2e
+      - run: xvfb-run --auto-servernum -- pnpm test:e2e
 
   release-main:
     runs-on: ${{ matrix.os }}
