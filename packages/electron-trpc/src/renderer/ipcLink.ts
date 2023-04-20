@@ -69,7 +69,7 @@ class IPCClient {
       op,
     });
 
-    this.#electronTRPC.sendMessage({ method: 'request', operation: op, id: id as number });
+    this.#electronTRPC.sendMessage({ method: 'request', operation: op });
 
     return () => {
       const callbacks = this.#pendingRequests.get(id)?.callbacks;

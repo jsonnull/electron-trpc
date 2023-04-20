@@ -9,6 +9,11 @@ import { Unsubscribable } from '@trpc/server/observable';
 
 type Awaitable<T> = T | Promise<T>;
 
+const getInternalId = (event: IpcMainInvokeEvent, request: ETRPCRequest) => {
+  const messageId = request.method === 'request' ? request.operation.id : request.id;
+  return `${event.sender.id}-${event.senderFrame.routingId}:${messageId}`;
+};
+
 class IPCHandler<TRouter extends AnyRouter> {
   #windows: BrowserWindow[] = [];
   #subscriptions: Map<string, Unsubscribable> = new Map();
@@ -24,15 +29,13 @@ class IPCHandler<TRouter extends AnyRouter> {
   }) {
     windows.forEach((win) => this.attachWindow(win));
 
-    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainInvokeEvent, args: ETRPCRequest) => {
-      const internalId = `${event.sender.id}-${event.senderFrame.routingId}:${args.id}`;
-
+    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainInvokeEvent, request: ETRPCRequest) => {
       handleIPCMessage({
         router,
         createContext,
-        internalId,
+        internalId: getInternalId(event, request),
         event,
-        message: args,
+        message: request,
         subscriptions: this.#subscriptions,
       });
     });

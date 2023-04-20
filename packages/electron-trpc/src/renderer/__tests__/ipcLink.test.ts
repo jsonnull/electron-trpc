@@ -58,7 +58,6 @@ describe('ipcLink', () => {
 
       expect(mock.sendMessage).toHaveBeenCalledTimes(1);
       expect(mock.sendMessage).toHaveBeenCalledWith({
-        id: 1,
         method: 'request',
         operation: {
           context: {},
@@ -92,7 +91,6 @@ describe('ipcLink', () => {
 
       expect(mock.sendMessage).toHaveBeenCalledTimes(1);
       expect(mock.sendMessage).toHaveBeenCalledWith({
-        id: 1,
         method: 'request',
         operation: {
           context: {},
@@ -133,7 +131,6 @@ describe('ipcLink', () => {
 
       expect(mock.sendMessage).toHaveBeenCalledTimes(1);
       expect(mock.sendMessage).toHaveBeenCalledWith({
-        id: 1,
         method: 'request',
         operation: {
           context: {},
@@ -246,7 +243,6 @@ describe('ipcLink', () => {
 
     expect(mock.sendMessage).toHaveBeenCalledTimes(1);
     expect(mock.sendMessage).toHaveBeenCalledWith({
-      id: 1,
       method: 'request',
       operation: {
         context: {},
@@ -294,7 +290,6 @@ describe('ipcLink', () => {
 
     expect(mock.sendMessage).toHaveBeenCalledTimes(1);
     expect(mock.sendMessage).toHaveBeenCalledWith({
-      id: 1,
       method: 'request',
       operation: {
         id: 1,

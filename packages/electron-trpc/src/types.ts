@@ -2,7 +2,7 @@ import type { Operation } from '@trpc/client';
 import type { TRPCResponseMessage } from '@trpc/server/rpc';
 
 export type ETRPCRequest =
-  | { method: 'request'; id: number; operation: Operation }
+  | { method: 'request'; operation: Operation }
   | { method: 'subscription.stop'; id: number };
 
 export interface RendererGlobalElectronTRPC {
