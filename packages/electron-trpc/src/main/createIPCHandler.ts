@@ -1,15 +1,17 @@
-import type { Operation } from '@trpc/client';
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
 import { ipcMain } from 'electron';
 import type { BrowserWindow, IpcMainInvokeEvent } from 'electron';
-import { handleIPCOperation } from './handleIPCOperation';
+import { handleIPCMessage } from './handleIPCMessage';
 import { CreateContextOptions } from './types';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
+import { ETRPCRequest } from '../types';
+import { Unsubscribable } from '@trpc/server/observable';
 
 type Awaitable<T> = T | Promise<T>;
 
 class IPCHandler<TRouter extends AnyRouter> {
-  #windows: BrowserWindow[];
+  #windows: BrowserWindow[] = [];
+  #subscriptions: Map<string, Unsubscribable> = new Map();
 
   constructor({
     createContext,
@@ -20,24 +22,46 @@ class IPCHandler<TRouter extends AnyRouter> {
     router: TRouter;
     windows?: BrowserWindow[];
   }) {
-    this.#windows = windows;
+    windows.forEach((win) => this.attachWindow(win));
 
-    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainInvokeEvent, args: Operation) => {
-      handleIPCOperation({
+    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainInvokeEvent, args: ETRPCRequest) => {
+      const internalId = `${event.sender.id}-${event.senderFrame.routingId}:${args.id}`;
+
+      handleIPCMessage({
         router,
         createContext,
+        internalId,
         event,
-        operation: args,
+        message: args,
+        subscriptions: this.#subscriptions,
       });
     });
   }
 
   attachWindow(win: BrowserWindow) {
+    if (this.#windows.includes(win)) {
+      return;
+    }
+
     this.#windows.push(win);
+    this.#attachSubscriptionCleanupHandler(win);
   }
 
   detachWindow(win: BrowserWindow) {
     this.#windows = this.#windows.filter((w) => w !== win);
+
+    for (const [key, sub] of this.#subscriptions.entries()) {
+      if (key.startsWith(`${win.webContents.id}-`)) {
+        sub.unsubscribe();
+        this.#subscriptions.delete(key);
+      }
+    }
+  }
+
+  #attachSubscriptionCleanupHandler(win: BrowserWindow) {
+    win.webContents.on('destroyed', () => {
+      this.detachWindow(win);
+    });
   }
 }
 

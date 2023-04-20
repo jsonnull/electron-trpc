@@ -58,11 +58,15 @@ describe('ipcLink', () => {
 
       expect(mock.sendMessage).toHaveBeenCalledTimes(1);
       expect(mock.sendMessage).toHaveBeenCalledWith({
-        context: {},
         id: 1,
-        input: undefined,
-        path: 'testQuery',
-        type: 'query',
+        method: 'request',
+        operation: {
+          context: {},
+          id: 1,
+          input: undefined,
+          path: 'testQuery',
+          type: 'query',
+        },
       });
 
       expect(queryResponse).not.toHaveBeenCalled();
@@ -88,11 +92,15 @@ describe('ipcLink', () => {
 
       expect(mock.sendMessage).toHaveBeenCalledTimes(1);
       expect(mock.sendMessage).toHaveBeenCalledWith({
-        context: {},
         id: 1,
-        input: 'test input',
-        path: 'testMutation',
-        type: 'mutation',
+        method: 'request',
+        operation: {
+          context: {},
+          id: 1,
+          input: 'test input',
+          path: 'testMutation',
+          type: 'mutation',
+        },
       });
 
       mock.sendMessage.mockClear();
@@ -125,11 +133,15 @@ describe('ipcLink', () => {
 
       expect(mock.sendMessage).toHaveBeenCalledTimes(1);
       expect(mock.sendMessage).toHaveBeenCalledWith({
-        context: {},
         id: 1,
-        input: undefined,
-        path: 'testSubscription',
-        type: 'subscription',
+        method: 'request',
+        operation: {
+          context: {},
+          id: 1,
+          input: undefined,
+          path: 'testSubscription',
+          type: 'subscription',
+        },
       });
 
       /*
@@ -234,11 +246,15 @@ describe('ipcLink', () => {
 
     expect(mock.sendMessage).toHaveBeenCalledTimes(1);
     expect(mock.sendMessage).toHaveBeenCalledWith({
-      context: {},
       id: 1,
-      input: superjson.serialize(input),
-      path: 'testInputs',
-      type: 'query',
+      method: 'request',
+      operation: {
+        context: {},
+        id: 1,
+        input: superjson.serialize(input),
+        path: 'testInputs',
+        type: 'query',
+      },
     });
 
     expect(queryResponse).not.toHaveBeenCalled();
@@ -278,11 +294,15 @@ describe('ipcLink', () => {
 
     expect(mock.sendMessage).toHaveBeenCalledTimes(1);
     expect(mock.sendMessage).toHaveBeenCalledWith({
-      context: {},
       id: 1,
-      input: JSON.stringify(input),
-      path: 'testInputs',
-      type: 'query',
+      method: 'request',
+      operation: {
+        id: 1,
+        context: {},
+        input: JSON.stringify(input),
+        path: 'testInputs',
+        type: 'query',
+      },
     });
 
     expect(queryResponse).not.toHaveBeenCalled();
