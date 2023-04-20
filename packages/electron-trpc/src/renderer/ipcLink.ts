@@ -4,6 +4,9 @@ import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import type { RendererGlobalElectronTRPC } from '../types';
 import { observable, Observer } from '@trpc/server/observable';
 import { transformResult } from './utils';
+import debug from 'debug';
+
+const log = debug('electron-trpc:renderer:ipcLink');
 
 type IPCCallbackResult<TRouter extends AnyRouter = AnyRouter> = TRPCResponseMessage<
   unknown,
@@ -22,16 +25,16 @@ type IPCRequest = {
 };
 
 const getElectronTRPC = () => {
-    const electronTRPC: RendererGlobalElectronTRPC = (globalThis as any).electronTRPC;
+  const electronTRPC: RendererGlobalElectronTRPC = (globalThis as any).electronTRPC;
 
-    if (!electronTRPC) {
-      throw new Error(
-        'Could not find `electronTRPC` global. Check that `exposeElectronTPRC` has been called in your preload file.'
-      );
-    }
+  if (!electronTRPC) {
+    throw new Error(
+      'Could not find `electronTRPC` global. Check that `exposeElectronTPRC` has been called in your preload file.'
+    );
+  }
 
-    return electronTRPC;
-}
+  return electronTRPC;
+};
 
 class IPCClient {
   #pendingRequests = new Map<string | number, IPCRequest>();
@@ -44,6 +47,7 @@ class IPCClient {
   }
 
   #handleResponse(response: TRPCResponseMessage) {
+    log('handling response', response);
     const request = response.id && this.#pendingRequests.get(response.id);
     if (!request) {
       return;
@@ -57,7 +61,7 @@ class IPCClient {
   }
 
   request(op: Operation, callbacks: IPCCallbacks) {
-    const { id, type } = op;
+    const { type, id } = op;
 
     this.#pendingRequests.set(id, {
       type,
@@ -65,19 +69,21 @@ class IPCClient {
       op,
     });
 
-    this.#electronTRPC.sendMessage(op);
+    this.#electronTRPC.sendMessage({ method: 'request', operation: op });
 
     return () => {
-      const callbacks = this.#pendingRequests.get(op.id)?.callbacks;
+      const callbacks = this.#pendingRequests.get(id)?.callbacks;
 
-      this.#pendingRequests.delete(op.id);
+      this.#pendingRequests.delete(id);
 
       callbacks?.complete();
 
-      this.#electronTRPC.sendMessage({
-        id,
-        method: 'subscription.stop',
-      } as any);
+      if (type === 'subscription') {
+        this.#electronTRPC.sendMessage({
+          id,
+          method: 'subscription.stop',
+        });
+      }
     };
   }
 }

@@ -2,24 +2,39 @@ import { callProcedure, TRPCError } from '@trpc/server';
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
 import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import type { IpcMainInvokeEvent } from 'electron';
-import { isObservable } from '@trpc/server/observable';
-import { Operation } from '@trpc/client';
+import { isObservable, Unsubscribable } from '@trpc/server/observable';
 import { CreateContextOptions } from './types';
 import { getTRPCErrorFromUnknown, transformTRPCResponseItem } from './utils';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
+import { ETRPCRequest } from '../types';
 
-export async function handleIPCOperation<TRouter extends AnyRouter>({
+export async function handleIPCMessage<TRouter extends AnyRouter>({
   router,
   createContext,
-  operation,
+  internalId,
+  message,
   event,
+  subscriptions,
 }: {
   router: TRouter;
   createContext?: (opts: CreateContextOptions) => Promise<inferRouterContext<TRouter>>;
-  operation: Operation;
+  internalId: string;
+  message: ETRPCRequest;
   event: IpcMainInvokeEvent;
+  subscriptions: Map<string, Unsubscribable>;
 }) {
-  const { type, input: serializedInput, id, path } = operation;
+  if (message.method === 'subscription.stop') {
+    const subscription = subscriptions.get(internalId);
+    if (!subscription) {
+      return;
+    }
+
+    subscription.unsubscribe();
+    subscriptions.delete(internalId);
+    return;
+  }
+
+  const { type, input: serializedInput, path, id } = message.operation;
   const input = serializedInput
     ? router._def._config.transformer.input.deserialize(serializedInput)
     : undefined;
@@ -91,7 +106,7 @@ export async function handleIPCOperation<TRouter extends AnyRouter>({
       },
     });
 
-    event.sender.on('destroyed', () => subscription.unsubscribe());
+    subscriptions.set(internalId, subscription);
   } catch (cause) {
     const error: TRPCError = getTRPCErrorFromUnknown(cause);
 
