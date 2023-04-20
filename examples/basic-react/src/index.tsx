@@ -36,7 +36,7 @@ function HelloElectron() {
     return null;
   }
 
-  return <div>{data.text}</div>;
+  return <div data-testid="greeting">{data.text}</div>;
 }
 
 ReactDom.render(<App />, document.getElementById('react-root'));
