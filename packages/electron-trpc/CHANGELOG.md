@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.5.0
+
+### Minor Changes
+
+- [#138](https://github.com/jsonnull/electron-trpc/pull/138) [`68ddf63`](https://github.com/jsonnull/electron-trpc/commit/68ddf63ff6b3560626bf78d45ca2bf7ed2851f22) Thanks [@jsonnull](https://github.com/jsonnull)! - Rework how subscriptions are cleaned up.
+
 ## 0.4.5
 
 ### Patch Changes
