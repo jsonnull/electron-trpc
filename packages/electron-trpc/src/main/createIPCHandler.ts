@@ -1,6 +1,6 @@
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
 import { ipcMain } from 'electron';
-import type { BrowserWindow, IpcMainInvokeEvent } from 'electron';
+import type { BrowserWindow, IpcMainEvent } from 'electron';
 import { handleIPCMessage } from './handleIPCMessage';
 import { CreateContextOptions } from './types';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
@@ -9,7 +9,7 @@ import { Unsubscribable } from '@trpc/server/observable';
 
 type Awaitable<T> = T | Promise<T>;
 
-const getInternalId = (event: IpcMainInvokeEvent, request: ETRPCRequest) => {
+const getInternalId = (event: IpcMainEvent, request: ETRPCRequest) => {
   const messageId = request.method === 'request' ? request.operation.id : request.id;
   return `${event.sender.id}-${event.senderFrame.routingId}:${messageId}`;
 };
@@ -29,7 +29,7 @@ class IPCHandler<TRouter extends AnyRouter> {
   }) {
     windows.forEach((win) => this.attachWindow(win));
 
-    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainInvokeEvent, request: ETRPCRequest) => {
+    ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainEvent, request: ETRPCRequest) => {
       handleIPCMessage({
         router,
         createContext,
