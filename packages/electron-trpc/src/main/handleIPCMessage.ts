@@ -1,7 +1,7 @@
 import { callProcedure, TRPCError } from '@trpc/server';
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
 import type { TRPCResponseMessage } from '@trpc/server/rpc';
-import type { IpcMainInvokeEvent } from 'electron';
+import type { IpcMainEvent } from 'electron';
 import { isObservable, Unsubscribable } from '@trpc/server/observable';
 import { CreateContextOptions } from './types';
 import { getTRPCErrorFromUnknown, transformTRPCResponseItem } from './utils';
@@ -20,7 +20,7 @@ export async function handleIPCMessage<TRouter extends AnyRouter>({
   createContext?: (opts: CreateContextOptions) => Promise<inferRouterContext<TRouter>>;
   internalId: string;
   message: ETRPCRequest;
-  event: IpcMainInvokeEvent;
+  event: IpcMainEvent;
   subscriptions: Map<string, Unsubscribable>;
 }) {
   if (message.method === 'subscription.stop') {
@@ -43,7 +43,7 @@ export async function handleIPCMessage<TRouter extends AnyRouter>({
 
   const respond = (response: TRPCResponseMessage) => {
     if (event.sender.isDestroyed()) return;
-    event.sender.send(ELECTRON_TRPC_CHANNEL, transformTRPCResponseItem(router, response));
+    event.reply(ELECTRON_TRPC_CHANNEL, transformTRPCResponseItem(router, response));
   };
 
   try {

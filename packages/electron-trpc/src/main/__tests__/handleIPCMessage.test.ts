@@ -4,17 +4,16 @@ import * as trpc from '@trpc/server';
 import { observable } from '@trpc/server/observable';
 import { EventEmitter } from 'events';
 import { handleIPCMessage } from '../handleIPCMessage';
-import { IpcMainInvokeEvent } from 'electron';
+import { IpcMainEvent } from 'electron';
 
 interface MockEvent {
+  reply: MockedFunction<any>;
   sender: {
     isDestroyed: () => boolean;
     on: (event: string, cb: () => void) => void;
-    send: MockedFunction<any>;
   };
 }
-const makeEvent = (event: MockEvent) =>
-  event as unknown as IpcMainInvokeEvent & { sender: { send: MockedFunction<any> } };
+const makeEvent = (event: MockEvent) => event as unknown as IpcMainEvent & Pick<MockEvent, 'reply'>;
 
 const ee = new EventEmitter();
 
@@ -44,10 +43,10 @@ const testRouter = t.router({
 describe('api', () => {
   test('handles queries', async () => {
     const event = makeEvent({
+      reply: vi.fn(),
       sender: {
         isDestroyed: () => false,
         on: () => {},
-        send: vi.fn(),
       },
     });
 
@@ -69,8 +68,8 @@ describe('api', () => {
       subscriptions: new Map(),
     });
 
-    expect(event.sender.send).toHaveBeenCalledOnce();
-    expect(event.sender.send.mock.lastCall[1]).toMatchObject({
+    expect(event.reply).toHaveBeenCalledOnce();
+    expect(event.reply.mock.lastCall![1]).toMatchObject({
       id: 1,
       result: {
         data: {
@@ -83,10 +82,10 @@ describe('api', () => {
 
   test('does not respond if sender is gone', async () => {
     const event = makeEvent({
+      reply: vi.fn(),
       sender: {
         isDestroyed: () => true,
         on: () => {},
-        send: vi.fn(),
       },
     });
 
@@ -108,15 +107,15 @@ describe('api', () => {
       subscriptions: new Map(),
     });
 
-    expect(event.sender.send).not.toHaveBeenCalled();
+    expect(event.reply).not.toHaveBeenCalled();
   });
 
   test('handles subscriptions', async () => {
     const event = makeEvent({
+      reply: vi.fn(),
       sender: {
         isDestroyed: () => false,
         on: () => {},
-        send: vi.fn(),
       },
     });
 
@@ -138,12 +137,12 @@ describe('api', () => {
       event,
     });
 
-    expect(event.sender.send).not.toHaveBeenCalled();
+    expect(event.reply).not.toHaveBeenCalled();
 
     ee.emit('test');
 
-    expect(event.sender.send).toHaveBeenCalledOnce();
-    expect(event.sender.send.mock.lastCall[1]).toMatchObject({
+    expect(event.reply).toHaveBeenCalledOnce();
+    expect(event.reply.mock.lastCall![1]).toMatchObject({
       id: 1,
       result: {
         data: 'test response',
@@ -153,10 +152,10 @@ describe('api', () => {
 
   test('subscription responds using custom serializer', async () => {
     const event = makeEvent({
+      reply: vi.fn(),
       sender: {
         isDestroyed: () => false,
         on: () => {},
-        send: vi.fn(),
       },
     });
 
@@ -203,12 +202,12 @@ describe('api', () => {
       event,
     });
 
-    expect(event.sender.send).not.toHaveBeenCalled();
+    expect(event.reply).not.toHaveBeenCalled();
 
     ee.emit('test');
 
-    expect(event.sender.send).toHaveBeenCalledOnce();
-    expect(event.sender.send.mock.lastCall[1]).toMatchObject({
+    expect(event.reply).toHaveBeenCalledOnce();
+    expect(event.reply.mock.lastCall![1]).toMatchObject({
       id: 1,
       result: {
         type: 'data',
