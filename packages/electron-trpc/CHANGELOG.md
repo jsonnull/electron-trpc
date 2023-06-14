@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.5.1
+
+### Patch Changes
+
+- [#146](https://github.com/jsonnull/electron-trpc/pull/146) [`c43ae93`](https://github.com/jsonnull/electron-trpc/commit/c43ae93df4af397986c602c432fc32178d62796b) Thanks [@JoeHartzell](https://github.com/JoeHartzell)! - Fix `handleIPCMessage` only sending replies to Electron's main frame.
+
 ## 0.5.0
 
 ### Minor Changes
