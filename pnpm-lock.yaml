@@ -54,8 +54,8 @@ importers:
         specifier: 10.20.0
         version: 10.20.0
       electron:
-        specifier: ^24.1.1
-        version: 24.1.1
+        specifier: ^25.0.0
+        version: 25.0.0
       electron-trpc:
         specifier: 0.5.1
         version: link:../../packages/electron-trpc
@@ -103,8 +103,8 @@ importers:
         specifier: 10.20.0
         version: 10.20.0
       electron:
-        specifier: ^24.1.1
-        version: 24.1.1
+        specifier: ^25.0.0
+        version: 25.0.0
       electron-trpc:
         specifier: 0.5.1
         version: link:../../packages/electron-trpc
@@ -171,8 +171,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       electron:
-        specifier: ^24.1.1
-        version: 24.1.1
+        specifier: ^25.0.0
+        version: 25.0.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -2245,8 +2245,8 @@ packages:
     resolution: {integrity: sha512-ReX5qgmSU7ybhzMuMdlJAdYnRhT90UB3k9M05O5nF5WH3wR5wgdJjXw0uDeFyKNhmglmQiOxkAbzrP0hMKM59g==}
     dev: true
 
-  /electron@24.1.1:
-    resolution: {integrity: sha512-ymjUMe6Pvh9ytpM4lOvr+Qxd6NG5AELRtR6tw54bK3FXfKtTTKKAtZw/NbwHwkRAlWu8FNAGOuvCoap6/bm9LQ==}
+  /electron@25.0.0:
+    resolution: {integrity: sha512-8Bjlpw52XW447RKjYGaaizWI4x0dv4gATNn7ssuonySbDgeJNqUnIJQGBrpXyB3VUROVmhXnTWB9VWRzv6uVlA==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
     requiresBuild: true
