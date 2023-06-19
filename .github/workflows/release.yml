@@ -1,53 +1,13 @@
-name: CI
+name: Release packages
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ['Run tests']
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node: ['18.x']
-        os: [ubuntu-latest]
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm test:coverage
-      - uses: codecov/codecov-action@v3
-
-  test-e2e:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node: ['18.x']
-        os: [ubuntu-latest]
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm --filter="examples/*" build
-      - run: xvfb-run --auto-servernum -- pnpm test:e2e
-
   release-main:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -56,13 +16,15 @@ jobs:
         os: [ubuntu-latest]
 
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >
+      ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
@@ -84,13 +46,15 @@ jobs:
         os: [ubuntu-latest]
 
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/next'
+    if: >
+      ${{ github.event_name == 'push' && github.ref == 'refs/heads/next' &&
+        github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}

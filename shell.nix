@@ -5,8 +5,6 @@ with pkgs;
 mkShell {
   buildInputs = [
     git
-    nodejs-18_x
-    nodePackages.pnpm
   ];
 
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1;

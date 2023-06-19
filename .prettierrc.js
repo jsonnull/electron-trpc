@@ -5,10 +5,10 @@ module.exports = {
   printWidth: 100,
   overrides: [
     {
-        "files": "docs/index.md",
-        "options": {
-            "printWidth": 60
-        }
-    }
-  ]
+      files: 'docs/index.md',
+      options: {
+        printWidth: 60,
+      },
+    },
+  ],
 };
