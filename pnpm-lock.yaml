@@ -57,7 +57,7 @@ importers:
         specifier: ^25.1.1
         version: 25.1.1
       electron-trpc:
-        specifier: workspace:*
+        specifier: 0.5.1
         version: link:../../packages/electron-trpc
       react:
         specifier: ^18.2.0
@@ -106,7 +106,7 @@ importers:
         specifier: ^25.1.1
         version: 25.1.1
       electron-trpc:
-        specifier: workspace:*
+        specifier: 0.5.1
         version: link:../../packages/electron-trpc
       react:
         specifier: ^18.2.0
