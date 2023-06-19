@@ -15,11 +15,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - run: corepack enable
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test:ci
@@ -34,11 +36,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - run: corepack enable
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: xvfb-run --auto-servernum -- pnpm test:e2e
