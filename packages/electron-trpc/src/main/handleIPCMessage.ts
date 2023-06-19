@@ -44,7 +44,7 @@ export async function handleIPCMessage<TRouter extends AnyRouter>({
 
   const respond = (response: TRPCResponseMessage) => {
     if (event.sender.isDestroyed()) return;
-    event.reply(ELECTRON_TRPC_CHANNEL, transformTRPCResponse(router, response));
+    event.reply(ELECTRON_TRPC_CHANNEL, transformTRPCResponse(router._def._config, response));
   };
 
   try {

@@ -1,5 +1,4 @@
-import { _electron as electron } from 'playwright';
-import { test, expect } from '@playwright/test';
+import { _electron as electron, test, expect } from '@playwright/test';
 
 test('Hello Electron', async () => {
   const electronApp = await electron.launch({ args: [`${__dirname}`] });
