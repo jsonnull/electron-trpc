@@ -1,39 +1,39 @@
 {
-    "license": "MIT",
-    "scripts": {
-        "build": "corepack pnpm -r build",
-        "test": "corepack pnpm -r test",
-        "test:e2e": "playwright test",
-        "test:ci": "corepack pnpm -r test:ci",
-        "lint": "prettier --check .",
-        "prepublishOnly": "corepack pnpm build",
-        "changeset": "changeset",
-        "changeset:version": "changeset version && pnpm install --no-frozen-lockfile",
-        "release": "changeset publish",
-        "docs:start": "vitepress dev docs",
-        "docs:build": "vitepress build docs",
-        "docs:preview": "vitepress preview docs"
-    },
-    "packageManager": "pnpm@8.6.2",
-    "devDependencies": {
-        "@changesets/changelog-github": "^0.4.8",
-        "@changesets/cli": "^2.26.1",
-        "@playwright/test": "^1.32.3",
-        "playwright": "^1.32.3",
-        "prettier": "^2.8.7",
-        "typescript": "^5.0.4",
-        "unocss": "^0.51.4",
-        "vite": "^4.2.1",
-        "vitepress": "1.0.0-alpha.65",
-        "vue": "^3.2.47"
-    },
-    "engines": {
-        "node": ">=18",
-        "pnpm": ">=8"
-    },
-    "pnpm": {
-        "requiredScripts": [
-            "build"
-        ]
-    }
+  "license": "MIT",
+  "scripts": {
+    "build": "corepack pnpm -r build",
+    "test": "corepack pnpm -r test",
+    "test:e2e": "playwright test",
+    "test:ci": "corepack pnpm -r test:ci",
+    "lint": "prettier --check .",
+    "prepublishOnly": "corepack pnpm build",
+    "changeset": "changeset",
+    "changeset:version": "changeset version && pnpm install --no-frozen-lockfile",
+    "release": "changeset publish",
+    "docs:start": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "packageManager": "pnpm@8.6.2",
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.1",
+    "@playwright/test": "^1.32.3",
+    "playwright": "^1.32.3",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4",
+    "unocss": "^0.51.4",
+    "vite": "^4.2.1",
+    "vitepress": "1.0.0-alpha.65",
+    "vue": "^3.2.47"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "pnpm": {
+    "requiredScripts": [
+      "build"
+    ]
+  }
 }
