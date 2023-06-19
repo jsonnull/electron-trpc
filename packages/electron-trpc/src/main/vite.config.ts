@@ -15,5 +15,5 @@ module.exports = defineConfig({
     rollupOptions: {
       external: ['electron'],
     },
-  }
+  },
 });

@@ -1,0 +1,5 @@
+**/dist/
+**/dist-electron/
+**/coverage/
+
+pnpm-lock.yaml

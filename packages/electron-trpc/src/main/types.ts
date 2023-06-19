@@ -1,5 +1,5 @@
-import type { IpcMainInvokeEvent } from "electron";
+import type { IpcMainInvokeEvent } from 'electron';
 
 export interface CreateContextOptions {
-    event: IpcMainInvokeEvent
+  event: IpcMainInvokeEvent;
 }

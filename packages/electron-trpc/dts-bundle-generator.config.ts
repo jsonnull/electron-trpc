@@ -11,7 +11,7 @@ const config = {
     {
       filePath: './src/main/index.ts',
       outFile: `./dist/main.d.ts`,
-      noCheck: true
+      noCheck: true,
     },
   ],
 };
