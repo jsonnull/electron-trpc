@@ -17,7 +17,6 @@ jobs:
         node: ['18.x']
         os: [ubuntu-latest]
 
-    needs: test
     if: >
       ${{ github.ref == 'refs/heads/main' && github.event.workflow_run.conclusion == 'success' }}
 
@@ -46,7 +45,6 @@ jobs:
         node: ['18.x']
         os: [ubuntu-latest]
 
-    needs: test
     if: >
       ${{ github.ref == 'refs/heads/next' && github.event.workflow_run.conclusion == 'success' }}
 
