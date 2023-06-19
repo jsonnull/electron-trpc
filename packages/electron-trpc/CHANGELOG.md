@@ -1,5 +1,13 @@
 # electron-trpc
 
+## 0.5.2
+
+### Patch Changes
+
+- [#149](https://github.com/jsonnull/electron-trpc/pull/149) [`3892db5`](https://github.com/jsonnull/electron-trpc/commit/3892db5342653e5c294477e3884b15c796fc26de) Thanks [@JoeHartzell](https://github.com/JoeHartzell)! - Update internal utils to use upstream tRPC shared helper.
+
+- [#152](https://github.com/jsonnull/electron-trpc/pull/152) [`0e72fe9`](https://github.com/jsonnull/electron-trpc/commit/0e72fe93b7605636b80cb3b3e47b6992cb4c097a) Thanks [@jsonnull](https://github.com/jsonnull)! - Update dependencies.
+
 ## 0.5.1
 
 ### Patch Changes
