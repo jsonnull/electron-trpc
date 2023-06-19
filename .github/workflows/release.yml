@@ -3,6 +3,8 @@ name: Release packages
 on:
   workflow_run:
     workflows: ['Run tests']
+    types:
+      - completed
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -17,8 +19,7 @@ jobs:
 
     needs: test
     if: >
-      ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' &&
-      github.event.workflow_run.conclusion == 'success' }}
+      ${{ github.ref == 'refs/heads/main' && github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v3
@@ -47,8 +48,7 @@ jobs:
 
     needs: test
     if: >
-      ${{ github.event_name == 'push' && github.ref == 'refs/heads/next' &&
-        github.event.workflow_run.conclusion == 'success' }}
+      ${{ github.ref == 'refs/heads/next' && github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v3
