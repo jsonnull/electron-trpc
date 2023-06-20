@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <title>Hello from Electron renderer!</title>
+  </head>
+  <body>
+    <h1 data-testid="greeting">Hello World!</h1>
+    <script type="module" src="./out/renderer/index.mjs"></script>
+
+    <div>
+      <p data-testid="count-p">0</p>
+      <button data-testid="increment-btn">Increment</button>
+    </div>
+
+  </body>
+</html>

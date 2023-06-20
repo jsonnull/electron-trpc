@@ -1,0 +1,22 @@
+{
+  "name": "vanilla",
+  "main": "out/main/index.js",
+  "scripts": {
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build"
+  },
+  "devDependencies": {
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@tsconfig/node18": "^2.0.1",
+    "@types/node": "^20.3.1",
+    "electron": "^19.0.9",
+    "electron-vite": "^1.0.23"
+  },
+  "dependencies": {
+    "@trpc/client": "10.31.0",
+    "@trpc/server": "10.31.0",
+    "electron-trpc": "workspace:*",
+    "zod": "^3.21.4"
+  }
+}
