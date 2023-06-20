@@ -2,7 +2,7 @@ import { initTRPC } from '@trpc/server';
 
 export type AppRouter = typeof appRouter;
 
-const t = initTRPC.create();
+const t = initTRPC.create({ isServer: true });
 
 const publicProcedure = t.procedure;
 const router = t.router;
@@ -15,5 +15,3 @@ export const appRouter = router({
     })
     .query(({ input }) => ({ greeting: `hello, ${input}!` })),
 });
-
-console.log('from api');

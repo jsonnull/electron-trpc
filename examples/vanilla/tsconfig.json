@@ -1,0 +1,19 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.json",
+  "include": [
+    "src/renderer/env.d.ts",
+    "src/renderer/**/*",
+    "src/preload/*.d.ts"
+  ],
+  "compilerOptions": {
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "Node16",
+    "skipLibCheck": true,
+    "strict": false,
+    "allowJs": true,
+    "checkJs": true,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
+  },
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

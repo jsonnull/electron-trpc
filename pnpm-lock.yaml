@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -149,6 +149,9 @@ importers:
         specifier: workspace:*
         version: link:../../packages/electron-trpc
     devDependencies:
+      '@electron-toolkit/tsconfig':
+        specifier: ^1.0.1
+        version: 1.0.1(@types/node@20.3.1)
       '@tsconfig/node18':
         specifier: ^2.0.1
         version: 2.0.1
@@ -1057,6 +1060,14 @@ packages:
     transitivePeerDependencies:
       - '@algolia/client-search'
       - search-insights
+    dev: true
+
+  /@electron-toolkit/tsconfig@1.0.1(@types/node@20.3.1):
+    resolution: {integrity: sha512-M0Mol3odspvtCuheyujLNAW7bXq7KFNYVMRtpjFa4ZfES4MuklXBC7Nli/omvc+PRKlrklgAGx3l4VakjNo8jg==}
+    peerDependencies:
+      '@types/node': '*'
+    dependencies:
+      '@types/node': 20.3.1
     dev: true
 
   /@electron/get@1.14.1:

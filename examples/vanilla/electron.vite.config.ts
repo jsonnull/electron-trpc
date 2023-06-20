@@ -4,28 +4,29 @@ import path from 'path';
 export default defineConfig({
   main: {
     build: {
-      outDir: path.resolve(__dirname, 'dist/main'),
+      watch: {
+        include: ['src/main/**'],
+      },
     },
     plugins: [externalizeDepsPlugin()],
   },
   preload: {
-    build: {
-      outDir: path.resolve(__dirname, 'dist/preload'),
-    },
     plugins: [externalizeDepsPlugin()],
   },
   renderer: {
     build: {
+      watch: {
+        include: ['src/renderer/**'],
+      },
+      rollupOptions: {
+        input: path.resolve(__dirname, 'src/renderer/index.ts'),
+      },
       lib: {
         entry: path.resolve(__dirname, 'src/renderer/index.ts'),
         formats: ['es'],
+        fileName: 'index',
       },
-      rollupOptions: {
-        output: {
-          entryFileNames: '[name].js',
-        },
-      },
-      outDir: path.resolve(__dirname, 'dist/renderer'),
+      outDir: path.resolve(__dirname, 'out/renderer'),
     },
   },
 });
