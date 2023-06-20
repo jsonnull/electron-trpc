@@ -148,6 +148,9 @@ importers:
       electron-trpc:
         specifier: workspace:*
         version: link:../../packages/electron-trpc
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@electron-toolkit/tsconfig':
         specifier: ^1.0.1

@@ -1,20 +1,25 @@
 import * as path from 'path';
 import { app, BrowserWindow } from 'electron';
 import { createIPCHandler } from 'electron-trpc/main';
-import { appRouter } from './api';
+import { router } from './api';
 
-app.on('ready', () => {
-  createIPCHandler({ router: appRouter });
-
-  const win = new BrowserWindow({
+function createWindow() {
+  const window = new BrowserWindow({
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
     },
   });
 
-  win.loadFile(path.join(__dirname, '../../index.html'));
-  win.show();
-  win.webContents.openDevTools();
-});
+  window.loadFile(path.join(__dirname, '../../index.html'));
+  window.show();
+}
 
-console.log('from main');
+app.on('ready', () => {
+  createIPCHandler({ router });
+
+  /**
+   * Create two windows to show that the counter is shared between them
+   */
+  createWindow();
+  createWindow();
+});

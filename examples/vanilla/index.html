@@ -8,7 +8,13 @@
     <title>Hello from Electron renderer!</title>
   </head>
   <body>
-    <h1 id="greeting">Hello World!</h1>
+    <h1 data-testid="greeting">Hello World!</h1>
     <script type="module" src="./out/renderer/index.mjs"></script>
+
+    <div>
+      <p data-testid="count-p">0</p>
+      <button data-testid="increment-btn">Increment</button>
+    </div>
+
   </body>
 </html>

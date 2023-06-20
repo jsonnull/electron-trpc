@@ -16,6 +16,7 @@
   "dependencies": {
     "@trpc/client": "10.31.0",
     "@trpc/server": "10.31.0",
-    "electron-trpc": "workspace:*"
+    "electron-trpc": "workspace:*",
+    "zod": "^3.21.4"
   }
 }

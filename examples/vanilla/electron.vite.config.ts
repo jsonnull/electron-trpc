@@ -5,7 +5,7 @@ export default defineConfig({
   main: {
     build: {
       watch: {
-        include: ['src/main/**'],
+        include: ['src/main/**/*'],
       },
     },
     plugins: [externalizeDepsPlugin()],
@@ -16,7 +16,7 @@ export default defineConfig({
   renderer: {
     build: {
       watch: {
-        include: ['src/renderer/**'],
+        include: ['src/renderer/**/*'],
       },
       rollupOptions: {
         input: path.resolve(__dirname, 'src/renderer/index.ts'),
