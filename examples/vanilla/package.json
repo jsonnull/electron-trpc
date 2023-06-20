@@ -2,16 +2,19 @@
   "name": "vanilla",
   "main": "dist/main.js",
   "scripts": {
-    "start": "npm run build && electron ./dist/main.js",
-    "build": "tsc && tsc --project tsconfig.renderer.json"
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build"
   },
   "devDependencies": {
-    "@types/node": "^17.0.45",
-    "electron": "^19.0.9"
+    "@tsconfig/node18": "^2.0.1",
+    "@types/node": "^20.3.1",
+    "electron": "^19.0.9",
+    "electron-vite": "^1.0.23"
   },
   "dependencies": {
-    "@trpc/client": "10.0.0-proxy-beta.26",
-    "@trpc/server": "10.0.0-proxy-beta.26",
-    "electron-trpc": "0.2.0-next.3"
+    "@trpc/client": "10.31.0",
+    "@trpc/server": "10.31.0",
+    "electron-trpc": "workspace:*"
   }
 }

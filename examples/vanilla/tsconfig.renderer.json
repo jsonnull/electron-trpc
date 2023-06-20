@@ -1,8 +1,20 @@
 {
-  "extends": "./tsconfig",
+  "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "module": "ES2015"
+    "lib": ["es5", "es2015.promise", "dom", "es2015"],
+    "target": "es5",
+    "module": "ES2015",
+    "outDir": "dist/renderer",
+    "baseUrl": ".",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": false,
+    "sourceMap": true,
+    "paths": {
+      "https://cdn.jsdelivr.net/npm/@trpc/client@10.31.0/dist/index.js": [
+        "node_modules/@trpc/client/dist/index.d.ts"
+      ]
+    }
   },
-  "include": ["src/renderer/**/*"],
-  "exclude": []
+  "include": ["src/renderer/**/*"]
 }

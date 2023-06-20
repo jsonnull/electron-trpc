@@ -1,10 +1,10 @@
 import * as path from 'path';
 import { app, ipcMain, BrowserWindow } from 'electron';
-import { createIPCHandler } from 'electron-trpc';
+import { createIPCHandler } from 'electron-trpc/main';
 import { appRouter } from './api';
 
 app.on('ready', () => {
-  createIPCHandler({ ipcMain, router: appRouter as any });
+  createIPCHandler({ router: appRouter });
 
   const win = new BrowserWindow({
     webPreferences: {
@@ -12,7 +12,7 @@ app.on('ready', () => {
     },
   });
 
-  win.loadFile(path.join(__dirname, '../index.html'));
+  win.loadFile(path.join(__dirname, '../../index.html'));
   win.show();
   win.webContents.openDevTools();
 });
