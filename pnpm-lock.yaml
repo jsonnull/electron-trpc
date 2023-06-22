@@ -42,14 +42,14 @@ importers:
         specifier: ^4.29.14
         version: 4.29.14(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
-        specifier: 10.31.0
-        version: 10.31.0(@trpc/server@10.31.0)
+        specifier: 10.32.0
+        version: 10.32.0(@trpc/server@10.32.0)
       '@trpc/react-query':
-        specifier: 10.31.0
-        version: 10.31.0(@tanstack/react-query@4.29.14)(@trpc/client@10.31.0)(@trpc/server@10.31.0)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 10.32.0
+        version: 10.32.0(@tanstack/react-query@4.29.14)(@trpc/client@10.32.0)(@trpc/server@10.32.0)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server':
-        specifier: 10.31.0
-        version: 10.31.0
+        specifier: 10.32.0
+        version: 10.32.0
       electron:
         specifier: ^25.1.1
         version: 25.1.1
@@ -91,14 +91,14 @@ importers:
         specifier: ^4.29.14
         version: 4.29.14(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
-        specifier: 10.31.0
-        version: 10.31.0(@trpc/server@10.31.0)
+        specifier: 10.32.0
+        version: 10.32.0(@trpc/server@10.32.0)
       '@trpc/react-query':
-        specifier: 10.31.0
-        version: 10.31.0(@tanstack/react-query@4.29.14)(@trpc/client@10.31.0)(@trpc/server@10.31.0)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 10.32.0
+        version: 10.32.0(@tanstack/react-query@4.29.14)(@trpc/client@10.32.0)(@trpc/server@10.32.0)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server':
-        specifier: 10.31.0
-        version: 10.31.0
+        specifier: 10.32.0
+        version: 10.32.0
       electron:
         specifier: ^25.1.1
         version: 25.1.1
@@ -147,11 +147,11 @@ importers:
         specifier: ^4.29.14
         version: 4.29.14(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
-        specifier: 10.31.0
-        version: 10.31.0(@trpc/server@10.31.0)
+        specifier: 10.32.0
+        version: 10.32.0(@trpc/server@10.32.0)
       '@trpc/server':
-        specifier: 10.31.0
-        version: 10.31.0
+        specifier: 10.32.0
+        version: 10.32.0
       '@types/debug':
         specifier: ^4.1.8
         version: 4.1.8
@@ -1191,31 +1191,31 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
 
-  /@trpc/client@10.31.0(@trpc/server@10.31.0):
-    resolution: {integrity: sha512-VCqbJEvFJb8C4hQFw7AD+dkQTjgEdV/QAzO4D+/cX5e93u5NpfNXI+PKS0QFXwG/zqgwQwVV6OkYc/D/MFwA6g==}
+  /@trpc/client@10.32.0(@trpc/server@10.32.0):
+    resolution: {integrity: sha512-hrj6XV84nE6DH5AmsPJ0JzIRcx3f6zU0tvS705DnZtNBOoMk7Lx+wX+KCDxj4DxLsTXC+roAxZxWwAB6/LGsXA==}
     peerDependencies:
-      '@trpc/server': 10.31.0
+      '@trpc/server': 10.32.0
     dependencies:
-      '@trpc/server': 10.31.0
+      '@trpc/server': 10.32.0
 
-  /@trpc/react-query@10.31.0(@tanstack/react-query@4.29.14)(@trpc/client@10.31.0)(@trpc/server@10.31.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-+M8sIsbf6e4H5XYvHlzDqhaf+ybfUigA/9OL3wXRp2vXhCedEiIERCnwNuHWFDRASl9vjOcM33AuJ4sbOOINEA==}
+  /@trpc/react-query@10.32.0(@tanstack/react-query@4.29.14)(@trpc/client@10.32.0)(@trpc/server@10.32.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-M4W1aGm3VAfQ9u4FJyK8M+pkcAV4lp32ZHxKnkRydxcsladhsqveZC9oqZqwklprEcYHtWU8v3R+jRGUjfCxpw==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
-      '@trpc/client': 10.31.0
-      '@trpc/server': 10.31.0
+      '@trpc/client': 10.32.0
+      '@trpc/server': 10.32.0
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
       '@tanstack/react-query': 4.29.14(react-dom@18.2.0)(react@18.2.0)
-      '@trpc/client': 10.31.0(@trpc/server@10.31.0)
-      '@trpc/server': 10.31.0
+      '@trpc/client': 10.32.0(@trpc/server@10.32.0)
+      '@trpc/server': 10.32.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/server@10.31.0:
-    resolution: {integrity: sha512-9EnRTSDE9nF11LZsvSOqNKqkRYzHqFX4ch5AJ6VIu8uta2vxVTN4FxxsNRSOluTzVYZDeaCISbwmOJ5iihCCIg==}
+  /@trpc/server@10.32.0:
+    resolution: {integrity: sha512-C4HRHpaffw2pekpfNSHQtwlocq6kwAQq48mR9RIsUZGNbjXZbgvBC927vRP6QPAoG+n4oHPWyZ9G1hs3KMcPiw==}
 
   /@types/cacheable-request@6.0.3:
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
