@@ -4,9 +4,9 @@ import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import type { RendererGlobalElectronTRPC } from '../types';
 import { observable, Observer } from '@trpc/server/observable';
 import { transformResult } from './utils';
-import debug from 'debug';
+import debugFactory from 'debug';
 
-const log = debug('electron-trpc:renderer:ipcLink');
+const debug = debugFactory('electron-trpc:renderer:ipcLink');
 
 type IPCCallbackResult<TRouter extends AnyRouter = AnyRouter> = TRPCResponseMessage<
   unknown,
@@ -47,7 +47,7 @@ class IPCClient {
   }
 
   #handleResponse(response: TRPCResponseMessage) {
-    log('handling response', response);
+    debug('handling response', response);
     const request = response.id && this.#pendingRequests.get(response.id);
     if (!request) {
       return;
