@@ -96,20 +96,13 @@ export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
       return observable((observer) => {
         op.input = runtime.transformer.serialize(op.input);
 
-        let isDone = false;
         const unsubscribe = client.request(op, {
           error(err) {
-            isDone = true;
             observer.error(err as TRPCClientError<any>);
             unsubscribe();
           },
           complete() {
-            if (!isDone) {
-              isDone = true;
-              observer.error(TRPCClientError.from(new Error('Operation ended prematurely')));
-            } else {
-              observer.complete();
-            }
+            observer.complete();
           },
           next(response) {
             const transformed = transformResult(response, runtime);
@@ -122,7 +115,6 @@ export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
             observer.next({ result: transformed.result });
 
             if (op.type !== 'subscription') {
-              isDone = true;
               unsubscribe();
               observer.complete();
             }
@@ -130,7 +122,6 @@ export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
         });
 
         return () => {
-          isDone = true;
           unsubscribe();
         };
       });
