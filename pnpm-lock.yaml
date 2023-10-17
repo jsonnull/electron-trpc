@@ -25,7 +25,7 @@ importers:
         version: 5.1.3
       unocss:
         specifier: ^0.54.0
-        version: 0.54.0(postcss@8.4.24)(vite@4.3.9)
+        version: 0.54.0(postcss@8.4.27)(vite@4.3.9)
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@20.3.1)
@@ -39,14 +39,14 @@ importers:
   examples/basic-react:
     dependencies:
       '@tanstack/react-query':
-        specifier: ^4.29.14
-        version: 4.29.14(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^5.0.0
+        version: 5.0.0(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
         specifier: 10.33.1
         version: 10.33.1(@trpc/server@10.33.1)
       '@trpc/react-query':
         specifier: 10.33.1
-        version: 10.33.1(@tanstack/react-query@4.29.14)(@trpc/client@10.33.1)(@trpc/server@10.33.1)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.33.1(@tanstack/react-query@5.0.0)(@trpc/client@10.33.1)(@trpc/server@10.33.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server':
         specifier: 10.33.1
         version: 10.33.1
@@ -88,14 +88,14 @@ importers:
   examples/basic-react-superjson:
     dependencies:
       '@tanstack/react-query':
-        specifier: ^4.29.14
-        version: 4.29.14(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^5.0.0
+        version: 5.0.0(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
         specifier: 10.33.1
         version: 10.33.1(@trpc/server@10.33.1)
       '@trpc/react-query':
         specifier: 10.33.1
-        version: 10.33.1(@tanstack/react-query@4.29.14)(@trpc/client@10.33.1)(@trpc/server@10.33.1)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.33.1(@tanstack/react-query@5.0.0)(@trpc/client@10.33.1)(@trpc/server@10.33.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server':
         specifier: 10.33.1
         version: 10.33.1
@@ -112,8 +112,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       superjson:
-        specifier: ^1.12.3
-        version: 1.12.3
+        specifier: ^2.0.0
+        version: 2.0.0
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -1382,6 +1382,11 @@ packages:
 
   /@tanstack/query-core@4.29.14:
     resolution: {integrity: sha512-ElEAahtLWA7Y7c2Haw10KdEf2tx+XZl/Z8dmyWxZehxWK3TPL5qtXtb7kUEhvt/8u2cSP62fLxgh2qqzMMGnDQ==}
+    dev: true
+
+  /@tanstack/query-core@5.0.0:
+    resolution: {integrity: sha512-Y1BpiA6BblJd/UlVqxEVeAG7IACn568YJuTTItAiecBI7En+33g780kg+/8lhgl+BzcUPN7o+NjBrSRGJoemyQ==}
+    dev: false
 
   /@tanstack/react-query@4.29.14(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-wh4bd/QIy85YgTDBtj/7/9ZkpRX41QdZuUL8xKoSzuMCukXvAE1/oJ4p0F15lqQq9W3g2pgcbr2Aa+CNvqABhg==}
@@ -1399,6 +1404,24 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: true
+
+  /@tanstack/react-query@5.0.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-diQoC8FNBcO5Uf5yuaJlXthTtbO1xM8kzOX+pSBUMT9n/cqQ/u1wJGCtukvhDWA+6j07WmIj4bfqNbd2KOB6jQ==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 5.0.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@trpc/client@10.33.1(@trpc/server@10.33.1):
     resolution: {integrity: sha512-j1YKBl/VtjCK3nUQFacsouGpsk/DFVNiekp4sZf8Lryb6f1OIChlLJZNEipl+DUuHxsPVuaCQis4PGkrIb2ieg==}
@@ -1407,7 +1430,7 @@ packages:
     dependencies:
       '@trpc/server': 10.33.1
 
-  /@trpc/react-query@10.33.1(@tanstack/react-query@4.29.14)(@trpc/client@10.33.1)(@trpc/server@10.33.1)(react-dom@18.2.0)(react@18.2.0):
+  /@trpc/react-query@10.33.1(@tanstack/react-query@5.0.0)(@trpc/client@10.33.1)(@trpc/server@10.33.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Jpdg9xOyVJ4k+0wg28CxEEU1KcUVP+nMzpPbhISWOKaP1WZTGaQxphsCwx8KEFVaRiutKGBxhC24D+WhX7tMpA==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
@@ -1416,7 +1439,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@tanstack/react-query': 4.29.14(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-query': 5.0.0(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client': 10.33.1(@trpc/server@10.33.1)
       '@trpc/server': 10.33.1
       react: 18.2.0
@@ -1594,7 +1617,7 @@ packages:
       sirv: 2.0.3
     dev: true
 
-  /@unocss/postcss@0.54.0(postcss@8.4.24):
+  /@unocss/postcss@0.54.0(postcss@8.4.27):
     resolution: {integrity: sha512-t1PmIkp2Qa9F/9swfCVCXMuheQxd1ddrcvf0+d4fOckpFF8YhvOi+WfMoZW4YFwoCmG5pvDg4VYgKbDunGHhRg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1605,7 +1628,7 @@ packages:
       css-tree: 2.3.1
       fast-glob: 3.3.1
       magic-string: 0.30.2
-      postcss: 8.4.24
+      postcss: 8.4.27
     dev: true
 
   /@unocss/preset-attributify@0.54.0:
@@ -4308,6 +4331,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       copy-anything: 3.0.5
+    dev: true
+
+  /superjson@2.0.0:
+    resolution: {integrity: sha512-W3n+NJ7TFjaLle8ihIIvsr/bbuKpnxeatsyjmhy7iSkom+/cshaHziCQAWXrHGWJVQSQFDOuES6C3nSEvcbrQg==}
+    engines: {node: '>=16'}
+    dependencies:
+      copy-anything: 3.0.5
+    dev: false
 
   /supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -4465,7 +4496,7 @@ packages:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
 
-  /unocss@0.54.0(postcss@8.4.24)(vite@4.3.9):
+  /unocss@0.54.0(postcss@8.4.27)(vite@4.3.9):
     resolution: {integrity: sha512-SXjyQqt/MP1uW8mjEmQaSa0zd+QB3FwaGD/ityNlu+zNRx1D03BPP9ACbJDB1zZKx4aodMVSsHZ3TV5wsu+VRQ==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -4478,7 +4509,7 @@ packages:
       '@unocss/cli': 0.54.0
       '@unocss/core': 0.54.0
       '@unocss/extractor-arbitrary-variants': 0.54.0
-      '@unocss/postcss': 0.54.0(postcss@8.4.24)
+      '@unocss/postcss': 0.54.0(postcss@8.4.27)
       '@unocss/preset-attributify': 0.54.0
       '@unocss/preset-icons': 0.54.0
       '@unocss/preset-mini': 0.54.0
@@ -4518,6 +4549,7 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: true
 
   /v8-to-istanbul@9.1.0:
     resolution: {integrity: sha512-6z3GW9x8G1gd+JIIgQQQxXuiJtCXeAjp6RaPEPLv62mH3iPHPxV6W3robxtCzNErRo6ZwTmzWhsbNvjyEBKzKA==}
