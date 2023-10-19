@@ -21,7 +21,7 @@ jobs:
       ${{ github.ref == 'refs/heads/main' && github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -49,7 +49,7 @@ jobs:
       ${{ github.ref == 'refs/heads/next' && github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
         with:
           version: 8
