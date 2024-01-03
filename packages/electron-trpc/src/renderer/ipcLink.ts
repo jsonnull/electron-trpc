@@ -29,7 +29,7 @@ const getElectronTRPC = () => {
 
   if (!electronTRPC) {
     throw new Error(
-      'Could not find `electronTRPC` global. Check that `exposeElectronTPRC` has been called in your preload file.'
+      'Could not find `electronTRPC` global. Check that `exposeElectronTRPC` has been called in your preload file.'
     );
   }
 
