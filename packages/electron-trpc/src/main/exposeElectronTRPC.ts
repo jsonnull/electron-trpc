@@ -1,12 +1,12 @@
-import { ipcRenderer, contextBridge } from 'electron';
+import * as electron from 'electron';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
 import type { RendererGlobalElectronTRPC } from '../types';
 
 export const exposeElectronTRPC = () => {
   const electronTRPC: RendererGlobalElectronTRPC = {
-    sendMessage: (operation) => ipcRenderer.send(ELECTRON_TRPC_CHANNEL, operation),
+    sendMessage: (operation) => electron.ipcRenderer.send(ELECTRON_TRPC_CHANNEL, operation),
     onMessage: (callback) =>
-      ipcRenderer.on(ELECTRON_TRPC_CHANNEL, (_event, args) => callback(args)),
+      electron.ipcRenderer.on(ELECTRON_TRPC_CHANNEL, (_event, args) => callback(args)),
   };
-  contextBridge.exposeInMainWorld('electronTRPC', electronTRPC);
+  electron.contextBridge.exposeInMainWorld('electronTRPC', electronTRPC);
 };
