@@ -1,5 +1,13 @@
 # electron-trpc
 
+## 0.6.1
+
+### Patch Changes
+
+- [#190](https://github.com/jsonnull/electron-trpc/pull/190) [`fb7845f`](https://github.com/jsonnull/electron-trpc/commit/fb7845fbc771002309dea9d8b4c2079860350656) Thanks [@jsonnull](https://github.com/jsonnull)! - Update dev dependencies.
+
+- [#192](https://github.com/jsonnull/electron-trpc/pull/192) [`2bc0233`](https://github.com/jsonnull/electron-trpc/commit/2bc02333172b8a25a493c34c8e17434b8ffb4eea) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix issue when TRPC client tries to close a subscription.
+
 ## 0.6.0
 
 ### Minor Changes
