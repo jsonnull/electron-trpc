@@ -1,7 +1,7 @@
 {
   "name": "electron-trpc",
   "description": "Electron support for tRPC",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "exports": {
     "./main": {
       "require": "./dist/main.cjs",
