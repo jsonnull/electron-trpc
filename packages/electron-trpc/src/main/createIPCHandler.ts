@@ -6,6 +6,9 @@ import { CreateContextOptions } from './types';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
 import { ETRPCRequest } from '../types';
 import { Unsubscribable } from '@trpc/server/observable';
+import debugFactory from 'debug';
+
+const debug = debugFactory('electron-trpc:main:IPCHandler');
 
 type Awaitable<T> = T | Promise<T>;
 
@@ -46,23 +49,49 @@ class IPCHandler<TRouter extends AnyRouter> {
       return;
     }
 
+    debug('Attaching window', win.id);
+
     this.#windows.push(win);
-    this.#attachSubscriptionCleanupHandler(win);
+    this.#attachSubscriptionCleanupHandlers(win);
   }
 
   detachWindow(win: BrowserWindow) {
-    this.#windows = this.#windows.filter((w) => w !== win);
+    debug('Detaching window', win.id);
 
+    this.#windows = this.#windows.filter((w) => w !== win);
+    this.#cleanUpSubscriptions({ webContentsId: win.webContents.id });
+  }
+
+  #cleanUpSubscriptions({
+    webContentsId,
+    frameRoutingId,
+  }: {
+    webContentsId: number;
+    frameRoutingId?: number;
+  }) {
     for (const [key, sub] of this.#subscriptions.entries()) {
-      if (key.startsWith(`${win.webContents.id}-`)) {
+      if (key.startsWith(`${webContentsId}-${frameRoutingId ?? ''}`)) {
+        debug('Closing subscription', key);
         sub.unsubscribe();
         this.#subscriptions.delete(key);
       }
     }
   }
 
-  #attachSubscriptionCleanupHandler(win: BrowserWindow) {
+  #attachSubscriptionCleanupHandlers(win: BrowserWindow) {
+    win.webContents.on('did-start-navigation', ({ frame }) => {
+      debug(
+        'Handling webContents `did-start-navigation` event',
+        `webContentsId: ${win.webContents.id}`,
+        `frameRoutingId: ${frame.routingId}`
+      );
+      this.#cleanUpSubscriptions({
+        webContentsId: win.webContents.id,
+        frameRoutingId: frame.routingId,
+      });
+    });
     win.webContents.on('destroyed', () => {
+      debug('Handling webContents `destroyed` event');
       this.detachWindow(win);
     });
   }

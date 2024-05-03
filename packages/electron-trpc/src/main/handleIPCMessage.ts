@@ -8,6 +8,9 @@ import { getTRPCErrorFromUnknown } from './utils';
 import { CreateContextOptions } from './types';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
 import { ETRPCRequest } from '../types';
+import debugFactory from 'debug';
+
+const debug = debugFactory('electron-trpc:main:handleIPCMessage');
 
 export async function handleIPCMessage<TRouter extends AnyRouter>({
   router,
@@ -107,6 +110,7 @@ export async function handleIPCMessage<TRouter extends AnyRouter>({
       },
     });
 
+    debug('Creating subscription', internalId);
     subscriptions.set(internalId, subscription);
   } catch (cause) {
     const error: TRPCError = getTRPCErrorFromUnknown(cause);
