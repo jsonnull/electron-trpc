@@ -11,7 +11,7 @@ module.exports = defineConfig({
       entry: path.resolve(__dirname, './index.ts'),
       name: 'electron-trpc',
       formats: ['es', 'cjs'],
-      fileName: (format) => ({ es: 'renderer.mjs', cjs: 'renderer.cjs' }[format as 'es' | 'cjs']),
+      fileName: (format) => ({ es: 'renderer.mjs', cjs: 'renderer.cjs' })[format as 'es' | 'cjs'],
     },
     outDir: path.resolve(__dirname, '../../dist'),
   },
