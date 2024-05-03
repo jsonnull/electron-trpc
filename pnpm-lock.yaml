@@ -54,8 +54,8 @@ importers:
         specifier: 29.3.2
         version: 29.3.2
       electron-trpc:
-        specifier: 0.6.0
-        version: 0.6.0(@trpc/client@10.33.1(@trpc/server@10.33.1))(@trpc/server@10.33.1)(electron@29.3.2)
+        specifier: 0.6.1
+        version: link:../../packages/electron-trpc
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -103,8 +103,8 @@ importers:
         specifier: 29.3.2
         version: 29.3.2
       electron-trpc:
-        specifier: 0.6.0
-        version: 0.6.0(@trpc/client@10.33.1(@trpc/server@10.33.1))(@trpc/server@10.33.1)(electron@29.3.2)
+        specifier: 0.6.1
+        version: link:../../packages/electron-trpc
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1476,13 +1476,6 @@ packages:
 
   electron-to-chromium@1.4.756:
     resolution: {integrity: sha512-RJKZ9+vEBMeiPAvKNWyZjuYyUqMndcP1f335oHqn3BEQbs2NFtVrnK5+6Xg5wSM9TknNNpWghGDUCKGYF+xWXw==}
-
-  electron-trpc@0.6.0:
-    resolution: {integrity: sha512-ffHtAIULuhOCjMAltvv/62AH9iwYqLCgSeSagy2RerMKxp4vsjBBelA/PoC38ThFsti0aE1+gcXNkS1rpkZJSw==}
-    peerDependencies:
-      '@trpc/client': '>10.0.0'
-      '@trpc/server': '>10.0.0'
-      electron: '>19.0.0'
 
   electron@29.3.2:
     resolution: {integrity: sha512-pRWsaFtbd78kEHR0lg5aMhZDY6b5JykIEhZRtyTCaJpGFObB2NFIJDzR7mTia0cZp3pPq60n/SS4gRxvSM5WFQ==}
@@ -4519,15 +4512,6 @@ snapshots:
   duplexer@0.1.2: {}
 
   electron-to-chromium@1.4.756: {}
-
-  electron-trpc@0.6.0(@trpc/client@10.33.1(@trpc/server@10.33.1))(@trpc/server@10.33.1)(electron@29.3.2):
-    dependencies:
-      '@trpc/client': 10.33.1(@trpc/server@10.33.1)
-      '@trpc/server': 10.33.1
-      debug: 4.3.4
-      electron: 29.3.2
-    transitivePeerDependencies:
-      - supports-color
 
   electron@29.3.2:
     dependencies:
