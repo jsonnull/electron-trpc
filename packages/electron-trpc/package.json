@@ -23,8 +23,8 @@
     "renderer.d.ts"
   ],
   "scripts": {
-    "build": "tsc && vite build -c src/main/vite.config.ts && vite build -c src/renderer/vite.config.ts && pnpm build:types",
-    "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts && pnpm run copy:types",
+    "build": "tsc && vite build -c src/main/vite.config.ts && vite build -c src/renderer/vite.config.ts && corepack pnpm build:types",
+    "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts && corepack pnpm run copy:types",
     "copy:types": "cp dist/main.d.ts dist/renderer.d.ts ./",
     "test": "vitest -c vitest.config.ts",
     "test:ci": "vitest run -c vitest.config.ts --coverage",
@@ -40,8 +40,8 @@
     "@types/node": "^20.3.1",
     "@vitest/coverage-v8": "^0.34.0",
     "builtin-modules": "^3.3.0",
-    "dts-bundle-generator": "^8.0.1",
-    "electron": "^25.1.1",
+    "dts-bundle-generator": "9.5.1",
+    "electron": "29.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "^1.12.3",
