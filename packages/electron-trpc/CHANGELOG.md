@@ -1,5 +1,13 @@
 # electron-trpc
 
+## 0.6.0
+
+### Minor Changes
+
+- [#165](https://github.com/jsonnull/electron-trpc/pull/165) [`a15c6c4d0c531b3596689b4cc470548a5228c989`](https://github.com/jsonnull/electron-trpc/commit/a15c6c4d0c531b3596689b4cc470548a5228c989) Thanks [@jsonnull](https://github.com/jsonnull)! - Subscriptions will now be cleaned up when the frame owning that subscription performs a navigation.
+
+- [#187](https://github.com/jsonnull/electron-trpc/pull/187) [`50953c7e5bcb69d4e5482405f4a621b229f0ca82`](https://github.com/jsonnull/electron-trpc/commit/50953c7e5bcb69d4e5482405f4a621b229f0ca82) Thanks [@jsonnull](https://github.com/jsonnull)! - Upgrade electron to v29.
+
 ## 0.5.2
 
 ### Patch Changes
