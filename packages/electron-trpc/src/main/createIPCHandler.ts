@@ -55,11 +55,15 @@ class IPCHandler<TRouter extends AnyRouter> {
     this.#attachSubscriptionCleanupHandlers(win);
   }
 
-  detachWindow(win: BrowserWindow) {
+  detachWindow(win: BrowserWindow, webContentsId?: number) {
     debug('Detaching window', win.id);
 
+    if (win.isDestroyed() && webContentsId === undefined) {
+      throw new Error('webContentsId is required when calling detachWindow on a destroyed window');
+    }
+
     this.#windows = this.#windows.filter((w) => w !== win);
-    this.#cleanUpSubscriptions({ webContentsId: win.webContents.id });
+    this.#cleanUpSubscriptions({ webContentsId: webContentsId ?? win.webContents.id });
   }
 
   #cleanUpSubscriptions({
@@ -79,23 +83,24 @@ class IPCHandler<TRouter extends AnyRouter> {
   }
 
   #attachSubscriptionCleanupHandlers(win: BrowserWindow) {
+    const webContentsId = win.webContents.id;
     win.webContents.on('did-start-navigation', ({ isSameDocument, frame }) => {
       // Check if it's a hard navigation
       if (!isSameDocument) {
         debug(
           'Handling hard navigation event',
-          `webContentsId: ${win.webContents.id}`,
+          `webContentsId: ${webContentsId}`,
           `frameRoutingId: ${frame.routingId}`
         );
         this.#cleanUpSubscriptions({
-          webContentsId: win.webContents.id,
+          webContentsId: webContentsId,
           frameRoutingId: frame.routingId,
         });
       }
     });
     win.webContents.on('destroyed', () => {
       debug('Handling webContents `destroyed` event');
-      this.detachWindow(win);
+      this.detachWindow(win, webContentsId);
     });
   }
 }
