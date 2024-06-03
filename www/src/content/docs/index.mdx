@@ -1,0 +1,32 @@
+---
+title: electron-trpc
+description: Ergonomic and type-safe solution for building IPC in Electron
+template: splash
+hero:
+  tagline: Ergonomic and type-safe solution for building IPC in Electron
+  actions:
+    - text: Getting Started
+      link: /getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: Example Usage
+      link: https://github.com/jsonnull/electron-trpc/tree/main/examples/
+      icon: external
+---
+
+import { Card, CardGrid, Code } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="Main <-> Renderer" icon="random">
+    Expose APIs from electron's main process to one or more renderer processes.
+  </Card>
+  <Card title="Fully type-safe IPC" icon="seti:typescript">
+    Build electron IPC with all the benefits of tRPC, including inferred client types.
+  </Card>
+  <Card title="Secure platform alternative to localhost" icon="rocket">
+    Electron IPC is faster and more secure than opening local servers for IPC.
+  </Card>
+  <Card title="Queries, mutations, and subscriptions" icon="seti:graphql">
+    Supports all tRPC features. No need to write complicated bi-directional IPC schemes.
+  </Card>
+</CardGrid>

@@ -11,9 +11,10 @@
     "changeset": "changeset",
     "changeset:version": "changeset version && pnpm install --no-frozen-lockfile",
     "release": "changeset publish",
-    "docs:start": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:start": "corepack pnpm --filter www dev",
+    "docs:build": "corepack pnpm --filter www build",
+    "docs:preview": "corepack pnpm --filter www preview",
+    "docs:publish": "corepack pnpm --filter www publish-pages"
   },
   "packageManager": "pnpm@9.0.6",
   "devDependencies": {
@@ -21,11 +22,7 @@
     "@changesets/cli": "^2.27.1",
     "@playwright/test": "^1.43.1",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.5",
-    "unocss": "^0.59.4",
-    "vite": "^5.2.11",
-    "vitepress": "1.1.4",
-    "vue": "^3.4.26"
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=18",
