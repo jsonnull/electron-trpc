@@ -135,11 +135,11 @@ importers:
         specifier: ^5.32.1
         version: 5.32.1(react@18.3.1)
       '@trpc/client':
-        specifier: 10.45.2
-        version: 10.45.2(@trpc/server@10.45.2)
+        specifier: next
+        version: 11.0.0-rc.364(@trpc/server@11.0.0-rc.364)
       '@trpc/server':
-        specifier: 10.45.2
-        version: 10.45.2
+        specifier: next
+        version: 11.0.0-rc.364
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -1286,10 +1286,10 @@ packages:
     peerDependencies:
       '@trpc/server': 10.33.1
 
-  '@trpc/client@10.45.2':
-    resolution: {integrity: sha512-ykALM5kYWTLn1zYuUOZ2cPWlVfrXhc18HzBDyRhoPYN0jey4iQHEFSEowfnhg1RvYnrAVjNBgHNeSAXjrDbGwg==}
+  '@trpc/client@11.0.0-rc.364':
+    resolution: {integrity: sha512-k9ZH7I0OOBFME9fZJ1JI0ZjvPEV64bvoT20kWHkFeMH5trJmK1tzcc/q7c7cLBY4pziLPqBDPFw2qax09vyRTg==}
     peerDependencies:
-      '@trpc/server': 10.45.2
+      '@trpc/server': 11.0.0-rc.364+d95fb467b
 
   '@trpc/react-query@10.33.1':
     resolution: {integrity: sha512-Jpdg9xOyVJ4k+0wg28CxEEU1KcUVP+nMzpPbhISWOKaP1WZTGaQxphsCwx8KEFVaRiutKGBxhC24D+WhX7tMpA==}
@@ -1303,8 +1303,8 @@ packages:
   '@trpc/server@10.33.1':
     resolution: {integrity: sha512-ObMzyEALXhQ7QTVQdSJ+IL1wYB7UdLLoIhqHraYzqKb9sTTsL3+U64kK084KPsRd4b8R3yH/bzBOnCn8Hbrxkw==}
 
-  '@trpc/server@10.45.2':
-    resolution: {integrity: sha512-wOrSThNNE4HUnuhJG6PfDRp4L2009KDVxsd+2VYH8ro6o/7/jwYZ8Uu5j+VaW+mOmc8EHerHzGcdbGNQSAUPgg==}
+  '@trpc/server@11.0.0-rc.364':
+    resolution: {integrity: sha512-sGlrb2jSCiU74TrJ+N+WxIcJIUDyo0WOy0y30vIArw6oHFXjeithgxjvIu+PbN+VWt/Gt4ee8kVhnmxCW4X/Qw==}
 
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
@@ -5433,9 +5433,9 @@ snapshots:
     dependencies:
       '@trpc/server': 10.33.1
 
-  '@trpc/client@10.45.2(@trpc/server@10.45.2)':
+  '@trpc/client@11.0.0-rc.364(@trpc/server@11.0.0-rc.364)':
     dependencies:
-      '@trpc/server': 10.45.2
+      '@trpc/server': 11.0.0-rc.364
 
   '@trpc/react-query@10.33.1(@tanstack/react-query@4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/client@10.33.1(@trpc/server@10.33.1))(@trpc/server@10.33.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
@@ -5447,7 +5447,7 @@ snapshots:
 
   '@trpc/server@10.33.1': {}
 
-  '@trpc/server@10.45.2': {}
+  '@trpc/server@11.0.0-rc.364': {}
 
   '@types/acorn@4.0.6':
     dependencies:

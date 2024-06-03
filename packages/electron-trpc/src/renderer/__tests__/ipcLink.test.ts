@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import { createTRPCProxyClient } from '@trpc/client';
+import { createTRPCClient } from '@trpc/client';
 import { initTRPC } from '@trpc/server';
 import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import z from 'zod';
@@ -7,7 +7,7 @@ import type { RendererGlobalElectronTRPC } from '../../types';
 import { ipcLink } from '../ipcLink';
 import superjson from 'superjson';
 
-const t = initTRPC.create();
+const t = initTRPC.create({ transformer: superjson });
 const router = t.router({
   testQuery: t.procedure.query(() => 'query success'),
   testMutation: t.procedure.input(z.string()).mutation(() => 'mutation success'),
@@ -18,7 +18,13 @@ const router = t.router({
     };
   }),
   testInputs: t.procedure
-    .input(z.object({ str: z.string(), date: z.date(), bigint: z.bigint() }))
+    .input(
+      z.object({
+        str: z.string(),
+        date: z.date(),
+        bigint: z.bigint().optional(),
+      })
+    )
     .query((input) => {
       return input;
     }),
@@ -40,15 +46,15 @@ vi.stubGlobal('electronTRPC', electronTRPC);
 
 describe('ipcLink', () => {
   test('can create ipcLink', () => {
-    expect(() => createTRPCProxyClient({ links: [ipcLink()] })).not.toThrow();
+    expect(() => createTRPCClient({ links: [ipcLink()] })).not.toThrow();
   });
 
   describe('operations', () => {
-    let client: ReturnType<typeof createTRPCProxyClient<Router>>;
+    let client: ReturnType<typeof createTRPCClient<Router>>;
     const mock = vi.mocked(electronTRPC);
 
     beforeEach(() => {
-      client = createTRPCProxyClient({ links: [ipcLink()] });
+      client = createTRPCClient({ links: [ipcLink()] });
     });
 
     test('routes query to/from', async () => {
@@ -225,9 +231,8 @@ describe('ipcLink', () => {
   });
 
   test('serializes inputs/outputs', async () => {
-    const client = createTRPCProxyClient<Router>({
-      transformer: superjson,
-      links: [ipcLink()],
+    const client = createTRPCClient<Router>({
+      links: [ipcLink({ transformer: superjson })],
     });
 
     const mock = vi.mocked(electronTRPC);
@@ -270,12 +275,15 @@ describe('ipcLink', () => {
   });
 
   test('serializes inputs with custom transformer', async () => {
-    const client = createTRPCProxyClient<Router>({
-      transformer: {
-        serialize: (input) => JSON.stringify(input),
-        deserialize: (input) => JSON.parse(input),
-      },
-      links: [ipcLink()],
+    const client = createTRPCClient<Router>({
+      links: [
+        ipcLink({
+          transformer: {
+            serialize: (input) => JSON.stringify(input),
+            deserialize: (input) => JSON.parse(input),
+          },
+        }),
+      ],
     });
 
     const mock = vi.mocked(electronTRPC);
