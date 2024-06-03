@@ -1,0 +1,28 @@
+name: Deploy site
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+jobs:
+  deploy:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['18.x']
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm docs:build
+      - run: pnpm docs:publish

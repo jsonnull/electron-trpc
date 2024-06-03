@@ -13,7 +13,8 @@
     "release": "changeset publish",
     "docs:start": "corepack pnpm --filter www dev",
     "docs:build": "corepack pnpm --filter www build",
-    "docs:preview": "corepack pnpm --filter www preview"
+    "docs:preview": "corepack pnpm --filter www preview",
+    "docs:publish": "corepack pnpm --filter www publish-pages"
   },
   "packageManager": "pnpm@9.0.6",
   "devDependencies": {
