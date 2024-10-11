@@ -1,15 +1,14 @@
-{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/a817fdac5fea62e89332ea223c0a5ea8b6443341.tar.gz") {} }:
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/8e65989a9972ce1da033f445d2598683590dfb8a.tar.gz") {} }:
 
-with pkgs;
-
-mkShell {
+pkgs.mkShell {
   buildInputs = [
-    git
-    nodejs_20
-    xvfb-run
-    electron_29
+    pkgs.git
+    pkgs.nodejs_20
+    pkgs.nodePackages.pnpm
+    pkgs.xvfb-run
+    pkgs.electron_30
   ];
 
-  PLAYWRIGHT_ELECTRON_PATH="${electron_29}/bin/electron";
+  PLAYWRIGHT_ELECTRON_PATH="${pkgs.electron_30}/bin/electron";
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1;
 }

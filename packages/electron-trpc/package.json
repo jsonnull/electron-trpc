@@ -8,6 +8,11 @@
       "import": "./dist/main.mjs",
       "types": "./dist/main.d.ts"
     },
+    "./preload": {
+      "require": "./dist/preload.cjs",
+      "import": "./dist/preload.mjs",
+      "types": "./dist/preload.d.ts"
+    },
     "./renderer": {
       "require": "./dist/renderer.cjs",
       "import": "./dist/renderer.mjs",
@@ -23,9 +28,9 @@
     "renderer.d.ts"
   ],
   "scripts": {
-    "build": "tsc && vite build -c src/main/vite.config.ts && vite build -c src/renderer/vite.config.ts && corepack pnpm build:types",
+    "build": "tsc && vite build -c src/main/vite.config.ts && vite build -c src/renderer/vite.config.ts && vite build -c src/preload/vite.config.ts && corepack pnpm build:types",
     "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts && corepack pnpm run copy:types",
-    "copy:types": "cp dist/main.d.ts dist/renderer.d.ts ./",
+    "copy:types": "cp dist/main.d.ts dist/renderer.d.ts dist/preload.d.ts ./",
     "test": "vitest -c vitest.config.ts",
     "test:ci": "vitest run -c vitest.config.ts --coverage",
     "prepublishOnly": "corepack pnpm build",

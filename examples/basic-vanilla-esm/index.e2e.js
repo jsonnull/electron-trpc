@@ -1,8 +1,12 @@
 import { _electron as electron, test, expect } from '@playwright/test';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 test('Hello Electron', async () => {
   const electronApp = await electron.launch({
-    args: [`${__dirname}`],
+    args: [dirname],
     executablePath: process.env.PLAYWRIGHT_ELECTRON_PATH || undefined,
     env: {
       ...process.env,
