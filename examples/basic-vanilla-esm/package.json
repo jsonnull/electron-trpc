@@ -10,8 +10,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@trpc/client": "10.33.1",
-    "@trpc/server": "10.33.1",
+    "@trpc/client": "10.45.2",
+    "@trpc/server": "10.45.2",
     "electron": "29.3.2",
     "electron-trpc": "0.6.1",
     "vite": "^5.2.11",
