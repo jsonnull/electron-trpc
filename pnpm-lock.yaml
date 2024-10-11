@@ -125,6 +125,31 @@ importers:
         specifier: ^0.28.7
         version: 0.28.7
 
+  examples/basic-vanilla-esm:
+    dependencies:
+      '@trpc/client':
+        specifier: 10.33.1
+        version: 10.33.1(@trpc/server@10.33.1)
+      '@trpc/server':
+        specifier: 10.33.1
+        version: 10.33.1
+      electron:
+        specifier: 29.3.2
+        version: 29.3.2
+      electron-trpc:
+        specifier: 0.6.1
+        version: link:../../packages/electron-trpc
+      vite:
+        specifier: ^5.2.11
+        version: 5.2.11(@types/node@20.12.8)
+      zod:
+        specifier: ^3.21.4
+        version: 3.23.8
+    devDependencies:
+      '@types/node':
+        specifier: ^20.12.8
+        version: 20.12.8
+
   packages/electron-trpc:
     dependencies:
       debug:

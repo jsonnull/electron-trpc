@@ -2,8 +2,9 @@
   "license": "MIT",
   "scripts": {
     "build": "corepack pnpm -r build",
+    "build:code": "corepack pnpm --filter=!www build",
     "test": "corepack pnpm -r test",
-    "test:e2e": "playwright test",
+    "test:e2e": "DEBUG=pw:browser* playwright test",
     "test:ci": "corepack pnpm -r test:ci",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",

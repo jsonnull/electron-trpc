@@ -58,7 +58,7 @@ npm install --save electron-trpc
 2. Expose the IPC to the render process from the [preload file](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts):
 
    ```ts
-   import { exposeElectronTRPC } from 'electron-trpc/main';
+   import { exposeElectronTRPC } from 'electron-trpc/preload';
 
    process.once('loaded', async () => {
      exposeElectronTRPC();
