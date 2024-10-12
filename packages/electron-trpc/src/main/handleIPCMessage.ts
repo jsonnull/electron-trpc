@@ -1,10 +1,9 @@
-import { callProcedure, TRPCError } from '@trpc/server';
-import type { AnyRouter, inferRouterContext } from '@trpc/server';
+import { callTRPCProcedure, TRPCError, getErrorShape, getTRPCErrorFromUnknown } from '@trpc/server';
+import type { AnyTRPCRouter, inferRouterContext } from '@trpc/server';
 import type { TRPCResponseMessage } from '@trpc/server/rpc';
 import type { IpcMainEvent } from 'electron';
 import { isObservable, Unsubscribable } from '@trpc/server/observable';
-import { transformTRPCResponse } from '@trpc/server/shared';
-import { getTRPCErrorFromUnknown } from './utils';
+import { transformTRPCResponse } from '@trpc/server';
 import { CreateContextOptions } from './types';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
 import { ETRPCRequest } from '../types';
@@ -12,7 +11,7 @@ import debugFactory from 'debug';
 
 const debug = debugFactory('electron-trpc:main:handleIPCMessage');
 
-export async function handleIPCMessage<TRouter extends AnyRouter>({
+export async function handleIPCMessage<TRouter extends AnyTRPCRouter>({
   router,
   createContext,
   internalId,
@@ -51,11 +50,11 @@ export async function handleIPCMessage<TRouter extends AnyRouter>({
   };
 
   try {
-    const result = await callProcedure({
+    const result = await callTRPCProcedure({
       ctx,
       path,
       procedures: router._def.procedures,
-      rawInput: input,
+      getRawInput: async () => input,
       type,
     });
 
@@ -91,7 +90,8 @@ export async function handleIPCMessage<TRouter extends AnyRouter>({
         const error = getTRPCErrorFromUnknown(err);
         respond({
           id,
-          error: router.getErrorShape({
+          error: getErrorShape({
+            config: router._def._config,
             error,
             type,
             path,
@@ -117,7 +117,8 @@ export async function handleIPCMessage<TRouter extends AnyRouter>({
 
     return respond({
       id,
-      error: router.getErrorShape({
+      error: getErrorShape({
+        config: router._def._config,
         error,
         type,
         path,

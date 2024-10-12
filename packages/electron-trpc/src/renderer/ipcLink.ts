@@ -1,25 +1,31 @@
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
-import type { AnyRouter, inferRouterContext, ProcedureType } from '@trpc/server';
+import type {
+  AnyTRPCRouter,
+  inferRouterContext,
+  TRPCProcedureType,
+  inferTRPCClientTypes,
+} from '@trpc/server';
 import type { TRPCResponseMessage } from '@trpc/server/rpc';
-import type { RendererGlobalElectronTRPC } from '../types';
 import { observable, Observer } from '@trpc/server/observable';
-import { transformResult } from './utils';
 import debugFactory from 'debug';
+import { type TransformerOptions, getTransformer } from '@trpc/client/unstable-internals';
+import type { RendererGlobalElectronTRPC } from '../types';
+import { transformResult } from './utils';
 
 const debug = debugFactory('electron-trpc:renderer:ipcLink');
 
-type IPCCallbackResult<TRouter extends AnyRouter = AnyRouter> = TRPCResponseMessage<
+type IPCCallbackResult<TRouter extends AnyTRPCRouter = AnyTRPCRouter> = TRPCResponseMessage<
   unknown,
   inferRouterContext<TRouter>
 >;
 
-type IPCCallbacks<TRouter extends AnyRouter = AnyRouter> = Observer<
+type IPCCallbacks<TRouter extends AnyTRPCRouter = AnyTRPCRouter> = Observer<
   IPCCallbackResult<TRouter>,
   TRPCClientError<TRouter>
 >;
 
 type IPCRequest = {
-  type: ProcedureType;
+  type: TRPCProcedureType;
   callbacks: IPCCallbacks;
   op: Operation;
 };
@@ -88,13 +94,20 @@ class IPCClient {
   }
 }
 
-export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
-  return (runtime) => {
+export type IPCLinkOptions<TRouter extends AnyTRPCRouter> = TransformerOptions<
+  inferTRPCClientTypes<TRouter>
+>;
+
+export function ipcLink<TRouter extends AnyTRPCRouter>(
+  opts?: IPCLinkOptions<TRouter>
+): TRPCLink<TRouter> {
+  return () => {
     const client = new IPCClient();
+    const transformer = getTransformer(opts?.transformer);
 
     return ({ op }) => {
       return observable((observer) => {
-        op.input = runtime.transformer.serialize(op.input);
+        op.input = transformer.input.serialize(op.input);
 
         const unsubscribe = client.request(op, {
           error(err) {
@@ -105,7 +118,7 @@ export function ipcLink<TRouter extends AnyRouter>(): TRPCLink<TRouter> {
             observer.complete();
           },
           next(response) {
-            const transformed = transformResult(response, runtime);
+            const transformed = transformResult(response, transformer.output);
 
             if (!transformed.ok) {
               observer.error(TRPCClientError.from(transformed.error));
