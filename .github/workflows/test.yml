@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build:code
+      - run: pnpm build
       - run: pnpm test:ci
       - uses: codecov/codecov-action@v4
 
@@ -40,10 +40,5 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build:code
-      - run: |
-          sudo chown root examples/basic-react/node_modules/electron/dist/chrome-sandbox \
-          && sudo chmod 4755 examples/basic-react/node_modules/electron/dist/chrome-sandbox \
-          && sudo chown root examples/basic-vanilla-esm/node_modules/electron/dist/chrome-sandbox \
-          && sudo chmod 4755 examples/basic-vanilla-esm/node_modules/electron/dist/chrome-sandbox
+      - run: pnpm build
       - run: xvfb-run --auto-servernum -- pnpm test:e2e
