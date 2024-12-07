@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.6.2
+
+### Patch Changes
+
+- [#217](https://github.com/jsonnull/electron-trpc/pull/217) [`f5f3ef3`](https://github.com/jsonnull/electron-trpc/commit/f5f3ef3b2ffd70d3daa899aaa0bb1745ce267951) Thanks [@jsonnull](https://github.com/jsonnull)! - Added README and metadata to published package.
+
 ## 0.6.1
 
 ### Patch Changes
