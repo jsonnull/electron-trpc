@@ -79,16 +79,19 @@ class IPCHandler<TRouter extends AnyRouter> {
   }
 
   #attachSubscriptionCleanupHandlers(win: BrowserWindow) {
-    win.webContents.on('did-start-navigation', ({ frame }) => {
-      debug(
-        'Handling webContents `did-start-navigation` event',
-        `webContentsId: ${win.webContents.id}`,
-        `frameRoutingId: ${frame.routingId}`
-      );
-      this.#cleanUpSubscriptions({
-        webContentsId: win.webContents.id,
-        frameRoutingId: frame.routingId,
-      });
+    win.webContents.on('did-start-navigation', ({ isSameDocument, frame }) => {
+      // Check if it's a hard navigation
+      if (!isSameDocument) {
+        debug(
+          'Handling hard navigation event',
+          `webContentsId: ${win.webContents.id}`,
+          `frameRoutingId: ${frame.routingId}`
+        );
+        this.#cleanUpSubscriptions({
+          webContentsId: win.webContents.id,
+          frameRoutingId: frame.routingId,
+        });
+      }
     });
     win.webContents.on('destroyed', () => {
       debug('Handling webContents `destroyed` event');
