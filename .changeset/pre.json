@@ -8,5 +8,7 @@
     "electron-trpc": "0.6.1",
     "www": "0.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "seven-carrots-live"
+  ]
 }
