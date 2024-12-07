@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 1.0.0
+
+### Major Changes
+
+- [#204](https://github.com/jsonnull/electron-trpc/pull/204) [`5acadea`](https://github.com/jsonnull/electron-trpc/commit/5acadea0f0b790ffc7712007a35be581e0464bd6) Thanks [@jsonnull](https://github.com/jsonnull)! - Breaking change: exposeElectronTRPC is now imported from 'electron-trpc/preload'.
+
 ## 0.6.1
 
 ### Patch Changes
