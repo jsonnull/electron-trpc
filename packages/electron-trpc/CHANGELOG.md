@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.7.0
+
+### Minor Changes
+
+- [#219](https://github.com/jsonnull/electron-trpc/pull/219) [`95525ca`](https://github.com/jsonnull/electron-trpc/commit/95525ca1c2a28a0d657ec5063eb33a8dde32a289) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix bug where soft-navigation events would cause subscription cleanup
+
 ## 0.6.2
 
 ### Patch Changes
