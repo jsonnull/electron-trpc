@@ -1,23 +1,24 @@
-import type { AnyRouter, inferRouterContext } from '@trpc/server';
+import type { AnyTRPCRouter, inferRouterContext } from '@trpc/server';
+import { Unsubscribable } from '@trpc/server/observable';
 import { ipcMain } from 'electron';
 import type { BrowserWindow, IpcMainEvent } from 'electron';
-import { handleIPCMessage } from './handleIPCMessage';
-import { CreateContextOptions } from './types';
+
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
 import { ETRPCRequest } from '../types';
-import { Unsubscribable } from '@trpc/server/observable';
+import { handleIPCMessage } from './handleIPCMessage';
+import { CreateContextOptions } from './types';
 import debugFactory from 'debug';
 
 const debug = debugFactory('electron-trpc:main:IPCHandler');
 
-type Awaitable<T> = T | Promise<T>;
+type MaybePromise<TType> = Promise<TType> | TType;
 
 const getInternalId = (event: IpcMainEvent, request: ETRPCRequest) => {
   const messageId = request.method === 'request' ? request.operation.id : request.id;
   return `${event.sender.id}-${event.senderFrame.routingId}:${messageId}`;
 };
 
-class IPCHandler<TRouter extends AnyRouter> {
+class IPCHandler<TRouter extends AnyTRPCRouter> {
   #windows: BrowserWindow[] = [];
   #subscriptions: Map<string, Unsubscribable> = new Map();
 
@@ -26,7 +27,7 @@ class IPCHandler<TRouter extends AnyRouter> {
     router,
     windows = [],
   }: {
-    createContext?: (opts: CreateContextOptions) => Awaitable<inferRouterContext<TRouter>>;
+    createContext?: (opts: CreateContextOptions) => MaybePromise<inferRouterContext<TRouter>>;
     router: TRouter;
     windows?: BrowserWindow[];
   }) {
@@ -105,7 +106,7 @@ class IPCHandler<TRouter extends AnyRouter> {
   }
 }
 
-export const createIPCHandler = <TRouter extends AnyRouter>({
+export const createIPCHandler = <TRouter extends AnyTRPCRouter>({
   createContext,
   router,
   windows = [],
