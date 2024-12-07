@@ -1,5 +1,11 @@
 # electron-trpc
 
+## 0.7.1
+
+### Patch Changes
+
+- [#197](https://github.com/jsonnull/electron-trpc/pull/197) [`1c5caaa`](https://github.com/jsonnull/electron-trpc/commit/1c5caaa0e58cee2a8324b27cdf5c793a312f844b) Thanks [@dguenther](https://github.com/dguenther)! - Fix a crash when calling `.destroy()` on a BrowserWindow.
+
 ## 0.7.0
 
 ### Minor Changes

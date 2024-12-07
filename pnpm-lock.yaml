@@ -42,7 +42,7 @@ importers:
         specifier: 29.3.2
         version: 29.3.2
       electron-trpc:
-        specifier: 0.7.0
+        specifier: 0.7.1
         version: link:../../packages/electron-trpc
       react:
         specifier: ^18.2.0
@@ -91,7 +91,7 @@ importers:
         specifier: 29.3.2
         version: 29.3.2
       electron-trpc:
-        specifier: 0.7.0
+        specifier: 0.7.1
         version: link:../../packages/electron-trpc
       react:
         specifier: ^18.2.0
