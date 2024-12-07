@@ -30,14 +30,14 @@ importers:
         specifier: ^4.29.14
         version: 4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@trpc/client':
-        specifier: 10.33.1
-        version: 10.33.1(@trpc/server@10.33.1)
+        specifier: 10.45.2
+        version: 10.45.2(@trpc/server@10.45.2)
       '@trpc/react-query':
-        specifier: 10.33.1
-        version: 10.33.1(@tanstack/react-query@4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/client@10.33.1(@trpc/server@10.33.1))(@trpc/server@10.33.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: 10.45.2
+        version: 10.45.2(@tanstack/react-query@4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@trpc/server':
-        specifier: 10.33.1
-        version: 10.33.1
+        specifier: 10.45.2
+        version: 10.45.2
       electron:
         specifier: 29.3.2
         version: 29.3.2
@@ -79,14 +79,14 @@ importers:
         specifier: ^4.29.14
         version: 4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@trpc/client':
-        specifier: 10.33.1
-        version: 10.33.1(@trpc/server@10.33.1)
+        specifier: 10.45.2
+        version: 10.45.2(@trpc/server@10.45.2)
       '@trpc/react-query':
-        specifier: 10.33.1
-        version: 10.33.1(@tanstack/react-query@4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/client@10.33.1(@trpc/server@10.33.1))(@trpc/server@10.33.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: 10.45.2
+        version: 10.45.2(@tanstack/react-query@4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@trpc/server':
-        specifier: 10.33.1
-        version: 10.33.1
+        specifier: 10.45.2
+        version: 10.45.2
       electron:
         specifier: 29.3.2
         version: 29.3.2
@@ -1281,27 +1281,19 @@ packages:
     peerDependencies:
       react: ^18.0.0
 
-  '@trpc/client@10.33.1':
-    resolution: {integrity: sha512-j1YKBl/VtjCK3nUQFacsouGpsk/DFVNiekp4sZf8Lryb6f1OIChlLJZNEipl+DUuHxsPVuaCQis4PGkrIb2ieg==}
-    peerDependencies:
-      '@trpc/server': 10.33.1
-
   '@trpc/client@10.45.2':
     resolution: {integrity: sha512-ykALM5kYWTLn1zYuUOZ2cPWlVfrXhc18HzBDyRhoPYN0jey4iQHEFSEowfnhg1RvYnrAVjNBgHNeSAXjrDbGwg==}
     peerDependencies:
       '@trpc/server': 10.45.2
 
-  '@trpc/react-query@10.33.1':
-    resolution: {integrity: sha512-Jpdg9xOyVJ4k+0wg28CxEEU1KcUVP+nMzpPbhISWOKaP1WZTGaQxphsCwx8KEFVaRiutKGBxhC24D+WhX7tMpA==}
+  '@trpc/react-query@10.45.2':
+    resolution: {integrity: sha512-BAqb9bGZIscroradlNx+Cc9522R+idY3BOSf5z0jHUtkxdMbjeGKxSSMxxu7JzoLqSIEC+LVzL3VvF8sdDWaZQ==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
-      '@trpc/client': 10.33.1
-      '@trpc/server': 10.33.1
+      '@trpc/client': 10.45.2
+      '@trpc/server': 10.45.2
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
-
-  '@trpc/server@10.33.1':
-    resolution: {integrity: sha512-ObMzyEALXhQ7QTVQdSJ+IL1wYB7UdLLoIhqHraYzqKb9sTTsL3+U64kK084KPsRd4b8R3yH/bzBOnCn8Hbrxkw==}
 
   '@trpc/server@10.45.2':
     resolution: {integrity: sha512-wOrSThNNE4HUnuhJG6PfDRp4L2009KDVxsd+2VYH8ro6o/7/jwYZ8Uu5j+VaW+mOmc8EHerHzGcdbGNQSAUPgg==}
@@ -1632,6 +1624,7 @@ packages:
 
   boolean@3.2.0:
     resolution: {integrity: sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   boxen@7.1.1:
     resolution: {integrity: sha512-2hCgjEmP8YLWQ130n2FerGv7rYpfBmnmp9Uy2Le1vge6X3gZIfSmEzP5QTDElFxcvVcXlEn8Aq6MU/PZygIOog==}
@@ -2277,6 +2270,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-agent@3.0.0:
     resolution: {integrity: sha512-PT6XReJ+D07JvGoxQMkT6qji/jVNfX/h364XHZOWeRzy64sSFr+xJ5OX7LI3b4MPQzdL4H8Y8M0xzPpsVMwA8Q==}
@@ -2466,6 +2460,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -5429,23 +5424,17 @@ snapshots:
       '@tanstack/query-core': 5.32.1
       react: 18.3.1
 
-  '@trpc/client@10.33.1(@trpc/server@10.33.1)':
-    dependencies:
-      '@trpc/server': 10.33.1
-
   '@trpc/client@10.45.2(@trpc/server@10.45.2)':
     dependencies:
       '@trpc/server': 10.45.2
 
-  '@trpc/react-query@10.33.1(@tanstack/react-query@4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/client@10.33.1(@trpc/server@10.33.1))(@trpc/server@10.33.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@trpc/react-query@10.45.2(@tanstack/react-query@4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@tanstack/react-query': 4.29.14(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@trpc/client': 10.33.1(@trpc/server@10.33.1)
-      '@trpc/server': 10.33.1
+      '@trpc/client': 10.45.2(@trpc/server@10.45.2)
+      '@trpc/server': 10.45.2
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-
-  '@trpc/server@10.33.1': {}
 
   '@trpc/server@10.45.2': {}
 
