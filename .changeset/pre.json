@@ -6,7 +6,11 @@
     "examples/basic-react-superjson": "0.0.16",
     "examples/basic-vanilla-esm": "0.0.16",
     "electron-trpc": "0.6.1",
-    "www": "0.0.1"
+    "www": "0.0.1",
+    "examples/manual-preload-react": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "modern-pumpkins-collect",
+    "seven-carrots-live"
+  ]
 }

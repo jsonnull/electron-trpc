@@ -1,5 +1,13 @@
 # electron-trpc
 
+## 1.0.0-alpha.0
+
+### Major Changes
+
+- [#228](https://github.com/jsonnull/electron-trpc/pull/228) [`87c98af`](https://github.com/jsonnull/electron-trpc/commit/87c98af6e18bcfd5d248e190a1139c41f79c9eda) Thanks [@github-actions](https://github.com/apps/github-actions)! - Breaking change: Preload is automatically registered by default in CJS or ESM contexts.
+
+- [#228](https://github.com/jsonnull/electron-trpc/pull/228) [`32f765e`](https://github.com/jsonnull/electron-trpc/commit/32f765ea56373d9347787c8f4fc5c9afb6da1d8d) Thanks [@github-actions](https://github.com/apps/github-actions)! - Breaking change: exposeElectronTRPC is now imported from 'electron-trpc/preload'
+
 ## 0.7.1
 
 ### Patch Changes
