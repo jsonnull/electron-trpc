@@ -20,8 +20,8 @@ const getInternalId = (event: IpcMainEvent, request: ETRPCRequest) => {
 };
 
 class IPCHandler<TRouter extends AnyRouter> {
-  #windows: BrowserWindow[] = [];
-  #subscriptions: Map<string, Unsubscribable> = new Map();
+  private windows: BrowserWindow[] = [];
+  private subscriptions: Map<string, Unsubscribable> = new Map();
 
   constructor({
     createContext,
@@ -41,20 +41,20 @@ class IPCHandler<TRouter extends AnyRouter> {
         internalId: getInternalId(event, request),
         event,
         message: request,
-        subscriptions: this.#subscriptions,
+        subscriptions: this.subscriptions,
       });
     });
   }
 
   attachWindow(win: BrowserWindow) {
-    if (this.#windows.includes(win)) {
+    if (this.windows.includes(win)) {
       return;
     }
 
     debug('Attaching window', win.id);
 
-    this.#windows.push(win);
-    this.#attachSubscriptionCleanupHandlers(win);
+    this.windows.push(win);
+    this.attachSubscriptionCleanupHandlers(win);
   }
 
   detachWindow(win: BrowserWindow, webContentsId?: number) {
@@ -64,27 +64,27 @@ class IPCHandler<TRouter extends AnyRouter> {
       throw new Error('webContentsId is required when calling detachWindow on a destroyed window');
     }
 
-    this.#windows = this.#windows.filter((w) => w !== win);
-    this.#cleanUpSubscriptions({ webContentsId: webContentsId ?? win.webContents.id });
+    this.windows = this.windows.filter((w) => w !== win);
+    this.cleanUpSubscriptions({ webContentsId: webContentsId ?? win.webContents.id });
   }
 
-  #cleanUpSubscriptions({
+  private cleanUpSubscriptions({
     webContentsId,
     frameRoutingId,
   }: {
     webContentsId: number;
     frameRoutingId?: number;
   }) {
-    for (const [key, sub] of this.#subscriptions.entries()) {
+    for (const [key, sub] of this.subscriptions.entries()) {
       if (key.startsWith(`${webContentsId}-${frameRoutingId ?? ''}`)) {
         debug('Closing subscription', key);
         sub.unsubscribe();
-        this.#subscriptions.delete(key);
+        this.subscriptions.delete(key);
       }
     }
   }
 
-  #attachSubscriptionCleanupHandlers(win: BrowserWindow) {
+  private attachSubscriptionCleanupHandlers(win: BrowserWindow) {
     const webContentsId = win.webContents.id;
     win.webContents.on('did-start-navigation', ({ isSameDocument, frame }) => {
       // Check if it's a hard navigation
@@ -94,7 +94,7 @@ class IPCHandler<TRouter extends AnyRouter> {
           `webContentsId: ${webContentsId}`,
           `frameRoutingId: ${frame.routingId}`
         );
-        this.#cleanUpSubscriptions({
+        this.cleanUpSubscriptions({
           webContentsId: webContentsId,
           frameRoutingId: frame.routingId,
         });
