@@ -6,7 +6,7 @@
   "main": "electron/index.mjs",
   "license": "MIT",
   "scripts": {
-    "start": "corepack pnpm build && electron .",
+    "start": "pnpm build && electron .",
     "build": "vite build"
   },
   "dependencies": {

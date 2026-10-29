@@ -1,6 +1,6 @@
 import type { AnyRouter, inferRouterContext } from '@trpc/server';
 import { ipcMain, session } from 'electron';
-import type { BrowserWindow, IpcMainEvent } from 'electron';
+import type { BrowserWindow, IpcMainEvent, WebFrameMain } from 'electron';
 import { handleIPCMessage } from './handleIPCMessage';
 import { CreateContextOptions } from './types';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
@@ -14,9 +14,9 @@ const debug = debugFactory('electron-trpc:main:IPCHandler');
 
 type Awaitable<T> = T | Promise<T>;
 
-const getInternalId = (event: IpcMainEvent, request: ETRPCRequest) => {
+const getInternalId = (event: IpcMainEvent, frame: WebFrameMain, request: ETRPCRequest) => {
   const messageId = request.method === 'request' ? request.operation.id : request.id;
-  return `${event.sender.id}-${event.senderFrame.routingId}:${messageId}`;
+  return `${event.sender.id}-${frame.routingId}:${messageId}`;
 };
 
 class IPCHandler<TRouter extends AnyRouter> {
@@ -35,10 +35,13 @@ class IPCHandler<TRouter extends AnyRouter> {
     windows.forEach((win) => this.attachWindow(win));
 
     ipcMain.on(ELECTRON_TRPC_CHANNEL, (event: IpcMainEvent, request: ETRPCRequest) => {
+      // The sending frame has already navigated or been destroyed, so there is no one to reply to.
+      if (!event.senderFrame) return;
+
       handleIPCMessage({
         router,
         createContext,
-        internalId: getInternalId(event, request),
+        internalId: getInternalId(event, event.senderFrame, request),
         event,
         message: request,
         subscriptions: this.subscriptions,
@@ -88,7 +91,7 @@ class IPCHandler<TRouter extends AnyRouter> {
     const webContentsId = win.webContents.id;
     win.webContents.on('did-start-navigation', ({ isSameDocument, frame }) => {
       // Check if it's a hard navigation
-      if (!isSameDocument) {
+      if (!isSameDocument && frame) {
         debug(
           'Handling hard navigation event',
           `webContentsId: ${webContentsId}`,
@@ -134,7 +137,7 @@ export const createIPCHandler = <TRouter extends AnyRouter>({
     } else {
       throw new Error(
         'Failed to resolve electron-trpc preload script path. ' +
-        'Unable to determine current module directory.'
+          'Unable to determine current module directory.'
       );
     }
 

@@ -2,6 +2,7 @@
   "name": "electron-trpc",
   "description": "Electron support for tRPC",
   "version": "0.7.1",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/jsonnull/electron-trpc.git"
@@ -19,63 +20,65 @@
   ],
   "exports": {
     "./main": {
-      "require": "./dist/main.cjs",
-      "import": "./dist/main.mjs",
-      "types": "./dist/main.d.ts"
+      "import": {
+        "types": "./dist/main.d.mts",
+        "default": "./dist/main.mjs"
+      },
+      "require": {
+        "types": "./dist/main.d.cts",
+        "default": "./dist/main.cjs"
+      }
     },
     "./preload": {
-      "require": "./dist/preload.cjs",
-      "import": "./dist/preload.mjs",
-      "types": "./dist/preload.d.ts"
+      "import": {
+        "types": "./dist/preload.d.mts",
+        "default": "./dist/preload.mjs"
+      },
+      "require": {
+        "types": "./dist/preload.d.cts",
+        "default": "./dist/preload.cjs"
+      }
     },
-    "./preload-auto": {
-      "require": "./dist/preload-auto.cjs",
-      "default": "./dist/preload-auto.cjs"
-    },
+    "./preload-auto": "./dist/preload-auto.cjs",
     "./renderer": {
-      "require": "./dist/renderer.cjs",
-      "import": "./dist/renderer.mjs",
-      "types": "./dist/renderer.d.ts"
-    }
+      "import": {
+        "types": "./dist/renderer.d.mts",
+        "default": "./dist/renderer.mjs"
+      },
+      "require": {
+        "types": "./dist/renderer.d.cts",
+        "default": "./dist/renderer.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "author": "Jason Nall <jsonnull@gmail.com>",
   "license": "MIT",
   "files": [
     "dist",
     "src",
-    "main.d.ts",
-    "renderer.d.ts",
     "README.md"
   ],
   "scripts": {
-    "build": "tsc && vite build -c src/main/vite.config.ts && vite build -c src/renderer/vite.config.ts && vite build -c src/preload/vite.config.ts && vite build -c src/preload/vite-auto.config.ts && corepack pnpm build:types",
-    "build:types": "dts-bundle-generator --config ./dts-bundle-generator.config.ts && corepack pnpm run copy:types",
-    "copy:readme": "cp ../../README.md ./",
-    "copy:types": "cp dist/main.d.ts dist/renderer.d.ts dist/preload.d.ts ./",
-    "test": "vitest -c vitest.config.ts",
-    "test:ci": "vitest run -c vitest.config.ts --coverage",
+    "build": "tsdown",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage",
     "typecheck": "tsc",
-    "prepublishOnly": "corepack pnpm copy:readme && corepack pnpm build",
-    "changeset": "changeset",
-    "release": "changeset publish"
+    "copy:readme": "cp ../../README.md ./",
+    "prepublishOnly": "pnpm copy:readme && pnpm build"
   },
   "devDependencies": {
-    "@tanstack/react-query": "^5.32.1",
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
-    "@types/debug": "^4.1.12",
-    "@types/node": "^20.12.8",
-    "@vitest/coverage-v8": "^1.6.0",
-    "builtin-modules": "^4.0.0",
-    "dts-bundle-generator": "9.5.1",
-    "electron": "29.3.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "superjson": "^2.2.1",
-    "vite": "^5.2.11",
-    "vite-plugin-commonjs-externals": "^0.1.4",
-    "vitest": "^1.6.0",
-    "zod": "^3.23.6"
+    "@types/debug": "^4.1.13",
+    "@types/node": "^24.9.0",
+    "@vitest/coverage-v8": "^5.0.5",
+    "electron": "^45.1.0",
+    "superjson": "^2.2.6",
+    "tsdown": "0.23.3",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "zod": "^4.6.7"
   },
   "peerDependencies": {
     "@trpc/client": ">10.0.0",
@@ -83,6 +86,6 @@
     "electron": ">19.0.0"
   },
   "dependencies": {
-    "debug": "^4.3.4"
+    "debug": "^4.4.3"
   }
 }

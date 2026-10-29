@@ -59,10 +59,10 @@ npm install --save electron-trpc
 2. If you need to use a custom preload script, you can disable automatic registration:
 
    ```ts
-   createIPCHandler({ 
-     router, 
+   createIPCHandler({
+     router,
      windows: [win],
-     autoRegisterPreload: false // Disable automatic preload registration
+     autoRegisterPreload: false, // Disable automatic preload registration
    });
    ```
 

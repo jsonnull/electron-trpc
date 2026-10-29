@@ -2,3 +2,11 @@ packages:
   - 'examples/*'
   - 'packages/*'
   - 'www'
+
+allowBuilds:
+  electron: true
+  esbuild: true
+  sharp: true
+  workerd: true
+linkWorkspacePackages: true
+strictPeerDependencies: false
