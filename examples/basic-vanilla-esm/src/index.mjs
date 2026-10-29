@@ -1,14 +1,12 @@
+import { createTRPCClient } from '@trpc/client';
 import { ipcLink } from 'electron-trpc/renderer';
-import { createTRPCProxyClient } from '@trpc/client';
 
-const trpc = createTRPCProxyClient({
+const trpc = createTRPCClient({
   links: [ipcLink()],
 });
 
 async function writeGreeting() {
   const greeting = await trpc.greeting.query({ name: 'Electron' });
-
-  console.log('greeting', greeting);
 
   const div = document.createElement('div');
   div.innerText = greeting.text;
@@ -17,13 +15,13 @@ async function writeGreeting() {
   document.body.appendChild(div);
 }
 
-async function listenForSubscription() {
-  trpc.subscription.subscribe(undefined, {
-    onData: (data) => {
-      console.log(data);
+function listenForGreetings() {
+  trpc.greetings.subscribe(undefined, {
+    onData: ({ text }) => {
+      console.log(text);
     },
   });
 }
 
 writeGreeting();
-listenForSubscription();
+listenForGreetings();

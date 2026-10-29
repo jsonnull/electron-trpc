@@ -3,32 +3,22 @@ import { app, BrowserWindow } from 'electron';
 import { createIPCHandler } from 'electron-trpc/main';
 import { router } from './api';
 
-process.env.DIST = path.join(__dirname, '../dist');
-process.env.PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public');
-
-const preload = path.join(__dirname, './preload.js');
 const url = process.env['VITE_DEV_SERVER_URL'];
 
 app.on('ready', () => {
+  // This app exposes electron-trpc from its own preload script instead.
+  createIPCHandler({ router, preload: false });
+
   const win = new BrowserWindow({
     webPreferences: {
-      preload,
-      // Context isolation is required for electron-trpc
-      contextIsolation: true,
+      preload: path.join(__dirname, './preload.js'),
     },
-  });
-
-  // Explicitly disable automatic preload registration
-  createIPCHandler({
-    router,
-    windows: [win],
-    autoRegisterPreload: false,
   });
 
   if (url) {
     win.loadURL(url);
   } else {
-    win.loadFile(path.join(process.env.DIST!, 'index.html'));
+    win.loadFile(path.join(__dirname, '../dist/index.html'));
   }
 
   win.show();

@@ -1,12 +1,18 @@
 import { ipcRenderer, contextBridge } from 'electron';
+import type { IpcRendererEvent } from 'electron';
 import { ELECTRON_TRPC_CHANNEL } from '../constants';
-import type { RendererGlobalElectronTRPC } from '../types';
+import type { ETRPCResponse, RendererGlobalElectronTRPC } from '../types';
 
-export const exposeElectronTRPC = () => {
+export const exposeElectronTRPC = (): void => {
   const electronTRPC: RendererGlobalElectronTRPC = {
-    sendMessage: (operation) => ipcRenderer.send(ELECTRON_TRPC_CHANNEL, operation),
-    onMessage: (callback) =>
-      ipcRenderer.on(ELECTRON_TRPC_CHANNEL, (_event, args) => callback(args)),
+    sendMessage: (request) => ipcRenderer.send(ELECTRON_TRPC_CHANNEL, request),
+    onMessage: (callback) => {
+      const listener = (_event: IpcRendererEvent, response: ETRPCResponse) => callback(response);
+      ipcRenderer.on(ELECTRON_TRPC_CHANNEL, listener);
+      return () => {
+        ipcRenderer.removeListener(ELECTRON_TRPC_CHANNEL, listener);
+      };
+    },
   };
   contextBridge.exposeInMainWorld('electronTRPC', electronTRPC);
 };

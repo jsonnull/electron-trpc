@@ -9,16 +9,10 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 const html = path.join(dirname, '../dist/index.html');
 
 app.on('ready', () => {
-  const win = new BrowserWindow({
-    webPreferences: {
-      // Context isolation is required for electron-trpc
-      contextIsolation: true,
-      // No preload script needed - it will be auto-registered!
-    },
-  });
+  // Registers the electron-trpc preload script, so it has to happen before any page loads.
+  createIPCHandler({ router });
 
-  // The autoRegisterPreload option defaults to true now
-  createIPCHandler({ router, windows: [win] });
+  const win = new BrowserWindow();
 
   win.loadFile(html);
 

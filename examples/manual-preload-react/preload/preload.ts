@@ -1,7 +1,5 @@
-// This example demonstrates manual preload script configuration
-// The automatic preload registration is disabled in electron/index.ts
+// With `preload: false`, the app's own preload script exposes electron-trpc, alongside anything
+// else it exposes to the renderer.
 import { exposeElectronTRPC } from 'electron-trpc/preload';
 
-process.once('loaded', async () => {
-  exposeElectronTRPC();
-});
+exposeElectronTRPC();

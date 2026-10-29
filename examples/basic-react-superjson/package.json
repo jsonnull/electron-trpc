@@ -10,23 +10,23 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@tanstack/react-query": "^4.29.14",
-    "@trpc/client": "10.33.1",
-    "@trpc/react-query": "10.33.1",
-    "@trpc/server": "10.33.1",
-    "electron": "29.3.2",
+    "@tanstack/react-query": "^5.105.0",
+    "@trpc/client": "11.19.0",
+    "@trpc/server": "11.19.0",
+    "@trpc/tanstack-react-query": "11.19.0",
+    "electron": "^45.1.0",
     "electron-trpc": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "superjson": "^1.12.3",
-    "zod": "^3.21.4"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7",
+    "superjson": "^2.2.6"
   },
   "devDependencies": {
-    "@types/node": "^20.12.8",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.2.11",
-    "vite-plugin-electron": "^0.28.7"
+    "@types/node": "^24.9.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.5",
+    "vite-plugin-electron": "^1.1.2"
   }
 }

@@ -1,32 +1,21 @@
-import z from 'zod';
+import { EventEmitter, on } from 'node:events';
 import { initTRPC } from '@trpc/server';
-import { observable } from '@trpc/server/observable';
-import { EventEmitter } from 'events';
+import z from 'zod';
 
 const ee = new EventEmitter();
 
 const t = initTRPC.create({ isServer: true });
 
 export const router = t.router({
-  greeting: t.procedure.input(z.object({ name: z.string() })).query((req) => {
-    const { input } = req;
-
+  greeting: t.procedure
+    .input(z.object({ name: z.string() }))
+    .query(({ input }) => ({ text: `Hello ${input.name}` })),
+  greet: t.procedure.input(z.object({ name: z.string() })).mutation(({ input }) => {
     ee.emit('greeting', `Greeted ${input.name}`);
-    return {
-      text: `Hello ${input.name}`,
-    };
   }),
-  subscription: t.procedure.subscription(() => {
-    return observable((emit) => {
-      function onGreet(text) {
-        emit.next({ text });
-      }
-
-      ee.on('greeting', onGreet);
-
-      return () => {
-        ee.off('greeting', onGreet);
-      };
-    });
+  greetings: t.procedure.subscription(async function* ({ signal }) {
+    for await (const [text] of on(ee, 'greeting', { signal })) {
+      yield { text };
+    }
   }),
 });

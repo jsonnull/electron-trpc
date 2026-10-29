@@ -7,7 +7,6 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 test('Hello Electron', async () => {
   const electronApp = await electron.launch({
     args: [dirname],
-    executablePath: process.env.PLAYWRIGHT_ELECTRON_PATH || undefined,
     env: {
       ...process.env,
       NODE_ENV: 'development',

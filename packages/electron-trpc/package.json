@@ -63,13 +63,13 @@
     "build": "tsdown",
     "test": "vitest",
     "test:ci": "vitest run --coverage",
-    "typecheck": "tsc",
+    "typecheck": "tsc -b",
     "copy:readme": "cp ../../README.md ./",
     "prepublishOnly": "pnpm copy:readme && pnpm build"
   },
   "devDependencies": {
-    "@trpc/client": "10.45.2",
-    "@trpc/server": "10.45.2",
+    "@trpc/client": "11.19.0",
+    "@trpc/server": "11.19.0",
     "@types/debug": "^4.1.13",
     "@types/node": "^24.9.0",
     "@vitest/coverage-v8": "^5.0.5",
@@ -81,9 +81,9 @@
     "zod": "^4.6.7"
   },
   "peerDependencies": {
-    "@trpc/client": ">10.0.0",
-    "@trpc/server": ">10.0.0",
-    "electron": ">19.0.0"
+    "@trpc/client": "^11.10.0",
+    "@trpc/server": "^11.10.0",
+    "electron": ">=35.0.0"
   },
   "dependencies": {
     "debug": "^4.4.3"

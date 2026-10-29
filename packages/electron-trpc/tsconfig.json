@@ -1,17 +1,21 @@
 {
   "compilerOptions": {
+    "composite": true,
+    "emitDeclarationOnly": true,
     "isolatedModules": true,
-    "lib": ["dom", "esnext"],
     "module": "esnext",
     "moduleResolution": "bundler",
-    "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "skipLibCheck": true,
     "strict": true,
-    "target": "esnext",
-    "types": ["node"]
+    "target": "esnext"
   },
-  "include": ["src"],
-  "exclude": ["src/**/__tests__"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.web.json" },
+    { "path": "./tsconfig.spec.json" }
+  ]
 }

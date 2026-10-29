@@ -1,5 +1,8 @@
 import { defineConfig } from 'tsdown';
 
+// Lower newer syntax such as `using` declarations, so consumers bundling this don't have to parse it.
+const target = 'es2022';
+
 export default defineConfig([
   {
     entry: {
@@ -9,7 +12,10 @@ export default defineConfig([
     },
     format: ['esm', 'cjs'],
     platform: 'node',
-    dts: true,
+    target,
+    dts: { generator: 'oxc' },
+    // Our types use `Disposable`, which consumers only have with `esnext.disposable` in their `lib`.
+    banner: { dts: '/// <reference lib="esnext.disposable" />' },
     clean: true,
   },
   {
@@ -18,6 +24,7 @@ export default defineConfig([
     entry: { 'preload-auto': 'src/preload/autoPreload.ts' },
     format: 'cjs',
     platform: 'node',
+    target,
     dts: false,
     clean: false,
     deps: { onlyImport: ['electron'] },
