@@ -91,3 +91,14 @@ exposeElectronTRPC();
 ```
 
 > Note: `electron-trpc` depends on `contextIsolation` being enabled, which is the default.
+
+## Restricting Access
+
+The preload script exposes electron-trpc to every page in its sessions, including any remote content your app loads. To only handle requests from pages you trust, check the sender with `allow`. Requests it rejects fail with a `FORBIDDEN` error:
+
+```ts
+createIPCHandler({
+  router,
+  allow: (event) => new URL(event.senderFrame?.url ?? '').protocol === 'app:',
+});
+```

@@ -173,6 +173,37 @@ describe('procedures', () => {
   });
 });
 
+describe('access', () => {
+  test('rejects requests that `allow` denies, without running them', async () => {
+    const contents = new FakeWebContents();
+    const subframe = contents.addSubframe();
+    const createContext = vi.fn(() => ({ webContentsId: contents.id }));
+    const onError = vi.fn();
+    startHandler({
+      allow: (event) => event.senderFrame === (contents.mainFrame as unknown),
+      createContext,
+      onError,
+    });
+
+    await expect(createClient(contents.mainFrame.document).echo.query('allowed')).resolves.toBe(
+      'allowed'
+    );
+    const error = await createClient(subframe.document)
+      .echo.query('denied')
+      .catch((cause) => cause);
+
+    expect(error).toBeInstanceOf(TRPCClientError);
+    expect(error.data).toMatchObject({ code: 'FORBIDDEN' });
+    expect(createContext).toHaveBeenCalledTimes(1);
+    expect(onError).toHaveBeenCalledWith(
+      expect.objectContaining({
+        path: 'echo',
+        error: expect.objectContaining({ code: 'FORBIDDEN' }),
+      })
+    );
+  });
+});
+
 describe('transformers', () => {
   test('round-trips inputs and outputs through superjson', async () => {
     const t = initTRPC.create({ transformer: superjson });

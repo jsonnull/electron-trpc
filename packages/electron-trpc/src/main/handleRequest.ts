@@ -18,6 +18,7 @@ type MaybePromise<T> = T | Promise<T>;
 
 export interface HandleRequestOptions<TRouter extends AnyTRPCRouter> {
   router: TRouter;
+  allow?: (event: IpcMainEvent) => boolean;
   createContext?: (opts: CreateContextOptions) => MaybePromise<inferRouterContext<TRouter>>;
   onError?: (opts: IPCHandlerErrorOptions<TRouter>) => void;
   event: IpcMainEvent;
@@ -46,6 +47,7 @@ const nextOrAbort = <T>(iterator: AsyncIterator<T>, signal: AbortSignal) =>
 
 export async function handleRequest<TRouter extends AnyTRPCRouter>({
   router,
+  allow,
   createContext,
   onError,
   event,
@@ -64,6 +66,10 @@ export async function handleRequest<TRouter extends AnyTRPCRouter>({
   };
 
   try {
+    if (allow && !allow(event)) {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'Request was not allowed' });
+    }
+
     input =
       serializedInput === undefined
         ? undefined

@@ -13,6 +13,12 @@ const debug = debugFactory('electron-trpc:main:IPCHandler');
 
 export interface CreateIPCHandlerOptions<TRouter extends AnyTRPCRouter> {
   router: TRouter;
+  /**
+   * Decides whether to handle a request, e.g. by checking `event.senderFrame.url`. Requests it
+   * rejects fail with a `FORBIDDEN` error. Every request is allowed by default, so set this when
+   * your app loads content you don't trust, which electron-trpc is exposed to like any other page.
+   */
+  allow?: (event: IpcMainEvent) => boolean;
   createContext?: (
     opts: CreateContextOptions
   ) => inferRouterContext<TRouter> | Promise<inferRouterContext<TRouter>>;
@@ -81,6 +87,7 @@ class IPCHandlerImpl<TRouter extends AnyTRPCRouter> implements IPCHandler {
 
     void handleRequest({
       router: this.options.router,
+      allow: this.options.allow,
       createContext: this.options.createContext,
       onError: this.options.onError,
       event,
