@@ -33,6 +33,8 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:code
+      # Electron downloads its binary on first use, so fetch it before configuring its sandbox.
+      - run: pnpm install:electron
       - name: Set up Electron sandbox
         run: |
           for sandbox in examples/*/node_modules/electron/dist/chrome-sandbox; do
