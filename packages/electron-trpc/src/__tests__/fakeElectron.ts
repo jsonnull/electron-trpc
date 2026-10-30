@@ -88,8 +88,8 @@ export class FakeDocument {
   }
 }
 
+/** Has no `frameToken`, which Electron only added in 38. */
 export class FakeFrame {
-  readonly frameToken = `frame-token-${nextId++}`;
   document: FakeDocument = new FakeDocument(this);
   detached = false;
   destroyed = false;

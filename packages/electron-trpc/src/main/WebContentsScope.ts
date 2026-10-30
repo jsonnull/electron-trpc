@@ -5,8 +5,9 @@ import { ClientScope } from './ClientScope';
 
 const debug = debugFactory('electron-trpc:main:WebContentsScope');
 
-const isSameFrame = (a: WebFrameMain, b: WebFrameMain) =>
-  a.processId === b.processId && a.frameToken === b.frameToken;
+// A frame tree node id is unique to one frame and never reused, unlike `frameToken`, which only
+// identifies a frame within its renderer process and doesn't exist before Electron 38.
+const isSameFrame = (a: WebFrameMain, b: WebFrameMain) => a.frameTreeNodeId === b.frameTreeNodeId;
 
 /**
  * The clients of every document in one `WebContents`. Clients are disposed when the document they

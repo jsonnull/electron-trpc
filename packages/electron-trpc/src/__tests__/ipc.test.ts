@@ -430,6 +430,20 @@ describe('protocol', () => {
     expect(await runningOperations(probe)).toEqual(['main frame']);
   });
 
+  test('ignores a stop that reuses a client id from another frame in the same process', async () => {
+    const { probe } = startHandler();
+    const contents = new FakeWebContents();
+    const subframe = contents.addSubframe();
+
+    contents.mainFrame.document.electronTRPC.sendMessage(hang(1, 'main frame'));
+    await flush();
+    subframe.document.electronTRPC.sendMessage({ method: 'stop', clientId: 'client', id: 1 });
+    await flush();
+
+    expect(probe.aborted).toEqual([]);
+    expect(await runningOperations(probe)).toEqual(['main frame']);
+  });
+
   test('ignores a request that reuses an operation id still in flight', async () => {
     const { probe } = startHandler();
     const { electronTRPC } = new FakeWebContents().mainFrame.document;
