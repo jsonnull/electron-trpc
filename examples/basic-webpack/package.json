@@ -1,0 +1,22 @@
+{
+  "name": "examples/basic-webpack",
+  "version": "0.0.0",
+  "private": true,
+  "main": ".webpack/main/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "pnpm build && electron .",
+    "build": "webpack && cp index.html .webpack/renderer/"
+  },
+  "dependencies": {
+    "@trpc/client": "11.19.0",
+    "@trpc/server": "11.19.0",
+    "electron": "^45.1.0",
+    "electron-trpc": "workspace:*",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "webpack": "^5.112.2",
+    "webpack-cli": "^7.2.3"
+  }
+}

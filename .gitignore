@@ -5,3 +5,4 @@ dist-electron/
 docs/.vitepress/cache/
 coverage/
 test-results/
+.webpack/

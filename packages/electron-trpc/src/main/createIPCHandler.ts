@@ -35,24 +35,29 @@ export interface CreateIPCHandlerOptions<TRouter extends AnyTRPCRouter> {
 export interface IPCHandler extends Disposable {}
 
 class IPCHandlerImpl<TRouter extends AnyTRPCRouter> implements IPCHandler {
-  readonly #stack = new DisposableStack();
+  readonly #stack: DisposableStack;
   readonly #contents = new Map<number, WebContentsScope>();
 
   constructor(private readonly options: CreateIPCHandlerOptions<TRouter>) {
+    // Undoes whatever was already set up if anything below throws.
+    using stack = new DisposableStack();
+
     const listener = (event: IpcMainEvent, request: ETRPCRequest) => {
       this.#handleMessage(event, request);
     };
     ipcMain.on(ELECTRON_TRPC_CHANNEL, listener);
-    this.#stack.defer(() => ipcMain.off(ELECTRON_TRPC_CHANNEL, listener));
+    stack.defer(() => ipcMain.off(ELECTRON_TRPC_CHANNEL, listener));
 
     if (options.preload !== false) {
-      this.#stack.use(registerPreload(options.preload?.sessions ?? [session.defaultSession]));
+      stack.use(registerPreload(options.preload?.sessions ?? [session.defaultSession]));
     }
 
-    this.#stack.defer(() => {
+    stack.defer(() => {
       for (const scope of this.#contents.values()) scope[Symbol.dispose]();
       this.#contents.clear();
     });
+
+    this.#stack = stack.move();
   }
 
   #contentsScope(webContents: WebContents) {

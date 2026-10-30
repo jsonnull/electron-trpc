@@ -72,13 +72,20 @@ npm install --save electron-trpc
 
 ## Preload Script
 
-The preload script is registered on Electron's default session. If your windows use other sessions, pass them instead:
+`createIPCHandler` registers electron-trpc's preload script on Electron's default session, so your app doesn't need one. If your windows use other sessions, pass them instead:
 
 ```ts
 createIPCHandler({ router, preload: { sessions: [session.fromPartition('persist:app')] } });
 ```
 
-To expose electron-trpc from your own preload script instead, pass `preload: false` and call `exposeElectronTRPC` there:
+The preload script is a file in the electron-trpc package, so your packaged app has to include it. That works without any setup when:
+
+- Your app ships electron-trpc in `node_modules`, for example as a `dependency` packaged by electron-builder, whether or not your main process is bundled.
+- Your main process is bundled with webpack, including electron-forge's webpack template. webpack copies the preload script into its output.
+
+If your build bundles electron-trpc into the main process without including its preload script, `createIPCHandler` throws an error saying it couldn't find the preload script. This usually happens when electron-trpc is a `devDependency`, or when your packager only ships your bundled code. It usually only shows up in packaged apps, so test a packaged build of your app.
+
+To fix it, expose electron-trpc from your own preload script. Pass `preload: false` and call `exposeElectronTRPC` there:
 
 ```ts
 // main process

@@ -20,6 +20,7 @@
   ],
   "exports": {
     "./main": {
+      "webpack": "./dist/main.mjs",
       "import": {
         "types": "./dist/main.d.mts",
         "default": "./dist/main.mjs"
