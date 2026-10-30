@@ -395,6 +395,28 @@ describe('protocol', () => {
     return probe.aborted;
   };
 
+  test('ignores malformed messages, even with `allow` rejecting everything', async () => {
+    startHandler({ allow: () => false });
+    const document = new FakeWebContents().mainFrame.document;
+    const send = (message: unknown) => document.electronTRPC.sendMessage(message as ETRPCRequest);
+
+    send(null);
+    send('request');
+    send({ method: 'request', clientId: 'client' });
+    send({
+      method: 'request',
+      clientId: 'client',
+      operation: { id: 1, type: 'delete', path: 'echo' },
+    });
+    send({ method: 'stop', clientId: 42, id: 1 });
+    await flush();
+
+    const error = await createClient(document)
+      .echo.query('still handled')
+      .catch((cause) => cause);
+    expect(error.data).toMatchObject({ code: 'FORBIDDEN' });
+  });
+
   test('ignores requests that reuse a client id from another frame', async () => {
     const { probe } = startHandler();
     const contents = new FakeWebContents();

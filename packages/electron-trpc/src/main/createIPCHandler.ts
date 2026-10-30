@@ -11,6 +11,21 @@ import type { ETRPCRequest } from '../types';
 
 const debug = debugFactory('electron-trpc:main:IPCHandler');
 
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const procedureTypes: unknown[] = ['query', 'mutation', 'subscription'];
+
+/** Renderers can send anything, so a message has to be checked before reading from it. */
+const isETRPCRequest = (message: unknown): message is ETRPCRequest => {
+  if (!isObject(message) || typeof message.clientId !== 'string') return false;
+  if (message.method === 'stop') return Number.isInteger(message.id);
+  if (message.method !== 'request' || !isObject(message.operation)) return false;
+
+  const { id, type, path } = message.operation;
+  return Number.isInteger(id) && procedureTypes.includes(type) && typeof path === 'string';
+};
+
 export interface CreateIPCHandlerOptions<TRouter extends AnyTRPCRouter> {
   router: TRouter;
   /**
@@ -42,8 +57,8 @@ class IPCHandlerImpl<TRouter extends AnyTRPCRouter> implements IPCHandler {
     // Undoes whatever was already set up if anything below throws.
     using stack = new DisposableStack();
 
-    const listener = (event: IpcMainEvent, request: ETRPCRequest) => {
-      this.#handleMessage(event, request);
+    const listener = (event: IpcMainEvent, message: unknown) => {
+      this.#handleMessage(event, message);
     };
     ipcMain.on(ELECTRON_TRPC_CHANNEL, listener);
     stack.defer(() => ipcMain.off(ELECTRON_TRPC_CHANNEL, listener));
@@ -75,7 +90,12 @@ class IPCHandlerImpl<TRouter extends AnyTRPCRouter> implements IPCHandler {
     return scope;
   }
 
-  #handleMessage(event: IpcMainEvent, request: ETRPCRequest) {
+  #handleMessage(event: IpcMainEvent, request: unknown) {
+    if (!isETRPCRequest(request)) {
+      debug('Ignoring malformed message', request);
+      return;
+    }
+
     // The sending frame has already navigated or been destroyed, so there is no one to reply to.
     const frame = event.senderFrame;
     if (!frame || event.sender.isDestroyed()) return;
