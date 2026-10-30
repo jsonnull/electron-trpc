@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["dom", "esnext"],
+    "types": [],
+    "outDir": "node_modules/.tsc/web"
+  },
+  "files": [],
+  "include": ["src/renderer", "src/*.ts"],
+  "exclude": ["src/**/__tests__"],
+  "references": []
+}

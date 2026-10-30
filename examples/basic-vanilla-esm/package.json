@@ -1,0 +1,23 @@
+{
+  "name": "examples/basic-vanilla-esm",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "main": "electron/index.mjs",
+  "license": "MIT",
+  "scripts": {
+    "start": "pnpm build && electron .",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@trpc/client": "11.19.0",
+    "@trpc/server": "11.19.0",
+    "electron": "^45.1.0",
+    "electron-trpc": "workspace:*",
+    "vite": "^8.3.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.0"
+  }
+}

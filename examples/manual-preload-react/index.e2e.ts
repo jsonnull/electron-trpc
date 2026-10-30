@@ -1,0 +1,20 @@
+import { _electron as electron, test, expect } from '@playwright/test';
+
+test('Hello Electron', async () => {
+  const electronApp = await electron.launch({
+    args: [`${__dirname}`],
+    env: {
+      ...process.env,
+      NODE_ENV: 'development',
+    },
+  });
+
+  const window = await electronApp.firstWindow();
+  await window.waitForLoadState('load');
+  expect(await window.title()).toBe('Hello from Electron renderer!');
+
+  const response = await window.textContent('[data-testid="greeting"]');
+  expect(response).toBe('Hello Electron');
+
+  await electronApp.close();
+});

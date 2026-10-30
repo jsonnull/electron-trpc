@@ -1,20 +1,21 @@
 {
   "compilerOptions": {
-    "alwaysStrict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "composite": true,
+    "emitDeclarationOnly": true,
     "isolatedModules": true,
-    "lib": ["dom", "es2017"],
     "module": "esnext",
     "moduleResolution": "bundler",
-    "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "esnext"
   },
-  "include": ["src/main/*.ts", "src/renderer/*.ts"],
-  "exclude": ["node_modules"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.web.json" },
+    { "path": "./tsconfig.spec.json" }
+  ]
 }

@@ -3,10 +3,10 @@
     "alwaysStrict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["dom", "esnext"],
     "module": "esnext",
-    "moduleResolution": "node16",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
@@ -17,6 +17,6 @@
     "strict": true,
     "target": "esnext"
   },
-  "include": ["./*.ts", "./*.tsx"],
+  "include": ["./*.ts", "./*.mts", "./*.tsx"],
   "exclude": ["node_modules"]
 }

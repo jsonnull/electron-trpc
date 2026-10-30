@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "types": ["node"],
+    "outDir": "node_modules/.tsc/node"
+  },
+  "files": [],
+  "include": ["src/main", "src/preload", "src/*.ts"],
+  "exclude": ["src/**/__tests__"],
+  "references": []
+}

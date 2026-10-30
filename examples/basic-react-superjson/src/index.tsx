@@ -1,44 +1,49 @@
-import React, { useState } from 'react';
-import ReactDom from 'react-dom';
+import { useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { createTRPCClient } from '@trpc/client';
+import { createTRPCContext, useSubscription } from '@trpc/tanstack-react-query';
 import { ipcLink } from 'electron-trpc/renderer';
 import superjson from 'superjson';
-import { createTRPCReact } from '@trpc/react-query';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { AppRouter } from '../electron/api';
 
-const trpcReact = createTRPCReact<AppRouter>();
+const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
-    trpcReact.createClient({
-      links: [ipcLink()],
-      transformer: superjson,
-    })
+    createTRPCClient<AppRouter>({ links: [ipcLink({ transformer: superjson })] })
   );
 
   return (
-    <trpcReact.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
         <HelloElectron />
-      </QueryClientProvider>
-    </trpcReact.Provider>
+      </TRPCProvider>
+    </QueryClientProvider>
   );
 }
 
 function HelloElectron() {
-  const { data } = trpcReact.greeting.useQuery({ name: 'Electron' });
-  trpcReact.subscription.useSubscription(undefined, {
-    onData: (data) => {
-      console.log(data);
-    },
-  });
+  const trpc = useTRPC();
+  const greeting = useQuery(trpc.greeting.queryOptions({ name: 'Electron' }));
+  useSubscription(
+    trpc.greetings.subscriptionOptions(undefined, {
+      onData: ({ text, at }) => console.log(text, at.toISOString()),
+    })
+  );
 
-  if (!data) {
+  if (!greeting.data) {
     return null;
   }
 
-  return <div>{data.text}</div>;
+  return (
+    <>
+      <div data-testid="greeting">{greeting.data.text}</div>
+      {/* superjson turns this back into a `Date`, so it has `getFullYear`. */}
+      <div data-testid="greeted-year">{greeting.data.greetedAt.getFullYear()}</div>
+    </>
+  );
 }
 
-ReactDom.render(<App />, document.getElementById('react-root'));
+createRoot(document.getElementById('react-root')!).render(<App />);

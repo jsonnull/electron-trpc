@@ -23,6 +23,8 @@
 
 ## Installation
 
+electron-trpc requires Electron 35 or later and tRPC 11.
+
 ```sh
 # Using pnpm
 pnpm add electron-trpc
@@ -36,46 +38,74 @@ npm install --save electron-trpc
 
 ## Basic Setup
 
-1. Add your tRPC router to the Electron main process using `createIPCHandler`:
+1. Add your tRPC router to the Electron main process using `createIPCHandler`. It also registers a preload script that exposes electron-trpc to your pages, so create it before loading any:
 
    ```ts
-   import { app } from 'electron';
+   import { app, BrowserWindow } from 'electron';
    import { createIPCHandler } from 'electron-trpc/main';
    import { router } from './api';
 
    app.on('ready', () => {
-     const win = new BrowserWindow({
-       webPreferences: {
-         // Replace this path with the path to your preload file (see next step)
-         preload: 'path/to/preload.js',
-       },
-     });
+     createIPCHandler({ router });
 
-     createIPCHandler({ router, windows: [win] });
+     const win = new BrowserWindow();
+     win.loadFile('index.html');
    });
    ```
 
-2. Expose the IPC to the render process from the [preload file](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts):
+   The handler serves every window and cleans up after pages that navigate away or close. It is `Disposable`, so `handler[Symbol.dispose]()` stops it and ends any running subscriptions.
+
+2. When creating the client in the render process, use `ipcLink` instead of the HTTP or WebSocket links. If your router uses a transformer, pass it to the link:
 
    ```ts
-   import { exposeElectronTRPC } from 'electron-trpc/main';
-
-   process.once('loaded', async () => {
-     exposeElectronTRPC();
-   });
-   ```
-
-   > Note: `electron-trpc` depends on `contextIsolation` being enabled, which is the default.
-
-3. When creating the client in the render process, use the `ipcLink` (instead of the HTTP or batch HTTP links):
-
-   ```ts
-   import { createTRPCProxyClient } from '@trpc/client';
+   import { createTRPCClient } from '@trpc/client';
    import { ipcLink } from 'electron-trpc/renderer';
+   import superjson from 'superjson';
+   import type { AppRouter } from './api';
 
-   export const client = createTRPCProxyClient({
-     links: [ipcLink()],
+   export const client = createTRPCClient<AppRouter>({
+     links: [ipcLink({ transformer: superjson })],
    });
    ```
 
-4. Now you can use the client in your render process as you normally would (e.g. using `@trpc/react`).
+3. Now you can use the client in your render process as you normally would, for example with `@trpc/tanstack-react-query`.
+
+## Preload Script
+
+`createIPCHandler` registers electron-trpc's preload script on Electron's default session, so your app doesn't need one. If your windows use other sessions, pass them instead:
+
+```ts
+createIPCHandler({ router, preload: { sessions: [session.fromPartition('persist:app')] } });
+```
+
+The preload script is a file in the electron-trpc package, so your packaged app has to include it. That works without any setup when:
+
+- Your app ships electron-trpc in `node_modules`, for example as a `dependency` packaged by electron-builder, whether or not your main process is bundled.
+- Your main process is bundled with webpack, including electron-forge's webpack template. webpack copies the preload script into its output.
+
+If your build bundles electron-trpc into the main process without including its preload script, `createIPCHandler` throws an error saying it couldn't find the preload script. This usually happens when electron-trpc is a `devDependency`, or when your packager only ships your bundled code. It usually only shows up in packaged apps, so test a packaged build of your app.
+
+To fix it, expose electron-trpc from your own preload script. Pass `preload: false` and call `exposeElectronTRPC` there:
+
+```ts
+// main process
+createIPCHandler({ router, preload: false });
+
+// preload script
+import { exposeElectronTRPC } from 'electron-trpc/preload';
+
+exposeElectronTRPC();
+```
+
+> Note: `electron-trpc` depends on `contextIsolation` being enabled, which is the default.
+
+## Restricting Access
+
+The preload script exposes electron-trpc to every page in its sessions, including any remote content your app loads. To only handle requests from pages you trust, check the sender with `allow`. Requests it rejects fail with a `FORBIDDEN` error:
+
+```ts
+createIPCHandler({
+  router,
+  allow: (event) => new URL(event.senderFrame?.url ?? '').protocol === 'app:',
+});
+```

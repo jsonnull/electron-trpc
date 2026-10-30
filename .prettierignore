@@ -1,5 +1,7 @@
 **/dist/
 **/dist-electron/
+**/.webpack/
 **/coverage/
 
 pnpm-lock.yaml
+**/test-results/

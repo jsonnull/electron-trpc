@@ -7,38 +7,37 @@ env:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node: ['18.x']
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: ${{ matrix.node }}
+          node-version-file: .node_version
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - run: pnpm build:code
       - run: pnpm test:ci
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v7
 
   test-e2e:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node: ['18.x']
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: ${{ matrix.node }}
+          node-version-file: .node_version
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - run: pnpm build:code
+      # Electron downloads its binary on first use, so fetch it before configuring its sandbox.
+      - run: pnpm install:electron
+      - name: Set up Electron sandbox
+        run: |
+          for sandbox in examples/*/node_modules/electron/dist/chrome-sandbox; do
+            sudo chown root "$sandbox" && sudo chmod 4755 "$sandbox"
+          done
       - run: xvfb-run --auto-servernum -- pnpm test:e2e
