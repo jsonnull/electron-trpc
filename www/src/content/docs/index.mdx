@@ -9,24 +9,28 @@ hero:
       link: /getting-started/
       icon: right-arrow
       variant: primary
-    - text: Example Usage
+    - text: Upgrading from 0.x
+      link: /upgrading/
+      variant: secondary
+    - text: Examples
       link: https://github.com/jsonnull/electron-trpc/tree/main/examples/
       icon: external
+      variant: minimal
 ---
 
-import { Card, CardGrid, Code } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
 
 <CardGrid>
   <Card title="Main <-> Renderer" icon="random">
-    Expose APIs from electron's main process to one or more renderer processes.
+    Expose APIs from Electron's main process to every window automatically.
   </Card>
   <Card title="Fully type-safe IPC" icon="seti:typescript">
-    Build electron IPC with all the benefits of tRPC, including inferred client types.
+    Build Electron IPC with all the benefits of tRPC 11, including inferred client types.
   </Card>
   <Card title="Secure platform alternative to localhost" icon="rocket">
     Electron IPC is faster and more secure than opening local servers for IPC.
   </Card>
   <Card title="Queries, mutations, and subscriptions" icon="seti:graphql">
-    Supports all tRPC features. No need to write complicated bi-directional IPC schemes.
+    Supports tRPC's procedures, including async generator subscriptions.
   </Card>
 </CardGrid>

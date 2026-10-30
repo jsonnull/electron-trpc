@@ -10,6 +10,11 @@ export default defineConfig({
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/jsonnull/electron-trpc' },
       ],
+      sidebar: [
+        'getting-started',
+        { label: 'Guides', items: ['preload-script', 'request-lifetimes', 'security'] },
+        'upgrading',
+      ],
     }),
   ],
 });

@@ -1,0 +1,78 @@
+---
+title: Upgrading from 0.x
+description: How to move an app from electron-trpc 0.x to 1.0.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+electron-trpc 1.0 supports tRPC 11 and Electron 35 or later. The 0.x releases, which support tRPC 10, are no longer maintained.
+
+## Dependencies
+
+Update electron-trpc, tRPC and Electron together:
+
+```sh
+pnpm add electron-trpc@^1 @trpc/server@^11 @trpc/client@^11
+pnpm add -D electron@latest
+```
+
+tRPC 11 has its own breaking changes. Follow tRPC's [migration guide](https://trpc.io/docs/migrate-from-v10-to-v11) for your router and client code.
+
+## Main process
+
+`createIPCHandler` answers requests from any window and cleans up after each one, so it no longer takes a `windows` option, and `attachWindow` and `detachWindow` are gone.
+
+It also registers electron-trpc's preload script, so create it before your windows load their pages:
+
+```diff lang="ts" title="main.ts"
+ app.on('ready', () => {
++  createIPCHandler({ router });
++
+-  const win = new BrowserWindow({
+-    webPreferences: {
+-      preload: path.join(__dirname, 'preload.js'),
+-    },
+-  });
+-  createIPCHandler({ router, windows: [win] });
++  const win = new BrowserWindow();
+ });
+```
+
+## Preload script
+
+electron-trpc now brings its own [preload script](/preload-script/), so what to do with yours depends on what else it does:
+
+- **It only exposed electron-trpc:** delete it, along with its build entry and `webPreferences.preload`.
+- **It also exposes your own APIs:** remove `exposeElectronTRPC` from it. electron-trpc's preload script runs alongside it.
+- **You want to keep exposing electron-trpc yourself:** pass `preload: false` to `createIPCHandler`, and import `exposeElectronTRPC` from `electron-trpc/preload` instead of `electron-trpc/main`.
+
+<Aside type="caution">
+  The preload script has to be included in your packaged app. Check a packaged build after
+  upgrading, and see [Packaged apps](/preload-script/#packaged-apps) if `createIPCHandler` can't
+  find it.
+</Aside>
+
+## Renderer
+
+In tRPC 11, data transformers move from the client to its links, so pass yours to `ipcLink`:
+
+```diff lang="ts" title="renderer.ts"
+ const client = createTRPCClient<AppRouter>({
+-  transformer: superjson,
+-  links: [ipcLink()],
++  links: [ipcLink({ transformer: superjson })],
+ });
+```
+
+tRPC 11 also renames `createTRPCProxyClient` to `createTRPCClient`, though the old name still works. For React, `@trpc/react-query` still works with tRPC 11, and tRPC now also offers a [TanStack React Query integration](https://trpc.io/docs/client/tanstack-react-query/setup).
+
+## Subscriptions
+
+Observable subscriptions still work, but tRPC 11 recommends async generators, which end through the `signal` tRPC passes them. Subscriptions also end in more situations than before, such as when their page reloads or their iframe is removed. See [Request lifetimes](/request-lifetimes/).
+
+## New in 1.0
+
+- An [`allow`](/security/#rejecting-requests-by-sender) option to reject requests by sender.
+- [`preload: { sessions }`](/preload-script/#sessions) to register the preload script on sessions other than the default.
+- A [`Disposable`](/request-lifetimes/#disposing-the-handler) handler, which ends every request still running when disposed.
+- Pages with several tRPC clients get the right responses, and electron-trpc works in sandboxed renderers.

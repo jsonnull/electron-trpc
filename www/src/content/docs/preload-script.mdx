@@ -1,0 +1,61 @@
+---
+title: Preload Script
+description: How electron-trpc reaches your pages, and how to provide its preload script yourself.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Renderers talk to the main process through a [preload script](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts), which exposes electron-trpc's IPC channel to the page. `createIPCHandler` registers electron-trpc's own preload script.
+
+## Sessions
+
+The preload script is registered on Electron's default session, so it runs in every page that uses it. If your windows use [other sessions](https://www.electronjs.org/docs/latest/api/session), pass those instead:
+
+```ts title="main.ts"
+import { session } from 'electron';
+
+createIPCHandler({
+  router,
+  preload: { sessions: [session.fromPartition('persist:app')] },
+});
+```
+
+Register the preload script before your windows load their pages, since a page only gets the preload scripts registered when it loads. Disposing the handler unregisters it.
+
+Your own preload scripts, set with `webPreferences.preload`, run alongside electron-trpc's.
+
+## Packaged apps
+
+The preload script is a file in the electron-trpc package, so your packaged app has to include it. That doesn't need any setup when:
+
+- Your app includes electron-trpc in `node_modules`, for example as a `dependency` packaged by electron-builder, whether or not your main process is bundled.
+- Your main process is bundled with webpack, as in electron-forge's webpack template. webpack copies the preload script into its output.
+
+If your build bundles electron-trpc into the main process without including its preload script, `createIPCHandler` throws an error saying it couldn't find the preload script. This usually happens when electron-trpc is a `devDependency`, or when your packager only includes your bundled code.
+
+<Aside type="caution" title="Test a packaged build">
+  This error usually only shows up in packaged apps, because the preload script is still on disk
+  while you develop. Run a packaged build of your app once you've set it up.
+</Aside>
+
+## Using your own preload script
+
+To expose electron-trpc from a preload script of your own, pass `preload: false` and call `exposeElectronTRPC` from it:
+
+```ts title="main.ts"
+createIPCHandler({ router, preload: false });
+
+const win = new BrowserWindow({
+  webPreferences: {
+    preload: path.join(__dirname, 'preload.js'),
+  },
+});
+```
+
+```ts title="preload.ts"
+import { exposeElectronTRPC } from 'electron-trpc/preload';
+
+exposeElectronTRPC();
+```
+
+Electron sandboxes renderers by default, and a sandboxed preload script can only `require` Electron's own modules. Bundle your preload script so that `electron-trpc/preload` is included in it, as electron-forge's templates do and the [manual preload example](https://github.com/jsonnull/electron-trpc/tree/main/examples/manual-preload-react) shows with Vite.
