@@ -1,5 +1,23 @@
 # electron-trpc
 
+## 1.0.0
+
+### Major Changes
+
+- [#231](https://github.com/jsonnull/electron-trpc/pull/231) [`bb5a2d9`](https://github.com/jsonnull/electron-trpc/commit/bb5a2d994ffd721c5ce3a3ce4b06d3c920fa65c2) Thanks [@jsonnull](https://github.com/jsonnull)! - Breaking change: `createIPCHandler` registers electron-trpc's preload script itself, on the default session or the sessions passed as `preload: { sessions }`, so apps no longer need one. Apps that expose electron-trpc from their own preload script pass `preload: false` and import `exposeElectronTRPC` from `electron-trpc/preload` instead of `electron-trpc/main`. If a build bundles electron-trpc without its preload script, `createIPCHandler` throws an error explaining how to expose it from your own preload script instead.
+
+- [#231](https://github.com/jsonnull/electron-trpc/pull/231) [`bb5a2d9`](https://github.com/jsonnull/electron-trpc/commit/bb5a2d994ffd721c5ce3a3ce4b06d3c920fa65c2) Thanks [@jsonnull](https://github.com/jsonnull)! - Breaking change: `createIPCHandler` returns a `Disposable` handler that serves every window, replacing the `windows` option and `attachWindow`/`detachWindow`. Requests are cancelled when their page navigates away, reloads, crashes or closes, and disposing the handler cancels everything still running.
+
+- [#231](https://github.com/jsonnull/electron-trpc/pull/231) [`bb5a2d9`](https://github.com/jsonnull/electron-trpc/commit/bb5a2d994ffd721c5ce3a3ce4b06d3c920fa65c2) Thanks [@jsonnull](https://github.com/jsonnull)! - Breaking change: Requires tRPC 11 and Electron 35 or later. Pass transformers to `ipcLink` instead of the client, as with tRPC 11's other links.
+
+### Minor Changes
+
+- [#231](https://github.com/jsonnull/electron-trpc/pull/231) [`bb5a2d9`](https://github.com/jsonnull/electron-trpc/commit/bb5a2d994ffd721c5ce3a3ce4b06d3c920fa65c2) Thanks [@jsonnull](https://github.com/jsonnull)! - Add an `allow` option to `createIPCHandler`, which decides whether to handle each request, e.g. based on `event.senderFrame.url`. Rejected requests fail with a `FORBIDDEN` error.
+
+### Patch Changes
+
+- [#231](https://github.com/jsonnull/electron-trpc/pull/231) [`bb5a2d9`](https://github.com/jsonnull/electron-trpc/commit/bb5a2d994ffd721c5ce3a3ce4b06d3c920fa65c2) Thanks [@jsonnull](https://github.com/jsonnull)! - Fix responses reaching the wrong client when a page has several (#201), types not resolving with `moduleResolution: bundler` (#229), `instanceof TRPCClientError` failing in the renderer (#209), and electron-trpc not working in sandboxed renderers (#116).
+
 ## 0.7.1
 
 ### Patch Changes
