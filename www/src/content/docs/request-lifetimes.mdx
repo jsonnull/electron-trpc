@@ -1,0 +1,62 @@
+---
+title: Request Lifetimes
+description: When electron-trpc's requests and subscriptions end, and how to clean up after them.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+electron-trpc tracks which page sent each request. It ends a request when the page cancels it, or when the page navigates, reloads, crashes or closes, so subscriptions stop when their window does.
+
+## When requests end
+
+A request ends when:
+
+- It finishes: a query or mutation returns, or a subscription's generator returns.
+- The caller cancels it, by unsubscribing or by aborting the request's `signal`.
+- Its page navigates to a new document or reloads. Navigations within the same document, like changing the URL hash or calling `history.pushState`, don't end anything.
+- Its renderer process crashes.
+- Its window or `webContents` is closed.
+- Its iframe is removed. See [Iframes](#iframes) below.
+- The IPC handler is disposed.
+
+## Cleaning up in procedures
+
+When a request ends early, electron-trpc aborts the `signal` that tRPC passes to the procedure. Use it to release what the procedure set up, such as event listeners or timers. tRPC's async generator subscriptions work well with Node's `on`, which stops listening when its signal aborts:
+
+```ts title="api.ts"
+greetings: t.procedure.subscription(async function* ({ signal }) {
+  for await (const [text] of on(ee, 'greeting', { signal })) {
+    yield text as string;
+  }
+}),
+```
+
+Observable subscriptions are still supported, and their teardown function runs when the request ends.
+
+## Iframes
+
+Electron has no event for an iframe being removed, so electron-trpc can only notice that it's gone the next time something happens: when one of the iframe's subscriptions has something to send, or when the same window makes another request or creates another frame. Until then, an idle subscription from a removed iframe keeps running.
+
+<Aside title="End iframe subscriptions before removing the iframe">
+  If your app removes iframes that subscribe to the main process, end their subscriptions first, for
+  example by having the parent page tell the iframe to unsubscribe before it removes it. Code inside
+  the iframe can't reliably clean up while it's being removed.
+</Aside>
+
+## Disposing the handler
+
+`createIPCHandler` returns a [`Disposable`](https://github.com/tc39/proposal-explicit-resource-management) handler. Disposing it ends every request still running, stops listening for IPC messages and unregisters the preload script:
+
+```ts title="main.ts"
+const handler = createIPCHandler({ router });
+
+app.on('will-quit', () => {
+  handler[Symbol.dispose]();
+});
+```
+
+Only one handler can be active at a time. To replace one, for example when reloading your main process code during development, dispose the old handler first.
+
+## Streaming queries
+
+Queries and mutations that return an async iterable aren't supported over IPC, and fail with an `UNSUPPORTED_MEDIA_TYPE` error. Use a subscription to stream values instead.

@@ -19,6 +19,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:code
       - run: pnpm test:ci
+      # The site only deploys from main, so check that it still builds here.
+      - run: pnpm docs:build
       - uses: codecov/codecov-action@v7
 
   test-e2e:

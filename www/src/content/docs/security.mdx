@@ -1,0 +1,61 @@
+---
+title: Security
+description: Limiting which pages can call your router over electron-trpc.
+---
+
+electron-trpc's preload script exposes your router to every page in the sessions it's registered on. That includes remote content your app loads in those sessions. If your app only loads its own pages, you don't need to set anything up. If it also loads untrusted content, use the options below to control what that content can call.
+
+## Keep untrusted content in its own session
+
+The simplest way to keep content away from your router is to never expose electron-trpc to it. Load untrusted content in a separate [session](https://www.electronjs.org/docs/latest/api/session), and only register the preload script on the sessions your own pages use:
+
+```ts title="main.ts"
+import { BrowserWindow, session } from 'electron';
+
+const appSession = session.fromPartition('persist:app');
+createIPCHandler({ router, preload: { sessions: [appSession] } });
+
+const appWindow = new BrowserWindow({ webPreferences: { session: appSession } });
+const remoteWindow = new BrowserWindow({
+  webPreferences: { session: session.fromPartition('remote') },
+});
+```
+
+## Rejecting requests by sender
+
+When untrusted content shares a session with your pages, use `allow` to decide which requests to handle. It's called for every request with the IPC event, so you can check the frame that sent it, following Electron's advice to [validate the sender of all IPC messages](https://www.electronjs.org/docs/latest/tutorial/security#17-validate-the-sender-of-all-ipc-messages):
+
+```ts title="main.ts"
+createIPCHandler({
+  router,
+  allow: (event) => new URL(event.senderFrame?.url ?? '').protocol === 'app:',
+});
+```
+
+Rejected requests fail with a `FORBIDDEN` error, and are passed to `onError` if you provide it.
+
+## Checking access in procedures
+
+For finer-grained checks, put what you know about the sender into the context and check it in a [middleware](https://trpc.io/docs/server/middlewares), like you would with a user on a server:
+
+```ts title="api.ts"
+const t = initTRPC.context<{ senderUrl: string | undefined }>().create({ isServer: true });
+
+const trusted = t.procedure.use(({ ctx, next }) => {
+  if (!ctx.senderUrl?.startsWith('app://settings/')) {
+    throw new TRPCError({ code: 'FORBIDDEN' });
+  }
+  return next();
+});
+```
+
+```ts title="main.ts"
+createIPCHandler({
+  router,
+  createContext: ({ event }) => ({ senderUrl: event.senderFrame?.url }),
+});
+```
+
+## Malformed messages
+
+Any script in a page with electron-trpc can send messages on its IPC channel. The main process ignores messages that aren't valid electron-trpc requests, and tRPC validates each procedure's input as usual, so give your procedures input validators.

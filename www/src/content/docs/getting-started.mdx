@@ -1,92 +1,118 @@
 ---
-title: 'Getting Started'
-description: 'How to start using electron-trpc in an Electron app.'
+title: Getting Started
+description: How to start using electron-trpc in an Electron app.
 ---
 
-import { Code } from '@astrojs/starlight/components';
+import { Aside, Steps, TabItem, Tabs } from '@astrojs/starlight/components';
 
-export const preloadCode = `
-import { exposeElectronTRPC } from 'electron-trpc/main';
+electron-trpc lets the renderer processes of your Electron app call a [tRPC](https://trpc.io) router in the main process, over Electron's IPC.
 
-process.once('loaded', async () => {
-exposeElectronTRPC();
-});
-`.trim();
+## Requirements
 
-export const mainCode = `
-import { app } from 'electron';
-import { createIPCHandler } from 'electron-trpc/main';
-import { router } from './api';
-
-app.on('ready', () => {
-const win = new BrowserWindow({
-webPreferences: {
-// Replace this path with the path to your BUILT preload file
-preload: 'path/to/preload.js',
-},
-});
-
-createIPCHandler({ router, windows: [win] });
-});
-`.trim();
-
-export const rendererCode = `
-import { createTRPCProxyClient } from '@trpc/client';
-import { ipcLink } from 'electron-trpc/renderer';
-
-export const client = createTRPCProxyClient({
-  links: [ipcLink()],
-});
-`.trim();
+- Electron 35 or later
+- tRPC 11.10 or later
+- [Context isolation](https://www.electronjs.org/docs/latest/tutorial/context-isolation), which Electron enables by default
 
 ## Installation
 
-Follow installation instructions for [trpc](https://trpc.io/docs/quickstart#installation) to build your router and client of choice.
-
-#### pnpm
-
-```sh
-pnpm add electron-trpc
-```
-
-#### yarn
+<Tabs syncKey="package-manager">
+  <TabItem label="pnpm">
 
 ```sh
-yarn add electron-trpc
+pnpm add electron-trpc @trpc/server @trpc/client
 ```
 
-#### npm
+  </TabItem>
+  <TabItem label="npm">
 
 ```sh
-npm install --save electron-trpc
+npm install electron-trpc @trpc/server @trpc/client
 ```
 
-#### TypeScript
+  </TabItem>
+  <TabItem label="yarn">
 
-It's worth noting that you'll need to figure out how to get TypeScript working on both the main process and render process client code. For one example of how to do this with a good developer experience (minimal configuration, fast bundling, client hot-reloading) see our [basic example](https://github.com/jsonnull/electron-trpc/tree/main/examples/basic).
+```sh
+yarn add electron-trpc @trpc/server @trpc/client
+```
 
-## Code
+  </TabItem>
+</Tabs>
 
-### Preload
+You'll need TypeScript to work across your main and renderer code to get inferred types in the renderer. The [examples](https://github.com/jsonnull/electron-trpc/tree/main/examples) show setups with Vite and with webpack.
 
-`electron-trpc` depends on Electron's [Context Isolation](https://www.electronjs.org/docs/latest/tutorial/context-isolation) feature, and exposes the electron-trpc IPC channel to render processes using a [preload file](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts).
+## Setup
 
-Some familiarization with these concepts can be helpful in case of unexpected issues during setup.
+<Steps>
 
-This is the most minimal working preload file for using `electron-trpc`. Depending on your application, you may need to add this to an existing preload file or customize it later.
+1. Define a tRPC router in the main process, as you would for any tRPC server:
 
-<Code lang="ts" title="preload.ts" code={preloadCode} />
+   ```ts title="api.ts"
+   import { EventEmitter, on } from 'node:events';
+   import { initTRPC } from '@trpc/server';
+   import z from 'zod';
 
-### Main
+   const ee = new EventEmitter();
+   const t = initTRPC.create({ isServer: true });
 
-In the main electron process, you will want to expose a tRPC router to one or more windows. These windows need to use the preload file you created.
+   export const router = t.router({
+     greeting: t.procedure
+       .input(z.object({ name: z.string() }))
+       .query(({ input }) => `Hello ${input.name}`),
+     greet: t.procedure.input(z.object({ name: z.string() })).mutation(({ input }) => {
+       ee.emit('greeting', `Greeted ${input.name}`);
+     }),
+     greetings: t.procedure.subscription(async function* ({ signal }) {
+       for await (const [text] of on(ee, 'greeting', { signal })) {
+         yield text as string;
+       }
+     }),
+   });
 
-<Code lang="ts" title="main.ts" code={mainCode} mark={[7, 8, 9, 10, 13]} />
+   export type AppRouter = typeof router;
+   ```
 
-### Renderer
+2. Create an IPC handler for the router in the main process. It also registers electron-trpc's [preload script](/preload-script/), so create it before any window loads a page:
 
-Windows you construct with the preload file and the IPC handler can reach the tRPC router in the main process over IPC. To do this, a script in the window needs to create a tRPC client using the IPC link:
+   ```ts title="main.ts" {6}
+   import { app, BrowserWindow } from 'electron';
+   import { createIPCHandler } from 'electron-trpc/main';
+   import { router } from './api';
 
-<Code lang="ts" title="renderer.ts" code={rendererCode} />
+   app.whenReady().then(() => {
+     createIPCHandler({ router });
 
-To use a different client, follow the appropriate usage instructions in the tRPC docs, ensuring that you substitute any HTTP or websocket links with the `ipcLink`.
+     const win = new BrowserWindow();
+     win.loadFile('index.html');
+   });
+   ```
+
+   The handler answers requests from all of your app's windows.
+
+3. Create a tRPC client in the renderer with `ipcLink`, which takes the place of the HTTP and WebSocket links:
+
+   ```ts title="renderer.ts"
+   import { createTRPCClient } from '@trpc/client';
+   import { ipcLink } from 'electron-trpc/renderer';
+   import type { AppRouter } from './api';
+
+   export const client = createTRPCClient<AppRouter>({
+     links: [ipcLink()],
+   });
+
+   const greeting = await client.greeting.query({ name: 'Electron' });
+   ```
+
+</Steps>
+
+From here, use the client however you would with tRPC, including with [TanStack React Query](https://trpc.io/docs/client/tanstack-react-query/setup).
+
+<Aside title="Transformers">
+  If your router uses a data transformer like [superjson](https://github.com/flightcontrolhq/superjson), pass it to `ipcLink` as you would to tRPC's other links: `ipcLink({ transformer: superjson })`.
+</Aside>
+
+## Next steps
+
+- [Preload script](/preload-script/): how electron-trpc reaches your pages, and what to do if your build can't include its preload script.
+- [Request lifetimes](/request-lifetimes/): when requests and subscriptions end.
+- [Security](/security/): limiting which pages can call your router.
