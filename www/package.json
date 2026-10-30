@@ -13,13 +13,13 @@
     "publish-pages": "wrangler pages deploy"
   },
   "dependencies": {
-    "@astrojs/check": "^0.7.0",
-    "@astrojs/starlight": "^0.23.2",
-    "astro": "^4.8.6",
-    "sharp": "^0.32.5",
-    "typescript": "^5.4.5"
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/starlight": "^0.42.7",
+    "astro": "^7.4.4",
+    "sharp": "^0.35.5",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "wrangler": "^3.58.0"
+    "wrangler": "4.154.0"
   }
 }
