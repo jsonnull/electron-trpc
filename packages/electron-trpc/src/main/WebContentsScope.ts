@@ -43,16 +43,20 @@ export class WebContentsScope implements Disposable {
         (client) => !client.isLive || client.frame.frameTreeNodeId === frameTreeNodeId
       );
     };
+    // A good moment to notice removed iframes, which Electron has no event for.
+    const onFrameCreated = () => this.#disposeDeadClients();
     const onRenderProcessGone = () => {
       debug('Render process gone', webContents.id);
       this.#disposeClients(() => true);
     };
 
     webContents.on('did-frame-navigate', onFrameNavigate);
+    webContents.on('frame-created', onFrameCreated);
     webContents.on('render-process-gone', onRenderProcessGone);
     webContents.once('destroyed', onDestroyed);
     this.#stack.defer(() => {
       webContents.off('did-frame-navigate', onFrameNavigate);
+      webContents.off('frame-created', onFrameCreated);
       webContents.off('render-process-gone', onRenderProcessGone);
       webContents.off('destroyed', onDestroyed);
     });
@@ -61,6 +65,7 @@ export class WebContentsScope implements Disposable {
 
   /** Returns the client for a message, or `undefined` if the id belongs to another frame. */
   findClient(frame: WebFrameMain, clientId: string): ClientScope | undefined {
+    this.#disposeDeadClients();
     const client = this.#clients.get(clientId);
     if (client && !isSameFrame(client.frame, frame)) {
       debug('Ignoring message for a client in another frame', clientId);
@@ -71,6 +76,7 @@ export class WebContentsScope implements Disposable {
 
   /** Like `findClient`, but creates the client the first time it sends a request. */
   client(frame: WebFrameMain, clientId: string): ClientScope | undefined {
+    this.#disposeDeadClients();
     if (this.#clients.has(clientId)) return this.findClient(frame, clientId);
 
     const client = new ClientScope(frame, clientId, (empty) => {
@@ -78,6 +84,11 @@ export class WebContentsScope implements Disposable {
     });
     this.#clients.set(clientId, client);
     return client;
+  }
+
+  /** Disposes clients whose frame is gone, such as one in an iframe that was removed. */
+  #disposeDeadClients() {
+    this.#disposeClients((client) => !client.isLive);
   }
 
   #disposeClients(predicate: (client: ClientScope) => boolean) {

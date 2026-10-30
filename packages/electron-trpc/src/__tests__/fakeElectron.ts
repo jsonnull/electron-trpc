@@ -151,7 +151,14 @@ export class FakeWebContents extends EventEmitter {
   addSubframe(routingId: number = nextId++): FakeFrame {
     const frame = new FakeFrame(this, this.processId, routingId, nextId++);
     this.subframes.push(frame);
+    this.emit('frame-created', {}, { frame });
     return frame;
+  }
+
+  /** Removes an iframe from the page, which Electron doesn't emit any event for. */
+  removeSubframe(frame: FakeFrame) {
+    frame.remove();
+    this.subframes = this.subframes.filter((subframe) => subframe !== frame);
   }
 
   /**

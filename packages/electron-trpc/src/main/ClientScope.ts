@@ -68,7 +68,12 @@ export class ClientScope implements Disposable {
   }
 
   send(message: TRPCResponseMessage) {
-    if (!this.isLive) return;
+    // Electron has no event for a removed iframe, so this may be the first sign its frame is gone.
+    if (!this.isLive) {
+      debug('Frame is gone, stopping client', this.clientId);
+      this[Symbol.dispose]();
+      return;
+    }
     const response: ETRPCResponse = { clientId: this.clientId, message };
     this.frame.send(ELECTRON_TRPC_CHANNEL, response);
   }

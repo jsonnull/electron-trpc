@@ -518,6 +518,32 @@ describe('document lifetimes', () => {
     expect(values).toEqual([]);
   });
 
+  test("stops a removed iframe's subscription when it next has something to send", async () => {
+    const { ee, probe } = startHandler();
+    const contents = new FakeWebContents();
+    const iframe = contents.addSubframe();
+    subscribe(iframe.document, 'removed');
+    await flush();
+
+    contents.removeSubframe(iframe);
+    ee.emit('event', 'after removal');
+
+    await vi.waitFor(() => expect(probe.finished).toEqual(['removed']));
+  });
+
+  test("stops a removed iframe's idle subscriptions when another frame sends a request", async () => {
+    const { probe } = startHandler();
+    const contents = new FakeWebContents();
+    const iframe = contents.addSubframe();
+    subscribe(iframe.document, 'removed');
+    await flush();
+
+    contents.removeSubframe(iframe);
+    await createClient(contents.mainFrame.document).echo.query('hello');
+
+    await vi.waitFor(() => expect(probe.finished).toEqual(['removed']));
+  });
+
   test('stops subscriptions when the renderer process crashes', async () => {
     const { probe } = startHandler();
     const contents = new FakeWebContents();
